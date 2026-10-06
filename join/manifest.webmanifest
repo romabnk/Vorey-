@@ -1,0 +1,17 @@
+{
+  "id": "/join/",
+  "name": "Vorey",
+  "short_name": "Vorey",
+  "description": "Your corner of Vorey, until the app opens.",
+  "start_url": "/join/?source=homescreen",
+  "scope": "/join/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0B1026",
+  "theme_color": "#0B1026",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
