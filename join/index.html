@@ -45,9 +45,8 @@
     --display: "Playfair Display", Georgia, serif;
     --body: "Montserrat", system-ui, sans-serif;
     --radius: 14px;
-    /* LA PHOTO DE FOND : vide pour l'instant. Pour la mettre, une ligne :
-       --hero-photo: url("marbella.jpg"); */
-    --hero-photo: none;
+    /* LA PHOTO DE FOND : Marbella au coucher du soleil (choix de Cécylia). */
+    --hero-photo: url("marbella.jpg");
   }
   * { box-sizing: border-box; }
   html { -webkit-text-size-adjust: 100%; }
@@ -55,18 +54,19 @@
     margin: 0;
     min-height: 100svh;
     background-color: var(--night);
-    background-image:
-      linear-gradient(180deg, rgba(11,16,38,.15) 0%, rgba(11,16,38,.55) 38%, var(--night) 62%),
-      var(--hero-photo),
-      radial-gradient(70% 38% at 50% 30%, rgba(167,139,250,.20), transparent 70%),
-      radial-gradient(120% 50% at 50% 0%, #1D2350 0%, var(--night) 70%);
-    background-repeat: no-repeat;
-    background-size: 100% 100%, cover, 100% 100%, 100% 100%;
-    background-position: top center;
     color: var(--ivory);
     font: 400 15px/1.55 var(--body);
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
+  }
+  /* La photo reste fixe derrière la page ; un voile nuit garde le texte
+     lisible, de plus en plus dense vers le bas (formulaires, boutons). */
+  body::before {
+    content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+    background:
+      linear-gradient(180deg, rgba(11,16,38,.22) 0%, rgba(11,16,38,.48) 32%, rgba(11,16,38,.82) 66%, rgba(11,16,38,.94) 100%),
+      var(--hero-photo) center 22% / cover no-repeat,
+      var(--night);
   }
   a { color: inherit; }
   button, select, input { font: inherit; }
@@ -142,6 +142,10 @@
   }
   .text-link { display: block; margin: 18px auto 0; background: none; border: 0; padding: 6px; color: var(--ivory-dim); font-size: 13px; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
 
+  .pill { display: flex; width: fit-content; align-items: center; gap: 8px; margin: 0 auto 22px; padding: 7px 14px;
+          border-radius: 999px; border: 1px solid rgba(245,241,232,.2); background: rgba(11,16,38,.55);
+          font: 500 13px/1.2 var(--body); color: var(--ivory); }
+  .pill::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--brand-grad); flex: none; }
   .error { min-height: 1.4em; margin: 0; font-size: 13px; color: var(--error); text-align: center; }
   .invited-by { text-align: center; font-size: 13px; color: var(--ivory-dim); margin: -12px 0 18px; }
   .invited-by strong { color: var(--ivory); font-weight: 600; }
@@ -219,6 +223,11 @@
   @keyframes up { from { transform: translateY(30px); opacity: 0; } to { transform: none; opacity: 1; } }
   .sheet h2 { font: 400 24px/1.2 var(--display); margin: 0 0 6px; }
   .sheet p { margin: 0 0 18px; color: var(--ivory-dim); font-size: 14px; }
+  .share-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 0 0 14px; }
+  .share-opt { display: flex; align-items: center; justify-content: center; min-height: 52px; padding: 12px; border-radius: 14px;
+               border: 1px solid var(--line); background: rgba(245,241,232,.06); color: var(--ivory);
+               font: 600 14.5px/1.2 var(--body); text-decoration: none; cursor: pointer; }
+  .share-opt.wa { background: #22B35E; border-color: #22B35E; color: #fff; }
   .qr-box { width: min(72vw, 280px); aspect-ratio: 1; margin: 6px auto 16px; padding: 14px; border-radius: 22px; background: #fff; }
   .qr-box canvas { width: 100%; height: 100%; display: block; image-rendering: pixelated; }
   .qr-link { font: 500 13px/1.3 var(--body); color: var(--ivory-dim); margin: 0 0 18px; overflow-wrap: anywhere; }
@@ -285,6 +294,7 @@
       <canvas class="mark" id="markJoin" aria-hidden="true"></canvas>
       <h1 class="headline" data-t="hey"></h1>
       <p class="sub" data-t="early"></p>
+      <p class="pill" id="cardsLeft"></p>
       <ol class="steps">
         <li><svg><use href="#i-user"/></svg><span data-t="step1"></span></li>
         <li class="dash" aria-hidden="true"></li>
@@ -356,6 +366,7 @@
     <section id="me" hidden aria-live="polite">
       <h1 class="greet" id="greet" tabindex="-1"></h1>
       <p class="victor-line" id="victorLine"></p>
+      <p class="pill" id="countdown" hidden></p>
       <div class="card" id="card" role="img">
         <div class="card-top">
           <span class="card-label" id="cardLabel"></span>
@@ -413,6 +424,21 @@
     <span id="rulesSep" hidden> · </span><a id="rules" target="_blank" rel="noopener" hidden data-t="rules"></a>
     <p id="privacyText" hidden></p>
   </footer>
+</div>
+
+<!-- Feuille : faire venir quelqu'un -->
+<div class="sheet" id="shareSheet" hidden role="dialog" aria-modal="true" aria-labelledby="shareTitle">
+  <div class="sheet-box">
+    <h2 id="shareTitle" data-t="shareTitle"></h2>
+    <p data-t="shareSub"></p>
+    <div class="share-grid">
+      <a class="share-opt wa" id="shareWa" target="_blank" rel="noopener">WhatsApp</a>
+      <a class="share-opt" id="shareSms" data-t="shareSms"></a>
+      <button type="button" class="share-opt" id="shareCopy" data-t="shareCopy"></button>
+      <button type="button" class="share-opt" id="shareMore" data-t="shareMore"></button>
+    </div>
+    <button type="button" class="secondary" data-close data-t="close"></button>
+  </div>
 </div>
 
 <!-- Feuille : mon QR -->
@@ -473,6 +499,10 @@
       resend: 'Send a new code', resendIn: n => `New code in ${n}s`, resent: 'New code sent', changeEmail: 'Change email',
       foundYou: 'Welcome,',
       greet: 'Welcome back,', bang: n => `${n}!`,
+      cardsLimited: 'Only 1,000 Founding cards', cardsLeft: n => `Only ${n} Founding cards left`,
+      opensIn: n => n > 1 ? `Vorey opens in ${n} days` : n === 1 ? 'Vorey opens tomorrow' : 'Vorey opens today',
+      shareTitle: 'Bring someone in', shareSub: 'Each friend who confirms their email = +1 chance.',
+      shareSms: 'Messages', shareCopy: 'Copy link', shareMore: 'More options',
       thanksFirst: 'Thank you for being here this early. This card is yours.',
       thanks: ['You were here before everyone else. I won’t forget it.',
                'Thank you for believing in Vorey before it even existed.',
@@ -523,6 +553,10 @@
       resend: 'Enviar un código nuevo', resendIn: n => `Nuevo código en ${n} s`, resent: 'Código enviado', changeEmail: 'Cambiar email',
       foundYou: '¡Hola,',
       greet: '¡Hola de nuevo,', bang: n => `${n}!`,
+      cardsLimited: 'Solo 1.000 Tarjetas Fundador', cardsLeft: n => `Solo quedan ${n} Tarjetas Fundador`,
+      opensIn: n => n > 1 ? `Vorey abre en ${n} días` : n === 1 ? 'Vorey abre mañana' : 'Vorey abre hoy',
+      shareTitle: 'Trae a alguien', shareSub: 'Cada amigo que confirme su email = +1 oportunidad.',
+      shareSms: 'Mensajes', shareCopy: 'Copiar enlace', shareMore: 'Más opciones',
       thanksFirst: 'Gracias por estar aquí tan pronto. Esta tarjeta es tuya.',
       thanks: ['Llegaste antes que nadie. No lo olvidaré.',
                'Gracias por creer en Vorey antes de que existiera.',
@@ -573,6 +607,10 @@
       resend: 'Recevoir un nouveau code', resendIn: n => `Nouveau code dans ${n} s`, resent: 'Code envoyé', changeEmail: 'Changer d’e-mail',
       foundYou: 'Bienvenue,',
       greet: 'Te revoilà,', bang: n => `${n} !`,
+      cardsLimited: 'Seulement 1 000 cartes Fondateur', cardsLeft: n => `Plus que ${n} cartes Fondateur`,
+      opensIn: n => n > 1 ? `Vorey ouvre dans ${n} jours` : n === 1 ? 'Vorey ouvre demain' : 'Vorey ouvre aujourd’hui',
+      shareTitle: 'Faire venir quelqu’un', shareSub: 'Chaque ami qui confirme son e-mail = +1 chance.',
+      shareSms: 'Messages', shareCopy: 'Copier le lien', shareMore: 'Plus d’options',
       thanksFirst: 'Merci d’être là si tôt. Cette carte est à toi.',
       thanks: ['Tu étais là avant tout le monde. Je ne l’oublierai pas.',
                'Merci d’avoir cru en Vorey avant même qu’il existe.',
@@ -631,7 +669,9 @@
   let view = 'join';
   let card = null, firstTime = false, inviter = null, win = null;
   let pending = null;          // { email, mode: 'join' | 'back' } pendant l'écran du code
-  let resendTimer = null, installPrompt = null;
+  let resendTimer = null, installPrompt = null, cardsLeft = null;
+  // Lancement officiel : le 28 janvier 2027 (décision de Cécylia, 2026-10-07).
+  const LAUNCH = new Date(2027, 0, 28);
   const winToken = (params.get('win') || '').trim() || null;
   const confirmToken = (params.get('confirm') || '').trim() || null;
   const legacyMe = params.has('me');   // anciens e-mails : ?me=CODE n'ouvre plus rien
@@ -681,6 +721,7 @@
           return resolve({ status: 'confirmed', first_time: true, session: 'DEMOSESSION', card: DEMO_CARD });
         case 'my_vorey': return resolve(args.p_session === 'DEMOSESSION' ? DEMO_CARD : null);
         case 'waitlist_status': return resolve(args.p_referral_code === ref ? { first_name: 'Ana' } : null);
+        case 'waitlist_founder_cards_left': return resolve(params.has('peu') ? 287 : null);
         case 'claim_prize':
           if (args.p_token === 'EXPIRED') return resolve({ status: 'expired', first_name: 'Alex', prize: 'Brunch for two' });
           if (args.p_token === 'INVALID') return resolve({ status: 'unknown' });
@@ -744,6 +785,7 @@
     $('otp').setAttribute('aria-label', t.codeLabelInput);
     boxes.forEach((b, i) => b.setAttribute('aria-label', `${t.codeLabelInput} · ${i + 1}/6`));
     if (pending) $('codeText').innerHTML = (pending.mode === 'back' ? t.codeTextNeutral : t.codeText)(esc(pending.email));
+    $('cardsLeft').textContent = cardsLeft != null ? t.cardsLeft(cardsLeft) : t.cardsLimited;
     $('homeStep1').innerHTML = isIOS ? t.iosStep1 : t.otherStep1;
     $('homeStep2').innerHTML = isIOS ? t.iosStep2 : t.otherStep2;
     ['join', 'back', 'code', 'me', 'win'].forEach(v => { $(v).hidden = view !== v; });
@@ -760,6 +802,11 @@
     const lines = card.member_number <= 100 ? [...t.thanks, t.thanksTop] : t.thanks;
     const day = Math.floor((Date.now() - new Date().getTimezoneOffset() * 60000) / 86400000);
     $('victorLine').textContent = firstTime ? t.thanksFirst : lines[day % lines.length];
+    // Le compte à rebours, en jours entiers jusqu'au lancement ; disparaît après.
+    const today = new Date(); today.setHours(0, 0, 0, 0);
+    const days = Math.round((LAUNCH - today) / 86400000);
+    $('countdown').hidden = days < 0;
+    if (days >= 0) $('countdown').textContent = t.opensIn(days);
     $('cardLabel').innerHTML = card.founder ? t.founding : t.member;
     $('cardNum').innerHTML = `<small>Nº</small> ${String(card.member_number).padStart(4, '0')}`;
     $('cardName').textContent = name;
@@ -972,14 +1019,22 @@
   // ════════════════════════════════════════════════════════════════════
   // MY VOREY : PARTAGER, MON QR, ÉCRAN D'ACCUEIL
   // ════════════════════════════════════════════════════════════════════
-  $('bring').addEventListener('click', async () => {
+  // « Faire venir quelqu'un » : WhatsApp, Messages, copier, ou le partage
+  // du téléphone. Toujours le MÊME lien de parrainage, jamais la session.
+  $('bring').addEventListener('click', () => {
+    const url = shareLink(), msg = `${T[lang].shareText} ${url}`;
+    $('shareWa').href = `https://wa.me/?text=${encodeURIComponent(msg)}`;
+    $('shareSms').href = `sms:${isIOS ? '&' : '?'}body=${encodeURIComponent(msg)}`;
+    $('shareMore').hidden = !navigator.share;
+    openSheet('shareSheet');
+  });
+  $('shareCopy').addEventListener('click', async () => {
     const url = shareLink();
-    if (navigator.share) {
-      try { await navigator.share({ title: 'Vorey', text: T[lang].shareText, url }); } catch {}
-      return;
-    }
     try { await navigator.clipboard.writeText(url); toast(T[lang].copied); }
     catch { prompt('', url); }
+  });
+  $('shareMore').addEventListener('click', async () => {
+    try { await navigator.share({ title: 'Vorey', text: T[lang].shareText, url: shareLink() }); } catch {}
   });
 
   function openSheet(id) { $(id).hidden = false; $(id).querySelector('[data-close]').focus(); }
@@ -1074,6 +1129,7 @@
 
     // 4. Sinon : rejoindre (et le prénom du parrain, s'il y en a un).
     show('join');
+    rpc('waitlist_founder_cards_left', {}).then(n => { if (typeof n === 'number') { cardsLeft = n; render(); } }).catch(() => {});
     if (ref) {
       try { const r = await rpc('waitlist_status', { p_referral_code: ref }); if (r && r.first_name) { inviter = r.first_name; render(); } }
       catch {}
