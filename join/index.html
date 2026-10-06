@@ -27,7 +27,7 @@
 <link rel="icon" href="favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Montserrat:wght@400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
 <style>
   /* Tokens — dérivés de lib/theme/app_theme.dart (VoreyColors). */
   :root {
@@ -166,7 +166,14 @@
   .code-actions button[disabled] { color: var(--ivory-dim); text-decoration: none; cursor: default; }
 
   /* ── My Vorey : la Carte Fondateur ── */
-  .greet { font: 600 clamp(22px, 6.4vw, 26px)/1.25 var(--body); letter-spacing: -.01em; text-align: center; margin: 16px 0 18px; text-wrap: balance; }
+  /* La salutation : un mot, puis le prénom en grand, dans le dégradé de l'app. */
+  .greet { text-align: center; margin: 14px 0 6px; }
+  /* Bricolage Grotesque : du caractère, chaleureuse, lisible en une seconde. */
+  .greet-word { display: block; font: 600 clamp(22px, 6.6vw, 27px)/1.1 "Bricolage Grotesque", var(--body); color: rgba(245,241,232,.92); }
+  .greet-name { display: inline-block; font: 800 clamp(42px, 13vw, 54px)/1.05 "Bricolage Grotesque", var(--body); letter-spacing: -.02em;
+                background: var(--brand-grad); -webkit-background-clip: text; background-clip: text; color: transparent; padding-bottom: 4px; }
+  /* La phrase de Victor sous la salutation : un merci, qui change chaque jour. */
+  .victor-line { text-align: center; font-size: 14.5px; line-height: 1.5; color: rgba(245,241,232,.8); margin: 0 auto 20px; max-width: 330px; text-wrap: balance; }
   .card {
     position: relative; margin: 0 0 24px; padding: 20px 22px;
     aspect-ratio: 1.586;                       /* le format d'une vraie carte */
@@ -348,6 +355,7 @@
     <!-- B + C. MY VOREY -->
     <section id="me" hidden aria-live="polite">
       <h1 class="greet" id="greet" tabindex="-1"></h1>
+      <p class="victor-line" id="victorLine"></p>
       <div class="card" id="card" role="img">
         <div class="card-top">
           <span class="card-label" id="cardLabel"></span>
@@ -463,8 +471,13 @@
       codeTextNeutral: e => `If <strong>${e}</strong> is on the list, your code is on its way.`,
       codeLabelInput: '6-digit code', verify: 'Confirm', verifying: 'Checking…',
       resend: 'Send a new code', resendIn: n => `New code in ${n}s`, resent: 'New code sent', changeEmail: 'Change email',
-      foundYou: n => `${n}, I found you. ✨`,
-      greet: (h, n) => `${h < 5 || h >= 18 ? 'Evening' : h < 12 ? 'Morning' : 'Afternoon'}, ${n}.`,
+      foundYou: 'Welcome,',
+      greet: 'Welcome back,', bang: n => `${n}!`,
+      thanksFirst: 'Thank you for being here this early. This card is yours.',
+      thanks: ['You were here before everyone else. I won’t forget it.',
+               'Thank you for believing in Vorey before it even existed.',
+               'Your place is kept. Marbella is waiting for you.'],
+      thanksTop: 'One of the first 100. That’s rare.',
       founding: 'Founding<br>member', member: 'Member',
       chances: n => n === 1 ? 'chance' : 'chances',
       brought: n => n === 1 ? 'person brought in' : 'people brought in',
@@ -508,8 +521,13 @@
       codeTextNeutral: e => `Si <strong>${e}</strong> está en la lista, tu código va de camino.`,
       codeLabelInput: 'Código de 6 cifras', verify: 'Confirmar', verifying: 'Comprobando…',
       resend: 'Enviar un código nuevo', resendIn: n => `Nuevo código en ${n} s`, resent: 'Código enviado', changeEmail: 'Cambiar email',
-      foundYou: n => `${n}, te encontré. ✨`,
-      greet: (h, n) => `${h >= 5 && h < 12 ? 'Buenos días' : h >= 12 && h < 20 ? 'Buenas tardes' : 'Buenas noches'}, ${n}.`,
+      foundYou: '¡Hola,',
+      greet: '¡Hola de nuevo,', bang: n => `${n}!`,
+      thanksFirst: 'Gracias por estar aquí tan pronto. Esta tarjeta es tuya.',
+      thanks: ['Llegaste antes que nadie. No lo olvidaré.',
+               'Gracias por creer en Vorey antes de que existiera.',
+               'Tu plaza está guardada. Marbella te espera.'],
+      thanksTop: 'Entre los 100 primeros. Eso es raro.',
       founding: 'Miembro<br>fundador', member: 'Miembro',
       chances: n => n === 1 ? 'oportunidad' : 'oportunidades',
       brought: n => n === 1 ? 'persona invitada' : 'personas invitadas',
@@ -553,8 +571,13 @@
       codeTextNeutral: e => `Si <strong>${e}</strong> est sur la liste, ton code arrive.`,
       codeLabelInput: 'Code à 6 chiffres', verify: 'Confirmer', verifying: 'Vérification…',
       resend: 'Recevoir un nouveau code', resendIn: n => `Nouveau code dans ${n} s`, resent: 'Code envoyé', changeEmail: 'Changer d’e-mail',
-      foundYou: n => `${n}, te voilà. ✨`,
-      greet: (h, n) => `${h >= 5 && h < 18 ? 'Bonjour' : 'Bonsoir'}, ${n}.`,
+      foundYou: 'Bienvenue,',
+      greet: 'Te revoilà,', bang: n => `${n} !`,
+      thanksFirst: 'Merci d’être là si tôt. Cette carte est à toi.',
+      thanks: ['Tu étais là avant tout le monde. Je ne l’oublierai pas.',
+               'Merci d’avoir cru en Vorey avant même qu’il existe.',
+               'Ta place est gardée. Marbella t’attend.'],
+      thanksTop: 'Parmi les 100 premiers. C’est rare.',
       founding: 'Membre<br>fondateur', member: 'Membre',
       chances: n => n === 1 ? 'chance' : 'chances',
       brought: n => n === 1 ? 'personne amenée' : 'personnes amenées',
@@ -730,7 +753,13 @@
 
   function renderMe(t) {
     const name = card.first_name;
-    $('greet').textContent = firstTime ? t.foundYou(name) : t.greet(new Date().getHours(), name);
+    $('greet').innerHTML = `<span class="greet-word">${firstTime ? t.foundYou : t.greet}</span>`
+                         + `<span class="greet-name">${esc(t.bang(name))}</span>`;
+    // Le merci de Victor : juste après l'inscription, puis une phrase par jour
+    // (la même toute la journée), dont une réservée aux 100 premiers.
+    const lines = card.member_number <= 100 ? [...t.thanks, t.thanksTop] : t.thanks;
+    const day = Math.floor((Date.now() - new Date().getTimezoneOffset() * 60000) / 86400000);
+    $('victorLine').textContent = firstTime ? t.thanksFirst : lines[day % lines.length];
     $('cardLabel').innerHTML = card.founder ? t.founding : t.member;
     $('cardNum').innerHTML = `<small>Nº</small> ${String(card.member_number).padStart(4, '0')}`;
     $('cardName').textContent = name;
