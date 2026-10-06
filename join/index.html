@@ -1,0 +1,901 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Vorey — Founding members</title>
+<meta name="description" content="Marbella is full of places. Victor finds yours. Get your Founding Card before Vorey opens in December 2026.">
+<meta name="theme-color" content="#0B1026">
+<meta property="og:title" content="Vorey — Founding members">
+<meta property="og:description" content="Marbella is full of places. Victor finds yours.">
+<link rel="icon" href="favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  /* Tokens — dérivés de lib/theme/app_theme.dart (VoreyColors). */
+  :root {
+    --night: #0B1026;          /* bleu nuit marbellí */
+    --ivory: #F5F1E8;
+    --ivory-dim: rgba(245, 241, 232, 0.66);
+    --line: rgba(245, 241, 232, 0.16);
+    --field: rgba(20, 26, 58, 0.72);
+    --violet: #A78BFA;         /* brandViolet */
+    --blue: #3B82F6;           /* brandBlue */
+    --gold: #C7A67A;           /* or : UNIQUEMENT le contour et le numéro de la Carte Fondateur */
+    --gold-hi: #E7C996;
+    --brand-grad: linear-gradient(90deg, var(--violet), var(--blue));   /* le dégradé de l'app */
+    --whatsapp: #22B35E;
+    --error: #E0A090;
+    --display: "Playfair Display", Georgia, serif;
+    --body: "Montserrat", system-ui, sans-serif;
+    --radius: 14px;
+    /* LA PHOTO DE FOND : vide pour l'instant. Pour la mettre, une ligne :
+       --hero-photo: url("marbella.jpg"); */
+    --hero-photo: none;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    min-height: 100svh;
+    background-color: var(--night);
+    background-image:
+      linear-gradient(180deg, rgba(11,16,38,.15) 0%, rgba(11,16,38,.55) 38%, var(--night) 62%),
+      var(--hero-photo),
+      radial-gradient(70% 38% at 50% 30%, rgba(167,139,250,.20), transparent 70%),
+      radial-gradient(120% 50% at 50% 0%, #1D2350 0%, var(--night) 70%);
+    background-repeat: no-repeat;
+    background-size: 100% 100%, cover, 100% 100%, 100% 100%;
+    background-position: top center;
+    color: var(--ivory);
+    font: 400 15px/1.55 var(--body);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  a { color: inherit; }
+  button, select, input { font: inherit; }
+  :focus-visible { outline: 2px solid var(--violet); outline-offset: 3px; border-radius: 8px; }
+
+  .page { max-width: 460px; min-height: 100svh; margin: 0 auto; padding: 18px 20px calc(24px + env(safe-area-inset-bottom)); display: flex; flex-direction: column; }
+
+  /* ── En-tête : le logo officiel ── */
+  header { display: flex; align-items: center; justify-content: space-between; }
+  .brand { display: flex; align-items: center; gap: 10px; }
+  .brand img { width: 28px; height: 28px; object-fit: contain; }
+  .brand span { font: 400 19px/1 var(--display); letter-spacing: 0.32em; }
+  .lang { position: relative; }
+  .lang select {
+    appearance: none; background: transparent; border: 0; color: var(--ivory);
+    font: 600 13px/1 var(--body); letter-spacing: .04em; padding: 8px 18px 8px 6px; cursor: pointer;
+  }
+  .lang select option { color: #111; }
+  .lang::after { content: ""; position: absolute; right: 4px; top: 50%; width: 6px; height: 6px; border: solid var(--ivory); border-width: 0 1.5px 1.5px 0; transform: translateY(-70%) rotate(45deg); pointer-events: none; }
+  .demo { font: 600 9px/1 var(--body) !important; letter-spacing: .14em !important; text-transform: uppercase; color: #fff; background: var(--brand-grad); border-radius: 4px; padding: 3px 5px; }
+
+  /* ── Le logo vivant ── */
+  .mark { display: block; margin: 8px auto 0; width: min(62vw, 250px); aspect-ratio: 1; }
+
+  .headline { font: 400 clamp(25px, 7vw, 30px)/1.25 var(--display); text-align: center; margin: 4px 0 22px; text-wrap: balance; }
+
+  /* ── Les 3 étapes ── */
+  .steps { list-style: none; display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; align-items: start; margin: 0 0 22px; padding: 0; }
+  .steps li { display: grid; justify-items: center; gap: 8px; font: 500 13px/1.2 var(--body); text-align: center; }
+  .steps svg { width: 28px; height: 28px; stroke: url(#brandGrad); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+  .steps .dash { width: 20px; height: 1px; background: var(--line); margin-top: 14px; }
+
+  /* ── Formulaire ── */
+  form { display: grid; gap: 10px; }
+  .input { position: relative; }
+  .input svg { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); width: 18px; height: 18px; stroke: var(--ivory-dim); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; pointer-events: none; }
+  .input input {
+    width: 100%; font-size: 16px; color: var(--ivory);
+    background: var(--field); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 16px 16px 16px 46px; transition: border-color .2s;
+  }
+  .input input::placeholder { color: var(--ivory-dim); }
+  .input input:focus { outline: none; border-color: var(--violet); }
+  .input input[aria-invalid="true"] { border-color: var(--error); }
+
+  .agree { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--ivory-dim); margin: 6px 0 4px; cursor: pointer; }
+  .agree input { appearance: none; flex: none; width: 18px; height: 18px; margin: 0; border: 1px solid rgba(245,241,232,.4); border-radius: 5px; display: grid; place-content: center; cursor: pointer; }
+  .agree input::after { content: ""; width: 9px; height: 5px; border: 2px solid #fff; border-top: 0; border-right: 0; transform: rotate(-45deg) translate(1px, -1px); opacity: 0; }
+  .agree input:checked { background: var(--violet); border-color: var(--violet); }
+  .agree input:checked::after { opacity: 1; }
+  .agree input[aria-invalid="true"] { border-color: var(--error); }
+  .agree button { background: none; border: 0; padding: 0; color: var(--ivory); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; font-size: 13px; }
+
+  .primary {
+    width: 100%; margin-top: 8px; padding: 18px 20px;
+    font: 500 16px/1 var(--body); color: #fff;
+    border: 0; border-radius: 999px;
+    background: linear-gradient(90deg, var(--violet), var(--blue));
+    box-shadow: 0 12px 30px -12px rgba(110, 120, 250, .7);
+    cursor: pointer; transition: filter .2s, transform .1s;
+  }
+  .primary:hover { filter: brightness(1.08); }
+  .primary:active { transform: translateY(1px); }
+  .primary[disabled] { filter: saturate(.5) brightness(.85); cursor: progress; }
+
+  .promise { margin: 14px 0 0; font-size: 12px; line-height: 1.6; color: var(--ivory-dim); text-align: center; }
+  .error { min-height: 1.4em; margin: 0; font-size: 13px; color: var(--error); text-align: center; }
+  .invited-by { text-align: center; font-size: 13px; color: var(--ivory-dim); margin: -10px 0 18px; }
+  .invited-by strong { color: var(--ivory); font-weight: 600; }
+
+  /* ── Le code reçu par e-mail ── */
+  .code-title { font: 400 clamp(28px, 8vw, 34px)/1.2 var(--display); text-align: center; margin: 4px 0 10px; }
+  .code-text { text-align: center; color: var(--ivory-dim); margin: 0 0 24px; }
+  .code-text strong { display: block; color: var(--ivory); font-weight: 600; overflow-wrap: anywhere; }
+  /* Six cases, une par chiffre. */
+  .otp { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; margin: 0 0 6px; border: 0; padding: 0; }
+  .otp input {
+    width: 100%; min-width: 0; aspect-ratio: 0.82; padding: 0;
+    text-align: center; color: var(--ivory); caret-color: var(--violet);
+    font: 600 clamp(22px, 7vw, 28px)/1 var(--body); font-variant-numeric: tabular-nums;
+    background: var(--field); border: 1px solid var(--line); border-radius: 12px;
+    transition: border-color .15s, box-shadow .15s, background .15s;
+  }
+  .otp input:focus { outline: none; border-color: var(--violet); box-shadow: 0 0 0 3px rgba(167,139,250,.25); }
+  .otp input.filled { border-color: rgba(167,139,250,.6); background: rgba(167,139,250,.08); }
+  .otp[aria-invalid="true"] input { border-color: var(--error); box-shadow: none; }
+  @media (prefers-reduced-motion: reduce) { .otp input { transition: none; } }
+  .code-actions { display: flex; justify-content: center; gap: 22px; margin-top: 18px; font-size: 13px; }
+  .code-actions button { background: none; border: 0; padding: 4px 0; color: var(--ivory); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; font-size: 13px; }
+  .code-actions button[disabled] { color: var(--ivory-dim); text-decoration: none; cursor: default; }
+
+  /* ── La Carte Fondateur ── */
+  .card {
+    position: relative; margin: 10px 0 22px; padding: 22px 22px 24px;
+    aspect-ratio: 0.9;
+    display: grid; grid-template-rows: auto 1fr auto auto; justify-items: center;
+    border-radius: 22px; overflow: hidden;
+    background:
+      radial-gradient(60% 45% at 50% 45%, rgba(167,139,250,.18), transparent 70%),
+      repeating-linear-gradient(115deg, rgba(255,255,255,.018) 0 2px, transparent 2px 9px),
+      linear-gradient(160deg, #1A1F3F, #0E1229 70%);
+    border: 1px solid rgba(199,166,122,.55);
+    box-shadow: 0 30px 60px -28px rgba(0,0,0,.8), inset 0 1px 0 rgba(255,255,255,.06);
+  }
+  .card-top { width: 100%; display: flex; justify-content: space-between; align-items: flex-start; }
+  .card-label { font: 500 12px/1.5 var(--body); letter-spacing: .2em; text-transform: uppercase; }
+  .card-num { font: 400 22px/1 var(--display); color: var(--gold-hi); }
+  .card-num small { font-size: .7em; margin-right: 2px; }
+  .card .mark { width: 62%; margin: 0; align-self: center; }
+  .card-name { font: 400 clamp(28px, 8.5vw, 36px)/1.1 var(--display); margin: 4px 0 8px; }
+  .card-foot { font: 600 11px/1 var(--body); letter-spacing: .24em; text-transform: uppercase; }
+
+  .stats { display: grid; grid-template-columns: 1fr 1px 1fr; align-items: center; text-align: center; margin: 0 0 24px; }
+  .stats .sep { height: 64px; background: var(--line); }
+  .stats b { display: block; font: 400 30px/1.1 var(--display); }
+  .stats span { font-size: 14px; }
+  .info { display: inline-grid; place-content: center; width: 16px; height: 16px; margin-left: 5px; border: 1px solid var(--ivory-dim); border-radius: 50%; font: 600 10px/1 var(--body); color: var(--ivory-dim); vertical-align: 1px; cursor: pointer; background: none; padding: 0; }
+  .chance-note { font-size: 12px; color: var(--ivory-dim); margin-top: 6px; }
+  .faces { display: flex; justify-content: center; margin-top: 8px; }
+  .faces i { width: 28px; height: 28px; border-radius: 50%; border: 2px solid var(--night); margin-left: -6px; background: linear-gradient(135deg, #E879F9, #60A5FA); }
+  .faces i:first-child { margin-left: 0; }
+  .faces button { width: 28px; height: 28px; border-radius: 50%; margin-left: 4px; border: 1px solid var(--ivory-dim); background: transparent; color: var(--ivory); font-size: 16px; line-height: 1; cursor: pointer; padding: 0; }
+
+  .label { font-size: 14px; font-weight: 500; margin: 0 0 8px; }
+  .link-box { display: grid; grid-template-columns: 1fr auto; align-items: center; background: var(--field); border: 1px solid var(--line); border-radius: var(--radius); }
+  .link-box code { min-width: 0; padding: 15px 16px; font: 500 14px/1.2 var(--body); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .copy { display: flex; align-items: center; gap: 8px; align-self: stretch; padding: 0 16px; border: 0; border-left: 1px solid var(--line); background: none; color: var(--ivory); font-size: 14px; font-weight: 500; cursor: pointer; }
+  .copy svg, .btn svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+  .share-row { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 10px; margin-top: 12px; }
+  .btn { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 14px; border-radius: 12px; border: 0; color: #fff; font: 600 14px/1 var(--body); text-decoration: none; cursor: pointer; }
+  .btn.wa { background: var(--whatsapp); }
+  .btn.wa svg { fill: #fff; stroke: none; }
+  .btn.share { background: linear-gradient(90deg, #8B7CF6, #6D7CF5); }
+  .btn.story { width: 100%; margin-top: 10px; background: transparent; border: 1px solid var(--line); font-weight: 500; }
+
+  /* Texte en dégradé de l'app (violet → bleu). */
+  .grad { background: var(--brand-grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+  /* ── Le lot ── */
+  .win-title { font: 400 clamp(40px, 12vw, 52px)/1 var(--display); text-align: center; margin: 0 0 10px; }
+  .win-sub { font: 400 22px/1.3 var(--display); text-align: center; margin: 0 0 6px; }
+  .win-hint { text-align: center; font-size: 14px; color: var(--ivory-dim); margin: 0 0 20px; }
+  .code-box { padding: 18px; text-align: center; border-radius: 16px; background: var(--field); border: 1px solid var(--line); }
+  .code-box .k { font: 600 11px/1 var(--body); letter-spacing: .2em; text-transform: uppercase; margin: 0 0 10px; }
+  .code-box code { display: block; font: 600 clamp(22px, 7vw, 26px)/1 var(--body); letter-spacing: .06em; }
+  .venue { display: flex; align-items: center; justify-content: center; gap: 6px; margin: 14px 0 0; font-size: 13px; color: var(--ivory-dim); }
+  .venue svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 1.6; }
+  .state { margin: 40px auto 0; max-width: 300px; padding: 26px 20px; text-align: center; border-radius: 18px; background: var(--field); border: 1px solid var(--line); }
+  .state .mark { width: 100px; margin: 0 auto 6px; }
+  .state h2 { font: 400 22px/1.2 var(--display); margin: 0 0 6px; }
+  .state p { margin: 0; font-size: 13px; color: var(--ivory-dim); }
+
+  /* ── Pied ── */
+  footer { margin-top: auto; padding-top: 28px; text-align: center; font-size: 12px; color: var(--ivory-dim); }
+  footer button, footer a { background: none; border: 0; padding: 0; color: inherit; font-size: 12px; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+  #privacyText { margin: 10px 0 0; line-height: 1.6; text-align: left; }
+
+  [hidden] { display: none !important; }
+  .reveal { animation: rise .7s cubic-bezier(.2,.7,.2,1) both; }
+  @keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+  @media (max-width: 340px) { .page { padding-left: 16px; padding-right: 16px; } .steps li { font-size: 12px; } .demo { display: none; } }
+  @media (prefers-reduced-motion: reduce) { .reveal { animation: none; } }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs><linearGradient id="brandGrad" gradientUnits="userSpaceOnUse" x1="2" y1="2" x2="22" y2="22"><stop offset="0" stop-color="#A78BFA"/><stop offset="1" stop-color="#3B82F6"/></linearGradient></defs>
+  <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></symbol>
+  <symbol id="i-card" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M3 10h18M7 15h4"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.8 2.9-6 6.5-6s6.5 2.2 6.5 6"/><circle cx="17" cy="9" r="3"/><path d="M17 14c2.8 0 4.5 1.9 4.5 5"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m4 7 8 6 8-6"/></symbol>
+  <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></symbol>
+  <symbol id="i-share" viewBox="0 0 24 24"><circle cx="18" cy="5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="19" r="2.5"/><path d="m8.2 10.8 7.6-4.4M8.2 13.2l7.6 4.4"/></symbol>
+  <symbol id="i-insta" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r=".6"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></symbol>
+  <symbol id="i-wa" viewBox="0 0 24 24"><path d="M12 2.2A9.8 9.8 0 0 0 3.6 17l-1.4 4.8 4.9-1.3A9.8 9.8 0 1 0 12 2.2zm0 17.9a8.1 8.1 0 0 1-4.1-1.1l-.3-.2-2.9.8.8-2.8-.2-.3A8.1 8.1 0 1 1 12 20.1zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.6 6.6 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.4.1-.6.3-.2.2-.8.8-.8 2s.8 2.3 1 2.5c.1.2 1.6 2.5 3.9 3.5 1.5.6 2 .7 2.8.6.4-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2l-.5-.2z"/></symbol>
+</svg>
+
+<div class="page">
+  <header>
+    <span class="brand"><img src="vorey_mark.png" alt="" width="28" height="28"><span>VOREY</span><span class="demo" id="demoBadge" hidden>Demo</span></span>
+    <span class="lang">
+      <select id="lang" aria-label="Language">
+        <option value="en">EN</option><option value="es">ES</option><option value="fr">FR</option>
+      </select>
+    </span>
+  </header>
+
+  <main>
+    <!-- VUE 1 : s'inscrire -->
+    <section id="join" hidden>
+      <canvas class="mark" id="markJoin" aria-hidden="true"></canvas>
+      <h1 class="headline" data-t-html="headline"></h1>
+      <ol class="steps">
+        <li><svg><use href="#i-user"/></svg><span data-t="step1"></span></li>
+        <li class="dash" aria-hidden="true"></li>
+        <li><svg><use href="#i-card"/></svg><span data-t="step2"></span></li>
+        <li class="dash" aria-hidden="true"></li>
+        <li><svg><use href="#i-users"/></svg><span data-t="step3"></span></li>
+      </ol>
+      <p class="invited-by" id="invitedBy" hidden></p>
+      <form id="form" novalidate>
+        <div class="input">
+          <svg><use href="#i-user"/></svg>
+          <input id="firstName" autocomplete="given-name" maxlength="40" data-ph="firstName">
+        </div>
+        <div class="input">
+          <svg><use href="#i-mail"/></svg>
+          <input id="email" type="email" inputmode="email" autocomplete="email" maxlength="254" data-ph="email">
+        </div>
+        <label class="agree">
+          <input type="checkbox" id="consent">
+          <span><span data-t="agree"></span> <button type="button" class="privacy-open" data-t="privacyNotice"></button></span>
+        </label>
+        <button class="primary" type="submit" id="submit" data-t="submit"></button>
+        <p class="error" id="error" role="alert"></p>
+      </form>
+      <p class="promise" data-t-html="promise"></p>
+    </section>
+
+    <!-- VUE 1 bis : le code reçu par e-mail -->
+    <section id="code" hidden aria-labelledby="codeTitle">
+      <canvas class="mark" id="markCode" aria-hidden="true"></canvas>
+      <h1 class="code-title" id="codeTitle" data-t="codeTitle" tabindex="-1"></h1>
+      <p class="code-text" id="codeText"></p>
+      <form id="codeForm" novalidate>
+        <fieldset class="otp" id="otp" role="group">
+          <input inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]*">
+          <input inputmode="numeric" autocomplete="off" pattern="[0-9]*">
+          <input inputmode="numeric" autocomplete="off" pattern="[0-9]*">
+          <input inputmode="numeric" autocomplete="off" pattern="[0-9]*">
+          <input inputmode="numeric" autocomplete="off" pattern="[0-9]*">
+          <input inputmode="numeric" autocomplete="off" pattern="[0-9]*">
+        </fieldset>
+        <button class="primary" type="submit" id="verify" data-t="verify"></button>
+        <p class="error" id="codeError" role="alert"></p>
+      </form>
+      <div class="code-actions">
+        <button type="button" id="resend"></button>
+        <button type="button" id="changeEmail" data-t="changeEmail"></button>
+      </div>
+    </section>
+
+    <!-- VUE 2 : ma Carte Fondateur -->
+    <section id="member" hidden aria-live="polite">
+      <div class="card" id="card" role="img">
+        <div class="card-top">
+          <span class="card-label" id="cardLabel"></span>
+          <span class="card-num" id="cardNum"></span>
+        </div>
+        <canvas class="mark" id="markCard" aria-hidden="true"></canvas>
+        <span class="card-name" id="cardName"></span>
+        <span class="card-foot grad" data-t="cardFoot"></span>
+      </div>
+
+      <div class="stats">
+        <div>
+          <b id="chances"></b>
+          <span id="chancesLabel"></span><button type="button" class="info" id="chancesInfo">i</button>
+          <div class="chance-note" id="chancesNote" hidden></div>
+        </div>
+        <div class="sep"></div>
+        <div>
+          <b id="friendsCount"></b>
+          <span id="friendsLabel"></span>
+          <div class="faces" id="faces"></div>
+        </div>
+      </div>
+
+      <p class="label" data-t="inviteLink"></p>
+      <div class="link-box">
+        <code id="link"></code>
+        <button type="button" class="copy" id="copy"><svg><use href="#i-link"/></svg><span data-t="copy"></span></button>
+      </div>
+      <div class="share-row">
+        <a class="btn wa" id="whatsapp" target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>WhatsApp</a>
+        <button type="button" class="btn share" id="share"><svg><use href="#i-share"/></svg><span data-t="share"></span></button>
+      </div>
+      <button type="button" class="btn story" id="story"><svg><use href="#i-insta"/></svg><span data-t="story"></span></button>
+    </section>
+
+    <!-- VUE 3 : le lot -->
+    <section id="win" hidden aria-live="polite">
+      <div id="winMain">
+        <canvas class="mark" id="markWin" aria-hidden="true"></canvas>
+        <h1 class="win-title" data-t="won"></h1>
+        <p class="win-sub" id="prize" hidden></p>
+        <p class="win-hint" id="winHint"></p>
+        <button type="button" class="primary" id="claim" data-t="claim"></button>
+        <p class="error" id="winError" role="alert"></p>
+        <div id="codeBox" hidden>
+          <div class="code-box">
+            <p class="k grad" data-t="codeLabel"></p>
+            <code id="coupon" class="grad"></code>
+          </div>
+          <p class="venue"><svg><use href="#i-pin"/></svg><span data-t="venue"></span></p>
+        </div>
+      </div>
+      <div class="state" id="winState" hidden>
+        <canvas class="mark" id="markState" aria-hidden="true"></canvas>
+        <h2 id="stateTitle"></h2>
+        <p id="stateText"></p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <button type="button" class="privacy-open" data-t="privacyNotice"></button>
+    <span id="rulesSep" hidden> · </span><a id="rules" target="_blank" rel="noopener" hidden data-t="rules"></a>
+    <p id="privacyText" hidden></p>
+  </footer>
+</div>
+
+<!-- La config (URL Supabase + clé publique) vit hors de Git : voir config.example.js.
+     Sans elle, la page tourne en mode démo et n'envoie rien nulle part. -->
+<script src="config.js" onerror="void 0"></script>
+<script>
+(() => {
+  'use strict';
+
+  // ════════════════════════════════════════════════════════════════════
+  // TEXTES — EN / ES / FR. Le moins de mots possible.
+  // ════════════════════════════════════════════════════════════════════
+  const T = {
+    en: {
+      headline: 'Marbella is full of places.<br>Victor finds yours.',
+      step1: '1. Join', step2: '2. Get card', step3: '3. Invite',
+      firstName: 'First name', email: 'Email',
+      agree: 'I agree to the', privacyNotice: 'Privacy Notice', rules: 'Contest rules',
+      submit: 'Get my Founding Card', saving: 'One second…',
+      promise: 'No spam. We only email you when Vorey opens,<br>and if you win.',
+      invitedBy: n => `<strong>${n}</strong> invited you.`,
+      founding: 'Founding<br>member', member: 'Member', cardFoot: 'Marbella · Dec 2026',
+      chances: n => n === 1 ? 'chance' : 'chances',
+      chancesPending: 'Install Vorey when it opens to activate your chances. Each friend who installs it = +1.',
+      chancesActive: 'You’re in every weekly draw. Each friend who installs Vorey = +1.',
+      friends: n => n === 1 ? 'friend joined' : 'friends joined',
+      inviteLink: 'Your invite link', copy: 'Copy', copied: 'Copied', share: 'Share', story: 'Share to Instagram story',
+      shareText: 'Get your Vorey Founding Card before it opens in Marbella:',
+      won: 'You won.', winHint: 'Claim within 24 hours.', claim: 'Claim my prize', claiming: 'One second…',
+      codeLabel: 'Your code at the venue', venue: 'Marbella · Partner venue', shownOnce: 'Show it on the spot. It works once.',
+      expiredTitle: 'Expired', expiredText: 'This prize has expired.',
+      invalidTitle: 'Invalid link', invalidText: 'This link is not valid.',
+      errEmail: 'That email looks incomplete.', errName: 'Add your first name.',
+      errConsent: 'Tick the box to continue.', errNetwork: 'That didn’t go through. Try again.',
+      codeTitle: 'Check your email', codeText: e => `We sent a 6-digit code to <strong>${e}</strong>`,
+      codeLabelInput: '6-digit code', verify: 'Confirm', verifying: 'Checking…',
+      resend: 'Send a new code', resendIn: n => `New code in ${n}s`, resent: 'New code sent', changeEmail: 'Change email',
+      errCode: n => n > 0 ? `Wrong code. ${n} ${n === 1 ? 'try' : 'tries'} left.` : 'Wrong code. Ask for a new one.',
+      errLink: 'This link has expired. Enter your email again to get a new one.',
+      errExpired: 'This code has expired. Ask for a new one.', errTooMany: 'Too many codes asked. Try again in an hour.',
+      privacy: c => `Vorey uses your first name and email only to tell you when Vorey opens, to tell you if you win, and to count the friends who join with your link. Stored in the EU (Paris). Never sold, never shared. To leave the list or erase your data, ${c}.`,
+      contact: e => e ? `write to <a href="mailto:${e}">${e}</a>` : 'reply to any email from us',
+    },
+    es: {
+      headline: 'Marbella está llena de sitios.<br>Victor encuentra el tuyo.',
+      step1: '1. Únete', step2: '2. Tu tarjeta', step3: '3. Invita',
+      firstName: 'Nombre', email: 'Email',
+      agree: 'Acepto el', privacyNotice: 'Aviso de privacidad', rules: 'Bases del sorteo',
+      submit: 'Conseguir mi Tarjeta Fundador', saving: 'Un segundo…',
+      promise: 'Cero spam. Solo te escribimos cuando Vorey abra,<br>y si ganas.',
+      invitedBy: n => `<strong>${n}</strong> te ha invitado.`,
+      founding: 'Miembro<br>fundador', member: 'Miembro', cardFoot: 'Marbella · Dic 2026',
+      chances: n => n === 1 ? 'oportunidad' : 'oportunidades',
+      chancesPending: 'Instala Vorey cuando abra para activarlas. Cada amigo que la instale = +1.',
+      chancesActive: 'Participas en cada sorteo semanal. Cada amigo que instale Vorey = +1.',
+      friends: n => n === 1 ? 'amigo apuntado' : 'amigos apuntados',
+      inviteLink: 'Tu enlace de invitación', copy: 'Copiar', copied: 'Copiado', share: 'Compartir', story: 'Compartir en story de Instagram',
+      shareText: 'Consigue tu Tarjeta Fundador de Vorey antes de que abra en Marbella:',
+      won: 'Has ganado.', winHint: 'Reclámalo en 24 horas.', claim: 'Reclamar mi premio', claiming: 'Un segundo…',
+      codeLabel: 'Tu código en el sitio', venue: 'Marbella · Local asociado', shownOnce: 'Enséñalo en el sitio. Sirve una vez.',
+      expiredTitle: 'Caducado', expiredText: 'Este premio ha caducado.',
+      invalidTitle: 'Enlace no válido', invalidText: 'Este enlace no es válido.',
+      errEmail: 'Ese email parece incompleto.', errName: 'Pon tu nombre.',
+      errConsent: 'Marca la casilla para continuar.', errNetwork: 'No ha funcionado. Inténtalo otra vez.',
+      codeTitle: 'Revisa tu email', codeText: e => `Te hemos enviado un código de 6 cifras a <strong>${e}</strong>`,
+      codeLabelInput: 'Código de 6 cifras', verify: 'Confirmar', verifying: 'Comprobando…',
+      resend: 'Enviar un código nuevo', resendIn: n => `Nuevo código en ${n} s`, resent: 'Código enviado', changeEmail: 'Cambiar email',
+      errCode: n => n > 0 ? `Código incorrecto. ${n === 1 ? 'Queda 1 intento' : `Quedan ${n} intentos`}.` : 'Código incorrecto. Pide uno nuevo.',
+      errLink: 'Este enlace ha caducado. Vuelve a poner tu email para recibir uno nuevo.',
+      errExpired: 'Este código ha caducado. Pide uno nuevo.', errTooMany: 'Demasiados códigos pedidos. Vuelve a intentarlo en una hora.',
+      privacy: c => `Vorey usa tu nombre y tu email solo para avisarte cuando Vorey abra, decirte si ganas y contar los amigos que se apuntan con tu enlace. Guardados en la UE (París). Nunca vendidos ni compartidos. Para salir de la lista o borrar tus datos, ${c}.`,
+      contact: e => e ? `escribe a <a href="mailto:${e}">${e}</a>` : 'responde a cualquiera de nuestros emails',
+    },
+    fr: {
+      headline: 'Marbella regorge d’adresses.<br>Victor trouve la tienne.',
+      step1: '1. S’inscrire', step2: '2. Ma carte', step3: '3. Inviter',
+      firstName: 'Prénom', email: 'E-mail',
+      agree: 'J’accepte la', privacyNotice: 'Politique de confidentialité', rules: 'Règlement du tirage',
+      submit: 'Recevoir ma Carte Fondateur', saving: 'Une seconde…',
+      promise: 'Zéro spam. On t’écrit seulement à l’ouverture de Vorey,<br>et si tu gagnes.',
+      invitedBy: n => `<strong>${n}</strong> t’a invité·e.`,
+      founding: 'Membre<br>fondateur', member: 'Membre', cardFoot: 'Marbella · Déc 2026',
+      chances: n => n === 1 ? 'chance' : 'chances',
+      chancesPending: 'Installe Vorey à l’ouverture pour activer tes chances. Chaque ami qui l’installe = +1.',
+      chancesActive: 'Tu participes à chaque tirage de la semaine. Chaque ami qui installe Vorey = +1.',
+      friends: n => n === 1 ? 'ami inscrit' : 'amis inscrits',
+      inviteLink: 'Ton lien d’invitation', copy: 'Copier', copied: 'Copié', share: 'Partager', story: 'Partager en story Instagram',
+      shareText: 'Récupère ta Carte Fondateur Vorey avant l’ouverture à Marbella :',
+      won: 'Tu as gagné.', winHint: 'À récupérer dans les 24 heures.', claim: 'Récupérer mon lot', claiming: 'Une seconde…',
+      codeLabel: 'Ton code sur place', venue: 'Marbella · Lieu partenaire', shownOnce: 'Montre-le sur place. Il ne sert qu’une fois.',
+      expiredTitle: 'Expiré', expiredText: 'Ce lot a expiré.',
+      invalidTitle: 'Lien invalide', invalidText: 'Ce lien n’est pas valide.',
+      errEmail: 'Cet e-mail semble incomplet.', errName: 'Ajoute ton prénom.',
+      errConsent: 'Coche la case pour continuer.', errNetwork: 'Ça n’est pas passé. Réessaie.',
+      codeTitle: 'Regarde tes e-mails', codeText: e => `On t’a envoyé un code à 6 chiffres à <strong>${e}</strong>`,
+      codeLabelInput: 'Code à 6 chiffres', verify: 'Confirmer', verifying: 'Vérification…',
+      resend: 'Recevoir un nouveau code', resendIn: n => `Nouveau code dans ${n} s`, resent: 'Code envoyé', changeEmail: 'Changer d’e-mail',
+      errCode: n => n > 0 ? `Code incorrect. Encore ${n} essai${n > 1 ? 's' : ''}.` : 'Code incorrect. Demande un nouveau code.',
+      errLink: 'Ce lien a expiré. Remets ton e-mail pour en recevoir un nouveau.',
+      errExpired: 'Ce code a expiré. Demande un nouveau code.', errTooMany: 'Trop de codes demandés. Réessaie dans une heure.',
+      privacy: c => `Vorey utilise ton prénom et ton e-mail uniquement pour te prévenir à l’ouverture, te dire si tu gagnes et compter les amis qui s’inscrivent avec ton lien. Stockés dans l’UE (Paris). Jamais vendus, jamais partagés. Pour quitter la liste ou effacer tes données, ${c}.`,
+      contact: e => e ? `écris à <a href="mailto:${e}">${e}</a>` : 'réponds à n’importe lequel de nos e-mails',
+    },
+  };
+  const CONSENT_VERSION = 'v3';
+
+  // ════════════════════════════════════════════════════════════════════
+  // ÉTAT
+  // ════════════════════════════════════════════════════════════════════
+  const cfg = window.VOREY_WAITLIST || null;
+  const $ = id => document.getElementById(id);
+  const params = new URLSearchParams(location.search);
+  // Démo : sans config, ou forcée avec ?demo=1 (aperçu, présentation) — rien n'est envoyé.
+  const DEMO = !cfg || !cfg.supabaseUrl || !cfg.anonKey || params.has('demo');
+  const store = {
+    get(k) { try { return localStorage.getItem('vorey_wl_' + k); } catch { return null; } },
+    set(k, v) { try { v == null ? localStorage.removeItem('vorey_wl_' + k) : localStorage.setItem('vorey_wl_' + k, v); } catch {} },
+  };
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const pickLang = () => {
+    const wanted = [params.get('lang'), store.get('lang'), ...(navigator.languages || [navigator.language])];
+    for (const l of wanted) { const k = (l || '').slice(0, 2).toLowerCase(); if (T[k]) return k; }
+    return 'en';
+  };
+  let lang = pickLang();
+  let view = 'join';
+  let card = null, inviter = null, win = null;
+  let pendingEmail = null, pendingDemo = null, resendTimer = null;
+  const winToken = (params.get('win') || '').trim() || null;
+  const confirmToken = (params.get('confirm') || '').trim() || null;
+  const ref = (params.get('ref') || '').trim().toUpperCase() || null;
+  const source = (params.get('src') || params.get('utm_source') || '').slice(0, 60) || null;
+  const shareBase = (cfg && cfg.siteUrl) || (location.origin + location.pathname);
+  const shareLink = () => `${shareBase}?ref=${card.referral_code}`;
+
+  // ════════════════════════════════════════════════════════════════════
+  // BASE (Supabase RPC) — ou démo locale, qui n'envoie rien
+  // ════════════════════════════════════════════════════════════════════
+  async function rpc(fn, args) {
+    if (DEMO) return demoRpc(fn, args);
+    const res = await fetch(`${cfg.supabaseUrl}/rest/v1/rpc/${fn}`, {
+      method: 'POST',
+      // Clé publique au nouveau format (sb_publishable_…) : en `apikey` seulement.
+      // Ancien format (un JWT) : aussi en `Authorization`.
+      headers: Object.assign({ 'Content-Type': 'application/json', apikey: cfg.anonKey },
+        cfg.anonKey.startsWith('sb_') ? {} : { Authorization: `Bearer ${cfg.anonKey}` }),
+      body: JSON.stringify(args),
+    });
+    const body = await res.json().catch(() => null);
+    if (!res.ok) { const e = new Error((body && body.message) || 'network'); e.code = body && body.message; throw e; }
+    return body;
+  }
+  function demoRpc(fn, args) {
+    return new Promise(resolve => setTimeout(() => {
+      if (fn === 'claim_prize') {
+        if (args.p_token === 'EXPIRED') return resolve({ status: 'expired', first_name: 'Alex', prize: 'Brunch for two' });
+        if (args.p_token === 'INVALID') return resolve({ status: 'unknown' });
+        return resolve({ status: 'claimed', first_name: 'Alex', prize: 'Brunch for two', coupon: 'VOREY-7F3KQ2' });
+      }
+      if (fn === 'join_waitlist') {
+        pendingDemo = { first_name: args.p_first_name.trim(), referral_code: 'K7QM2XPA', member_number: 247, founder: true,
+                        verified: false, chances: 1, friends_joined: 0, friends_verified: 0 };
+        return resolve({ status: 'code_sent', resend_in: 30 });
+      }
+      if (fn === 'confirm_waitlist_email') {
+        if (args.p_code !== '123456') return resolve({ status: 'invalid_code', attempts_left: 4 });
+        store.set('demo_card', JSON.stringify(pendingDemo));
+        return resolve({ status: 'confirmed', card: pendingDemo });
+      }
+      if (fn === 'confirm_waitlist_link') {
+        if (args.p_token === 'EXPIRED') return resolve({ status: 'invalid_link' });
+        const c = { first_name: 'Alex', referral_code: 'K7QM2XPA', member_number: 247, founder: true,
+                    verified: false, chances: 1, friends_joined: 0, friends_verified: 0 };
+        store.set('demo_card', JSON.stringify(c));
+        return resolve({ status: 'confirmed', card: c });
+      }
+      if (fn === 'waitlist_status') {
+        if (args.p_referral_code === ref) return resolve({ first_name: 'Ana', referral_code: ref });
+        return resolve(JSON.parse(store.get('demo_card') || 'null'));
+      }
+      resolve(null);
+    }, 800));
+  }
+
+  // ════════════════════════════════════════════════════════════════════
+  // LE LOGO — le logo officiel, seul, avec un halo doux. Variante or pour
+  // les lots, atténuée pour un lot expiré ou un lien invalide.
+  // ════════════════════════════════════════════════════════════════════
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const logo = new Image();
+  logo.src = 'vorey_mark_hd.png';
+  const logoReady = new Promise(r => { logo.onload = r; logo.onerror = r; });
+
+  function tintedLogo(size, gold, dim) {
+    const c = document.createElement('canvas'); c.width = c.height = size;
+    const g = c.getContext('2d');
+    if (!logo.naturalWidth) return c;
+    const s = size * 0.62, h = s * logo.naturalHeight / logo.naturalWidth;
+    g.drawImage(logo, (size - s) / 2, (size - h) / 2, s, h);
+    if (gold) {
+      g.globalCompositeOperation = 'source-in';
+      const lg = g.createLinearGradient(0, (size - h) / 2, 0, (size + h) / 2);
+      lg.addColorStop(0, '#F3DDB0'); lg.addColorStop(.55, '#D9B47C'); lg.addColorStop(1, '#A9834F');
+      g.fillStyle = lg; g.fillRect(0, 0, size, size);
+    }
+    if (dim) { g.globalCompositeOperation = 'destination-in'; g.fillStyle = 'rgba(0,0,0,.55)'; g.fillRect(0, 0, size, size); }
+    return c;
+  }
+
+  const MARKS = { markJoin: {}, markCode: {}, markCard: {}, markWin: {}, markState: { dim: true } };
+  function drawMarks() {
+    for (const [id, o] of Object.entries(MARKS)) {
+      const canvas = $(id), W = canvas.clientWidth;
+      if (!W) continue;
+      const dpr = Math.min(devicePixelRatio || 1, 2), S = Math.round(W * dpr);
+      canvas.width = canvas.height = S;
+      const g = canvas.getContext('2d');
+      const halo = g.createRadialGradient(S / 2, S / 2, 0, S / 2, S / 2, S / 2);
+      halo.addColorStop(0, o.gold ? 'rgba(231,201,150,.24)' : 'rgba(150,130,250,.24)');
+      halo.addColorStop(1, 'rgba(0,0,0,0)');
+      g.fillStyle = halo; g.fillRect(0, 0, S, S);
+      g.drawImage(tintedLogo(S, o.gold, o.dim), 0, 0);
+    }
+  }
+  const refreshMarks = () => logoReady.then(() => requestAnimationFrame(drawMarks));
+  addEventListener('resize', refreshMarks);
+
+  // ════════════════════════════════════════════════════════════════════
+  // RENDU
+  // ════════════════════════════════════════════════════════════════════
+  function render() {
+    const t = T[lang];
+    document.documentElement.lang = lang;
+    $('lang').value = lang;
+    document.querySelectorAll('[data-t]').forEach(el => { el.textContent = t[el.dataset.t]; });
+    document.querySelectorAll('[data-t-html]').forEach(el => { el.innerHTML = t[el.dataset.tHtml]; });
+    document.querySelectorAll('[data-ph]').forEach(el => { el.placeholder = t[el.dataset.ph]; el.setAttribute('aria-label', t[el.dataset.ph]); });
+    $('privacyText').innerHTML = t.privacy(t.contact(cfg && cfg.contactEmail ? esc(cfg.contactEmail) : null));
+    const rulesUrl = cfg && cfg.rulesUrl;
+    $('rules').hidden = $('rulesSep').hidden = !rulesUrl;
+    if (rulesUrl) $('rules').href = rulesUrl;
+    $('demoBadge').hidden = !DEMO;
+    $('invitedBy').hidden = !inviter;
+    if (inviter) $('invitedBy').innerHTML = t.invitedBy(esc(inviter));
+    ['join', 'code', 'member', 'win'].forEach(v => { $(v).hidden = view !== v; });
+    if (pendingEmail) $('codeText').innerHTML = t.codeText(esc(pendingEmail));
+    $('otp').setAttribute('aria-label', t.codeLabelInput);
+    boxes.forEach((b, i) => b.setAttribute('aria-label', `${t.codeLabelInput} · ${i + 1}/6`));
+    if (view === 'member') renderCard(t);
+    if (view === 'win') renderWin(t);
+  }
+
+  function renderCard(t) {
+    $('cardLabel').innerHTML = card.founder ? t.founding : t.member;
+    $('cardNum').innerHTML = `<small>Nº</small> ${String(card.member_number).padStart(4, '0')}`;
+    $('cardName').textContent = card.first_name;
+    $('card').setAttribute('aria-label', `${card.founder ? t.founding.replace('<br>', ' ') : t.member} nº ${card.member_number}, ${card.first_name}`);
+    $('chances').textContent = card.chances;
+    $('chancesLabel').textContent = t.chances(card.chances);
+    $('chancesNote').textContent = card.verified ? t.chancesActive : t.chancesPending;
+    $('chancesInfo').setAttribute('aria-label', $('chancesNote').textContent);
+    $('friendsCount').textContent = card.friends_joined;
+    $('friendsLabel').textContent = t.friends(card.friends_joined);
+    $('faces').innerHTML = '<i></i>'.repeat(Math.min(card.friends_joined, 3)) + `<button type="button" aria-label="${esc(t.share)}">+</button>`;
+    $('faces').querySelector('button').onclick = shareNow;
+    $('link').textContent = shareLink().replace(/^https?:\/\//, '');
+    $('whatsapp').href = `https://wa.me/?text=${encodeURIComponent(t.shareText + ' ' + shareLink())}`;
+    $('share').hidden = !navigator.share;
+  }
+
+  function renderWin(t) {
+    const status = win && win.status;
+    const bad = status === 'expired' || status === 'unknown';
+    $('winMain').hidden = bad;
+    $('winState').hidden = !bad;
+    if (bad) {
+      $('stateTitle').textContent = status === 'expired' ? t.expiredTitle : t.invalidTitle;
+      $('stateText').textContent = status === 'expired' ? t.expiredText : t.invalidText;
+      return;
+    }
+    const done = status === 'claimed';
+    $('prize').hidden = !done;
+    if (done) $('prize').textContent = win.prize;
+    $('winHint').textContent = done ? t.shownOnce : t.winHint;
+    $('claim').hidden = done;
+    $('codeBox').hidden = !done;
+    if (done) $('coupon').textContent = win.coupon;
+  }
+
+  function show(v) {
+    view = v; render(); refreshMarks();
+    const el = $(v);
+    el.classList.remove('reveal'); void el.offsetWidth; el.classList.add('reveal');
+  }
+
+  // ════════════════════════════════════════════════════════════════════
+  // INTERACTIONS
+  // ════════════════════════════════════════════════════════════════════
+  $('lang').addEventListener('change', e => { lang = e.target.value; store.set('lang', lang); render(); });
+  document.querySelectorAll('.privacy-open').forEach(b => b.addEventListener('click', () => {
+    $('privacyText').hidden = false;
+    $('privacyText').scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'center' });
+  }));
+
+  function fail(field, key) {
+    ['firstName', 'email', 'consent'].forEach(id => $(id).removeAttribute('aria-invalid'));
+    $('error').textContent = key ? T[lang][key] : '';
+    if (field) { $(field).setAttribute('aria-invalid', 'true'); $(field).focus(); }
+  }
+
+  $('form').addEventListener('submit', async e => {
+    e.preventDefault();
+    const name = $('firstName').value.trim().replace(/\s+/g, ' ');
+    const email = $('email').value.trim().toLowerCase();
+    if (!name) return fail('firstName', 'errName');
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]{2,}$/.test(email)) return fail('email', 'errEmail');
+    if (!$('consent').checked) return fail('consent', 'errConsent');
+    fail(null, null);
+    const btn = $('submit');
+    btn.disabled = true; btn.textContent = T[lang].saving;
+    try {
+      const r = await rpc('join_waitlist', {
+        p_email: email, p_first_name: name, p_consent: true, p_consent_version: CONSENT_VERSION,
+        p_referral_code: ref, p_locale: lang, p_source: source,
+      });
+      pendingEmail = email;
+      setCode(''); $('codeError').textContent = '';
+      show('code');
+      startResendTimer(r.resend_in || 30);
+      scrollTo({ top: 0, behavior: reduced ? 'auto' : 'smooth' });
+      boxes[0].focus({ preventScroll: true });
+    } catch (err) {
+      const map = { invalid_email: ['email', 'errEmail'], invalid_first_name: ['firstName', 'errName'], consent_required: ['consent', 'errConsent'], too_many_codes: [null, 'errTooMany'] };
+      const [f, k] = map[err.code] || [null, 'errNetwork'];
+      fail(f, k);
+    } finally {
+      btn.disabled = false; btn.textContent = T[lang].submit;
+    }
+  });
+
+  function startResendTimer(n) {
+    clearInterval(resendTimer);
+    const b = $('resend');
+    const tick = () => {
+      if (n <= 0) { clearInterval(resendTimer); b.disabled = false; b.textContent = T[lang].resend; return; }
+      b.disabled = true; b.textContent = T[lang].resendIn(n); n--;
+    };
+    tick(); resendTimer = setInterval(tick, 1000);
+  }
+
+  async function verifyCode() {
+    const code = getCode();
+    if (code.length !== 6) return;
+    const btn = $('verify');
+    btn.disabled = true; btn.textContent = T[lang].verifying;
+    $('otp').removeAttribute('aria-invalid'); $('codeError').textContent = '';
+    try {
+      const r = await rpc('confirm_waitlist_email', { p_email: pendingEmail, p_code: code });
+      if (r.status === 'confirmed') {
+        card = r.card; pendingEmail = null; clearInterval(resendTimer);
+        store.set('code', card.referral_code);
+        show('member');
+        scrollTo({ top: 0, behavior: reduced ? 'auto' : 'smooth' });
+        return;
+      }
+      $('codeError').textContent = T[lang].errCode(r.attempts_left);
+      $('otp').setAttribute('aria-invalid', 'true'); setCode(''); boxes[0].focus();
+    } catch (err) {
+      const key = { code_expired: 'errExpired', too_many_attempts: 'errExpired', invalid_code: 'errExpired' }[err.code] || 'errNetwork';
+      $('codeError').textContent = T[lang][key];
+      $('otp').setAttribute('aria-invalid', 'true');
+    } finally {
+      btn.disabled = false; btn.textContent = T[lang].verify;
+    }
+  }
+  $('codeForm').addEventListener('submit', e => { e.preventDefault(); verifyCode(); });
+  // ── Les six cases : on tape → case suivante ; Effacer → case
+  // précédente ; on colle (ou iOS remplit) → tout se répartit d'un coup.
+  const boxes = [...document.querySelectorAll('#otp input')];
+  const getCode = () => boxes.map(b => b.value).join('');
+  function setCode(digits, from = 0) {
+    digits = digits.replace(/\D/g, '');
+    boxes.forEach((b, i) => {
+      if (i >= from) b.value = digits[i - from] || '';
+      b.classList.toggle('filled', !!b.value);
+    });
+  }
+  boxes.forEach((box, i) => {
+    box.addEventListener('input', () => {
+      const v = box.value.replace(/\D/g, '');
+      $('otp').removeAttribute('aria-invalid');
+      if (v.length > 1) {                     // collage ou remplissage automatique
+        setCode(v.slice(0, 6 - i), i);
+        boxes[Math.min(i + v.length, 5)].focus();
+      } else {
+        box.value = v;
+        box.classList.toggle('filled', !!v);
+        if (v && i < 5) boxes[i + 1].focus();
+      }
+      if (getCode().length === 6) verifyCode();
+    });
+    box.addEventListener('keydown', e => {
+      if (e.key === 'Backspace' && !box.value && i > 0) {
+        e.preventDefault(); boxes[i - 1].value = ''; boxes[i - 1].classList.remove('filled'); boxes[i - 1].focus();
+      } else if (e.key === 'ArrowLeft' && i > 0) { e.preventDefault(); boxes[i - 1].focus(); }
+      else if (e.key === 'ArrowRight' && i < 5) { e.preventDefault(); boxes[i + 1].focus(); }
+    });
+    box.addEventListener('focus', () => box.select());
+    box.addEventListener('paste', e => {
+      const v = (e.clipboardData || window.clipboardData).getData('text').replace(/\D/g, '');
+      if (!v) return;
+      e.preventDefault();
+      setCode(v.slice(0, 6 - i), i);
+      boxes[Math.min(i + v.length, 5)].focus();
+      if (getCode().length === 6) verifyCode();
+    });
+  });
+  $('resend').addEventListener('click', async () => {
+    $('codeError').textContent = '';
+    try {
+      const r = await rpc('join_waitlist', {
+        p_email: pendingEmail, p_first_name: $('firstName').value.trim(), p_consent: true, p_consent_version: CONSENT_VERSION,
+        p_referral_code: ref, p_locale: lang, p_source: source,
+      });
+      startResendTimer(r.resend_in || 30);
+      $('codeError').textContent = T[lang].resent;
+    } catch (err) {
+      $('codeError').textContent = T[lang][err.code === 'too_many_codes' ? 'errTooMany' : 'errNetwork'];
+    }
+  });
+  $('changeEmail').addEventListener('click', () => {
+    clearInterval(resendTimer); pendingEmail = null;
+    show('join'); $('email').focus(); $('email').select();
+  });
+
+  $('chancesInfo').addEventListener('click', () => { $('chancesNote').hidden = !$('chancesNote').hidden; });
+
+  $('claim').addEventListener('click', async () => {
+    const btn = $('claim');
+    btn.disabled = true; btn.textContent = T[lang].claiming; $('winError').textContent = '';
+    try { win = await rpc('claim_prize', { p_token: winToken }); show('win'); }
+    catch { $('winError').textContent = T[lang].errNetwork; }
+    finally { btn.disabled = false; btn.textContent = T[lang].claim; }
+  });
+
+  $('copy').addEventListener('click', async () => {
+    try { await navigator.clipboard.writeText(shareLink()); }
+    catch { const r = document.createRange(); r.selectNodeContents($('link')); getSelection().removeAllRanges(); getSelection().addRange(r); }
+    const label = $('copy').querySelector('span');
+    label.textContent = T[lang].copied;
+    setTimeout(() => { label.textContent = T[lang].copy; }, 1800);
+  });
+  function shareNow() {
+    if (navigator.share) navigator.share({ title: 'Vorey', text: T[lang].shareText, url: shareLink() }).catch(() => {});
+    else $('copy').click();
+  }
+  $('share').addEventListener('click', shareNow);
+
+  // ── La story Instagram : la carte en image 1080×1920 ──
+  $('story').addEventListener('click', async () => {
+    await document.fonts.ready; await logoReady;
+    const t = T[lang], W = 1080, H = 1920;
+    const c = document.createElement('canvas'); c.width = W; c.height = H;
+    const g = c.getContext('2d');
+    const spaced = px => { if ('letterSpacing' in g) g.letterSpacing = px; };
+    const bg = g.createLinearGradient(0, 0, 0, H);
+    bg.addColorStop(0, '#1D2350'); bg.addColorStop(.6, '#0B1026'); bg.addColorStop(1, '#0B1026');
+    g.fillStyle = bg; g.fillRect(0, 0, W, H);
+    g.textBaseline = 'top';
+    g.textAlign = 'center'; g.fillStyle = '#F5F1E8'; g.font = '400 50px "Playfair Display"'; spaced('16px');
+    g.fillText('VOREY', W / 2, 200);
+    // la carte
+    const cx = 120, cy = 380, cw = 840, ch = 940;
+    const cg = g.createLinearGradient(cx, cy, cx + cw, cy + ch);
+    cg.addColorStop(0, '#1A1F3F'); cg.addColorStop(.7, '#0E1229');
+    g.fillStyle = cg; g.strokeStyle = 'rgba(199,166,122,.7)'; g.lineWidth = 3;
+    g.beginPath(); g.roundRect(cx, cy, cw, ch, 48); g.fill(); g.stroke();
+    const halo = g.createRadialGradient(W / 2, cy + 440, 0, W / 2, cy + 440, 340);
+    halo.addColorStop(0, 'rgba(150,130,250,.35)'); halo.addColorStop(1, 'rgba(0,0,0,0)');
+    g.fillStyle = halo; g.fillRect(cx, cy, cw, ch);
+    g.textAlign = 'left'; g.fillStyle = '#F5F1E8'; g.font = '500 30px Montserrat'; spaced('7px');
+    (card.founder ? t.founding.split('<br>') : [t.member]).forEach((l, i) => g.fillText(l.toUpperCase(), cx + 56, cy + 56 + i * 44));
+    g.textAlign = 'right'; g.fillStyle = '#E7C996'; g.font = '400 54px "Playfair Display"'; spaced('0px');
+    g.fillText(`Nº ${String(card.member_number).padStart(4, '0')}`, cx + cw - 56, cy + 52);
+    g.drawImage(tintedLogo(560, false, false), W / 2 - 280, cy + 150, 560, 560);
+    g.textAlign = 'center'; g.fillStyle = '#F5F1E8'; g.font = '400 88px "Playfair Display"';
+    g.fillText(card.first_name, W / 2, cy + 730);
+    const fg = g.createLinearGradient(W / 2 - 220, 0, W / 2 + 220, 0);
+    fg.addColorStop(0, '#A78BFA'); fg.addColorStop(1, '#3B82F6');
+    g.fillStyle = fg; g.font = '600 28px Montserrat'; spaced('8px');
+    g.fillText(t.cardFoot.toUpperCase(), W / 2, cy + 860);
+    g.fillStyle = '#F5F1E8'; g.font = '400 46px "Playfair Display"'; spaced('0px');
+    t.headline.split('<br>').forEach((l, i) => g.fillText(l, W / 2, 1420 + i * 64));
+    g.fillStyle = 'rgba(245,241,232,.7)'; g.font = '500 32px Montserrat';
+    g.fillText(shareLink().replace(/^https?:\/\//, ''), W / 2, 1640);
+    const blob = await new Promise(r => c.toBlob(r, 'image/png'));
+    const file = new File([blob], 'vorey-founding-card.png', { type: 'image/png' });
+    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+      navigator.share({ files: [file] }).catch(() => {});
+    } else {
+      const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = file.name; a.click();
+      setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+    }
+  });
+
+  // ════════════════════════════════════════════════════════════════════
+  // AU CHARGEMENT : un lien de lot ? déjà inscrit ? arrivé par un ami ?
+  // ════════════════════════════════════════════════════════════════════
+  if (winToken) { show('win'); return; }
+  render();
+  (async () => {
+    // Arrivé par le bouton « Voir ma Carte Fondateur » de l'e-mail.
+    if (confirmToken) {
+      history.replaceState(null, '', location.pathname + (DEMO ? '?demo=1' : ''));   // le jeton ne reste pas dans l'adresse
+      try {
+        const r = await rpc('confirm_waitlist_link', { p_token: confirmToken });
+        if (r.status === 'confirmed') { card = r.card; store.set('code', card.referral_code); show('member'); return; }
+      } catch {}
+      if (!store.get('code')) { show('join'); $('error').textContent = T[lang].errLink; return; }
+    }
+    const mine = params.get('me') || store.get('code');
+    if (mine) {
+      try { const c = await rpc('waitlist_status', { p_referral_code: mine }); if (c) { card = c; show('member'); return; } }
+      catch {}
+      store.set('code', null);
+    }
+    show('join');
+    if (ref) {
+      try { const c = await rpc('waitlist_status', { p_referral_code: ref }); if (c) { inviter = c.first_name; render(); } }
+      catch {}
+    }
+  })();
+})();
+</script>
+</body>
+</html>
