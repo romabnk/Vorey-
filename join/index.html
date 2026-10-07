@@ -284,6 +284,22 @@
   .ios-steps { list-style: none; margin: 4px 0 20px; padding: 0; display: grid; gap: 12px; text-align: left; }
   .ios-steps li { display: grid; grid-template-columns: 30px 1fr; gap: 12px; align-items: center; font-size: 15px; }
   .ios-steps li i { width: 30px; height: 30px; border-radius: 50%; display: grid; place-content: center; font: 600 13px/1 var(--body); font-style: normal; background: var(--brand-grad); color: #fff; }
+  /* Dès l'arrivée sur téléphone : la feuille devient le premier écran. */
+  .sheet.first { align-items: stretch; background: var(--night); }
+  .sheet.first .sheet-box { max-width: none; display: flex; flex-direction: column; justify-content: center; gap: 0; border: 0; border-radius: 0;
+                            padding: calc(28px + env(safe-area-inset-top)) 24px calc(24px + env(safe-area-inset-bottom));
+                            background: radial-gradient(120% 70% at 50% 0%, rgba(167,139,250,.22), transparent 60%), var(--night); overflow-y: auto; }
+  .sheet.first .sheet-in { width: 100%; max-width: 420px; margin: 0 auto; }
+  .sheet.first h2 { font-size: clamp(28px, 8vw, 34px); margin-bottom: 10px; }
+  .sheet.first .ios-steps { margin: 18px 0 30px; gap: 16px; }
+  .first-mark { display: block; width: 76px; height: 76px; margin: 0 auto 22px; }
+  .langs { display: flex; justify-content: center; gap: 10px; margin: 0 0 30px; }
+  .langs button { min-height: 44px; padding: 10px 18px; border-radius: 999px; border: 1px solid var(--line); background: rgba(245,241,232,.05);
+                  color: var(--ivory-dim); font: 600 14px/1 var(--body); cursor: pointer; }
+  .langs button[aria-pressed="true"] { background: var(--brand-grad); border-color: transparent; color: #fff; }
+  .langs button:focus-visible, .skip:focus-visible { outline: 2px solid var(--violet); outline-offset: 3px; }
+  .skip { display: block; margin: 0 auto; padding: 12px; background: none; border: 0; color: var(--ivory-dim);
+          font: 500 14px/1.2 var(--body); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
   .ios-steps svg { width: 18px; height: 18px; vertical-align: -3px; stroke: var(--violet); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 
   .toast { position: fixed; left: 50%; bottom: calc(26px + env(safe-area-inset-bottom)); transform: translateX(-50%); z-index: 20;
@@ -531,17 +547,22 @@
 
 <!-- Feuille : écran d'accueil (iPhone, ou navigateur sans installation automatique) -->
 <div class="sheet" id="homeSheet" hidden role="dialog" aria-modal="true" aria-labelledby="homeTitle">
-  <div class="sheet-box">
-    <h2 id="homeTitle" data-t="homeTitle"></h2>
+  <div class="sheet-box"><div class="sheet-in">
+    <img class="first-mark" id="homeMark" src="vorey_mark_hd.png" alt="" width="76" height="76" hidden>
+    <div class="langs" id="homeLangs" role="group" aria-label="Language" hidden>
+      <button type="button" data-lang="en">English</button><button type="button" data-lang="es">Español</button><button type="button" data-lang="fr">Français</button>
+    </div>
+    <h2 id="homeTitle" data-t="homeTitle" tabindex="-1" style="outline:none"></h2>
     <p id="homeIntro" data-t="homeIntro" hidden></p>
     <p id="inAppNote" data-t="inApp" hidden></p>
     <ol class="ios-steps" id="iosSteps">
       <li><i>1</i><span id="homeStep1"></span></li>
       <li><i>2</i><span id="homeStep2"></span></li>
+      <li id="homeStep3Li" hidden><i>3</i><span data-t="homeStep3"></span></li>
     </ol>
     <button type="button" class="primary" id="homeInstall" data-t="installNow" hidden></button>
     <button type="button" class="secondary" data-close id="homeClose" data-t="gotIt"></button>
-  </div>
+  </div></div>
 </div>
 
 <div class="toast" id="toast" hidden role="status"></div>
@@ -603,7 +624,8 @@
       brought: n => n === 1 ? 'person brought in' : 'people brought in',
       bring: 'Bring someone in  +1', showQr: 'Show my QR',
       homeIntro: 'Do it now: you’ll then join right inside it, and sign in only once.',
-      installNow: 'Install Vorey', later2: 'Later', codeHere: 'Type the code here, in Vorey.',
+      installNow: 'Install Vorey', later2: 'Later', skipHome: 'Continue without adding it',
+      homeStep3: 'Then open Vorey from your Home Screen.', codeHere: 'Type the code here, in Vorey.',
       keepTitle: 'Keep Victor close 🌊', keepText: 'Add Vorey to your Home Screen so this is always one tap away.',
       install: 'Add to Home Screen',
       later: 'Victor will be back when there’s something worth opening. 🌊',
@@ -668,7 +690,8 @@
       brought: n => n === 1 ? 'persona invitada' : 'personas invitadas',
       bring: 'Trae a alguien  +1', showQr: 'Mostrar mi QR',
       homeIntro: 'Hazlo ahora: luego te unes directamente dentro, y solo te conectas una vez.',
-      installNow: 'Instalar Vorey', later2: 'Más tarde', codeHere: 'Escribe el código aquí, en Vorey.',
+      installNow: 'Instalar Vorey', later2: 'Más tarde', skipHome: 'Continuar sin añadirla',
+      homeStep3: 'Luego abre Vorey desde tu pantalla de inicio.', codeHere: 'Escribe el código aquí, en Vorey.',
       keepTitle: 'Ten a Victor cerca 🌊', keepText: 'Añade Vorey a tu pantalla de inicio y lo tendrás siempre a un toque.',
       install: 'Añadir a la pantalla de inicio',
       later: 'Victor volverá cuando haya algo que merezca la pena abrir. 🌊',
@@ -733,7 +756,8 @@
       brought: n => n === 1 ? 'personne amenée' : 'personnes amenées',
       bring: 'Faire venir quelqu’un  +1', showQr: 'Montrer mon QR',
       homeIntro: 'Fais-le maintenant : tu t’inscriras ensuite directement dedans, et tu ne te connecteras qu’une fois.',
-      installNow: 'Installer Vorey', later2: 'Plus tard', codeHere: 'Tape le code ici, dans Vorey.',
+      installNow: 'Installer Vorey', later2: 'Plus tard', skipHome: 'Continuer sans l’ajouter',
+      homeStep3: 'Puis ouvre Vorey depuis ton écran d’accueil.', codeHere: 'Tape le code ici, dans Vorey.',
       keepTitle: 'Garde Victor près de toi 🌊', keepText: 'Ajoute Vorey à ton écran d’accueil : tout sera toujours à un geste.',
       install: 'Ajouter à l’écran d’accueil',
       later: 'Victor revient dès qu’il y a quelque chose qui vaut la peine d’être ouvert. 🌊',
@@ -781,7 +805,7 @@
   let view = 'join';
   let card = null, firstTime = false, inviter = null, win = null;
   let pending = null;          // { email, mode: 'join' | 'back' } pendant l'écran du code
-  let resendTimer = null, installPrompt = null, cardsLeft = null;
+  let resendTimer = null, installPrompt = null, cardsLeft = null, homeFirst = false;
   let canal = null;             // { posts, emails } renvoyé par my_vorey_canal
   let tab = params.get('tab') === 'canal' ? 'canal' : 'card', unseen = 0;
   const unsubToken = (params.get('unsub') || '').trim() || null;
@@ -941,6 +965,8 @@
     $('cardsLeft').textContent = cardsLeft != null ? t.cardsLeft(cardsLeft) : t.cardsLimited;
     $('homeStep1').innerHTML = isIOS ? t.iosStep1 : t.otherStep1;
     $('homeStep2').innerHTML = isIOS ? t.iosStep2 : t.otherStep2;
+    document.querySelectorAll('#homeLangs [data-lang]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.lang === lang)));
+    if (homeFirst) $('homeClose').textContent = t.skipHome;
     ['join', 'back', 'code', 'me', 'win', 'unsub'].forEach(v => { $(v).hidden = view !== v; });
     if (view === 'me') renderMe(t);
     if (view === 'win') renderWin(t);
@@ -1253,9 +1279,9 @@
 
   function openSheet(id) { $(id).hidden = false; $(id).querySelector('[data-close]').focus(); }
   document.querySelectorAll('.sheet').forEach(s => {
-    s.addEventListener('click', e => { if (e.target === s || e.target.closest('[data-close]')) s.hidden = true; });
+    s.addEventListener('click', e => { if ((e.target === s && !s.classList.contains('first')) || e.target.closest('[data-close]')) s.hidden = true; });
   });
-  addEventListener('keydown', e => { if (e.key === 'Escape') document.querySelectorAll('.sheet').forEach(s => { s.hidden = true; }); });
+  addEventListener('keydown', e => { if (e.key === 'Escape') document.querySelectorAll('.sheet:not(.first)').forEach(s => { s.hidden = true; }); });
 
   // Le QR personnel : dessiné ici, à partir du MÊME lien de parrainage —
   // public par nature, il ne contient jamais la session.
@@ -1294,12 +1320,18 @@
   // La feuille « écran d'accueil ». Dès l'arrivée (`first`), elle explique
   // pourquoi le faire maintenant, et « Plus tard » la ferme pour de bon.
   function openHomeSheet(first) {
+    homeFirst = first;
+    $('homeSheet').classList.toggle('first', first);
+    $('homeClose').className = first ? 'skip' : 'secondary';
+    $('homeMark').hidden = $('homeLangs').hidden = $('homeStep3Li').hidden = !first;
     $('homeIntro').hidden = !first;
     $('inAppNote').hidden = !(isIOS && isInApp);
     $('iosSteps').hidden = !!installPrompt;
     $('homeInstall').hidden = !installPrompt;
-    $('homeClose').textContent = first ? T[lang].later2 : T[lang].gotIt;
+    $('homeClose').textContent = first ? T[lang].skipHome : T[lang].gotIt;
     openSheet('homeSheet');
+    // Premier écran : on lit d'abord le titre, on ne pointe pas « Continuer sans ».
+    if (first) $('homeTitle').focus();
   }
   $('homeInstall').addEventListener('click', async () => {
     if (!installPrompt) return;
@@ -1307,13 +1339,18 @@
     try { await installPrompt.userChoice; } catch {}
     installPrompt = null; $('homeSheet').hidden = true; render();
   });
-  $('homeClose').addEventListener('click', () => store.set('home_later', '1'));
+  $('homeClose').addEventListener('click', () => { if (homeFirst) store.set('home_later', '1'); homeFirst = false; });
+  // Les bulles de langue du premier écran : le choix vaut pour toute la page.
+  $('homeLangs').addEventListener('click', e => {
+    const b = e.target.closest('[data-lang]');
+    if (b) { lang = b.dataset.lang; store.set('lang', lang); render(); }
+  });
   // Dès l'arrivée, sur téléphone, hors de l'app de l'écran d'accueil, et
   // jamais pour quelqu'un venu par le lien d'un ami : l'app de l'écran
   // d'accueil s'ouvre sans ce lien, et le parrainage serait perdu.
   function maybeOfferHomeFirst() {
     if (isStandalone() || ref || store.get('home_later') || !(isIOS || isAndroid)) return;
-    setTimeout(() => { if (view === 'join' || view === 'back') openHomeSheet(true); }, 900);
+    if (view === 'join' || view === 'back') openHomeSheet(true);
   }
 
   if ('serviceWorker' in navigator && !DEMO) navigator.serviceWorker.register('sw.js').catch(() => {});
