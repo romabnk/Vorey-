@@ -533,12 +533,14 @@
 <div class="sheet" id="homeSheet" hidden role="dialog" aria-modal="true" aria-labelledby="homeTitle">
   <div class="sheet-box">
     <h2 id="homeTitle" data-t="homeTitle"></h2>
+    <p id="homeIntro" data-t="homeIntro" hidden></p>
     <p id="inAppNote" data-t="inApp" hidden></p>
     <ol class="ios-steps" id="iosSteps">
       <li><i>1</i><span id="homeStep1"></span></li>
       <li><i>2</i><span id="homeStep2"></span></li>
     </ol>
-    <button type="button" class="secondary" data-close data-t="gotIt"></button>
+    <button type="button" class="primary" id="homeInstall" data-t="installNow" hidden></button>
+    <button type="button" class="secondary" data-close id="homeClose" data-t="gotIt"></button>
   </div>
 </div>
 
@@ -600,6 +602,8 @@
       chances: n => n === 1 ? 'chance' : 'chances',
       brought: n => n === 1 ? 'person brought in' : 'people brought in',
       bring: 'Bring someone in  +1', showQr: 'Show my QR',
+      homeIntro: 'Do it now: you’ll then join right inside it, and sign in only once.',
+      installNow: 'Install Vorey', later2: 'Later', codeHere: 'Type the code here, in Vorey.',
       keepTitle: 'Keep Victor close 🌊', keepText: 'Add Vorey to your Home Screen so this is always one tap away.',
       install: 'Add to Home Screen',
       later: 'Victor will be back when there’s something worth opening. 🌊',
@@ -663,6 +667,8 @@
       chances: n => n === 1 ? 'oportunidad' : 'oportunidades',
       brought: n => n === 1 ? 'persona invitada' : 'personas invitadas',
       bring: 'Trae a alguien  +1', showQr: 'Mostrar mi QR',
+      homeIntro: 'Hazlo ahora: luego te unes directamente dentro, y solo te conectas una vez.',
+      installNow: 'Instalar Vorey', later2: 'Más tarde', codeHere: 'Escribe el código aquí, en Vorey.',
       keepTitle: 'Ten a Victor cerca 🌊', keepText: 'Añade Vorey a tu pantalla de inicio y lo tendrás siempre a un toque.',
       install: 'Añadir a la pantalla de inicio',
       later: 'Victor volverá cuando haya algo que merezca la pena abrir. 🌊',
@@ -726,6 +732,8 @@
       chances: n => n === 1 ? 'chance' : 'chances',
       brought: n => n === 1 ? 'personne amenée' : 'personnes amenées',
       bring: 'Faire venir quelqu’un  +1', showQr: 'Montrer mon QR',
+      homeIntro: 'Fais-le maintenant : tu t’inscriras ensuite directement dedans, et tu ne te connecteras qu’une fois.',
+      installNow: 'Installer Vorey', later2: 'Plus tard', codeHere: 'Tape le code ici, dans Vorey.',
       keepTitle: 'Garde Victor près de toi 🌊', keepText: 'Ajoute Vorey à ton écran d’accueil : tout sera toujours à un geste.',
       install: 'Ajouter à l’écran d’accueil',
       later: 'Victor revient dès qu’il y a quelque chose qui vaut la peine d’être ouvert. 🌊',
@@ -926,7 +934,10 @@
     if (inviter) $('invitedBy').innerHTML = t.invitedBy(esc(inviter));
     $('otp').setAttribute('aria-label', t.codeLabelInput);
     boxes.forEach((b, i) => b.setAttribute('aria-label', `${t.codeLabelInput} · ${i + 1}/6`));
-    if (pending) $('codeText').innerHTML = (pending.mode === 'back' ? t.codeTextNeutral : t.codeText)(esc(pending.email));
+    if (pending) $('codeText').innerHTML = (pending.mode === 'back' ? t.codeTextNeutral : t.codeText)(esc(pending.email))
+      // Dans l'app de l'écran d'accueil, le bouton de l'e-mail ouvrirait Safari
+      // (une autre session) : on demande de taper le code ici.
+      + (isStandalone() ? `<br>${esc(t.codeHere)}` : '');
     $('cardsLeft').textContent = cardsLeft != null ? t.cardsLeft(cardsLeft) : t.cardsLimited;
     $('homeStep1').innerHTML = isIOS ? t.iosStep1 : t.otherStep1;
     $('homeStep2').innerHTML = isIOS ? t.iosStep2 : t.otherStep2;
@@ -1277,9 +1288,33 @@
       installPrompt = null; render();
       return;
     }
-    $('inAppNote').hidden = !(isIOS && isInApp);
-    openSheet('homeSheet');
+    openHomeSheet(false);
   });
+
+  // La feuille « écran d'accueil ». Dès l'arrivée (`first`), elle explique
+  // pourquoi le faire maintenant, et « Plus tard » la ferme pour de bon.
+  function openHomeSheet(first) {
+    $('homeIntro').hidden = !first;
+    $('inAppNote').hidden = !(isIOS && isInApp);
+    $('iosSteps').hidden = !!installPrompt;
+    $('homeInstall').hidden = !installPrompt;
+    $('homeClose').textContent = first ? T[lang].later2 : T[lang].gotIt;
+    openSheet('homeSheet');
+  }
+  $('homeInstall').addEventListener('click', async () => {
+    if (!installPrompt) return;
+    installPrompt.prompt();
+    try { await installPrompt.userChoice; } catch {}
+    installPrompt = null; $('homeSheet').hidden = true; render();
+  });
+  $('homeClose').addEventListener('click', () => store.set('home_later', '1'));
+  // Dès l'arrivée, sur téléphone, hors de l'app de l'écran d'accueil, et
+  // jamais pour quelqu'un venu par le lien d'un ami : l'app de l'écran
+  // d'accueil s'ouvre sans ce lien, et le parrainage serait perdu.
+  function maybeOfferHomeFirst() {
+    if (isStandalone() || ref || store.get('home_later') || !(isIOS || isAndroid)) return;
+    setTimeout(() => { if (view === 'join' || view === 'back') openHomeSheet(true); }, 900);
+  }
 
   if ('serviceWorker' in navigator && !DEMO) navigator.serviceWorker.register('sw.js').catch(() => {});
 
@@ -1363,12 +1398,14 @@
     // 3. Ancien lien ?me=, ancien stockage, lien expiré : « Welcome back ».
     if (legacyMe || store.get('code') || confirmToken) {
       show('back');
+      maybeOfferHomeFirst();
       if (confirmToken) $('backError').textContent = T[lang].errLink;
       return;
     }
 
     // 4. Sinon : rejoindre (et le prénom du parrain, s'il y en a un).
     show('join');
+    maybeOfferHomeFirst();
     rpc('waitlist_founder_cards_left', {}).then(n => { if (typeof n === 'number') { cardsLeft = n; render(); } }).catch(() => {});
     if (ref) {
       try { const r = await rpc('waitlist_status', { p_referral_code: ref }); if (r && r.first_name) { inviter = r.first_name; render(); } }
