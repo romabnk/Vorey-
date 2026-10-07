@@ -802,7 +802,9 @@
     return 'en';
   };
   let lang = pickLang();
-  let view = 'join';
+  // Rien tant qu'on ne sait pas qui arrive : sinon le formulaire apparaît
+  // une seconde avant la carte d'un membre déjà connecté.
+  let view = null;
   let card = null, firstTime = false, inviter = null, win = null;
   let pending = null;          // { email, mode: 'join' | 'back' } pendant l'écran du code
   let resendTimer = null, installPrompt = null, cardsLeft = null, homeFirst = false;
