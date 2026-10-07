@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Vorey · Privacy</title>
+<meta name="theme-color" content="#0B1026">
+<meta name="robots" content="noindex">
+<link rel="icon" href="favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,800&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root { --night: #0B1026; --ivory: #F5F1E8; --dim: rgba(245,241,232,.7); --line: rgba(245,241,232,.16); --violet: #A78BFA; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--night); color: var(--ivory); font: 400 15px/1.65 "Montserrat", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  .page { max-width: 640px; margin: 0 auto; padding: calc(20px + env(safe-area-inset-top)) 20px calc(40px + env(safe-area-inset-bottom)); }
+  header { display: flex; align-items: center; justify-content: space-between; margin: 0 0 28px; }
+  header a { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ivory); font-weight: 600; letter-spacing: .3em; font-size: 15px; }
+  header img { width: 26px; height: 26px; object-fit: contain; }
+  nav button { background: none; border: 0; color: var(--dim); font: 600 13px/1 "Montserrat", sans-serif; padding: 8px 7px; border-radius: 8px; cursor: pointer; }
+  nav button[aria-pressed="true"] { color: var(--ivory); background: rgba(245,241,232,.1); }
+  h1 { font: 800 34px/1.1 "Bricolage Grotesque", sans-serif; margin: 0 0 6px; }
+  .updated { color: var(--dim); font-size: 13px; margin: 0 0 26px; }
+  h2 { font: 600 16px/1.3 "Montserrat", sans-serif; margin: 26px 0 8px; color: var(--violet); }
+  p, li { color: rgba(245,241,232,.88); }
+  ul { padding-left: 20px; margin: 0; }
+  li { margin: 0 0 6px; }
+  a { color: var(--ivory); }
+  .back { display: inline-block; margin-top: 34px; color: var(--dim); }
+  [hidden] { display: none !important; }
+  :focus-visible { outline: 2px solid var(--violet); outline-offset: 3px; border-radius: 6px; }
+</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <a href="./" id="home"><img src="vorey_mark.png" alt="" width="26" height="26">VOREY</a>
+    <nav aria-label="Language">
+      <button type="button" data-lang="en">EN</button><button type="button" data-lang="es">ES</button><button type="button" data-lang="fr">FR</button>
+    </nav>
+  </header>
+
+  <!-- ENGLISH -->
+  <article lang="en" data-l="en">
+    <h1>Privacy</h1>
+    <p class="updated">Last updated: 7 October 2026</p>
+    <p>Vorey is a local recommendation app for Marbella, opening on 28 January 2027. Before launch, you can join the list, get your Founding Card and follow the Vorey Drops. Here is exactly what we do with your data, in plain words.</p>
+    <h2>Who is responsible</h2>
+    <p>Kebane Cecylia Lymar, founder of Vorey (company being incorporated), Marbella, Spain. Contact: <a href="mailto:contact@vorey.app">contact@vorey.app</a>.</p>
+    <h2>What we collect</h2>
+    <ul>
+      <li>Your first name and email address, and the language you chose.</li>
+      <li>Your Founding number, who invited you (if anyone) and the friends who joined with your link.</li>
+      <li>The date you gave your consent, and where you came from (for example a QR code or Instagram).</li>
+      <li>In your Vorey space: the Drops you open, the posts you see and your reactions.</li>
+    </ul>
+    <h2>Why</h2>
+    <ul>
+      <li>To keep your place and your Founding Card, and let you open your Vorey space.</li>
+      <li>To send you Victor’s Drops every two weeks, and tell you when Vorey opens.</li>
+      <li>To run the draws, tell winners and give them their prize.</li>
+      <li>To count your chances (each friend who confirms their email = +1).</li>
+    </ul>
+    <p>We never sell or share your data, and we never show it to venues. Venues never pay to be chosen.</p>
+    <h2>Legal basis</h2>
+    <p>Your consent, given when you join. You can withdraw it at any time: one click at the bottom of every Drop email stops them, and a message to <a href="mailto:contact@vorey.app">contact@vorey.app</a> removes you from the list.</p>
+    <h2>Where your data lives</h2>
+    <p>In the European Union: our database is hosted by Supabase in Paris (France), and our emails are sent by Brevo (France).</p>
+    <h2>How long</h2>
+    <p>Until 12 months after the launch of the Vorey app, unless you create a Vorey account or ask us to erase your data sooner.</p>
+    <h2>Your rights</h2>
+    <p>You can access, correct, erase or export your data, or object to its use, by writing to <a href="mailto:contact@vorey.app">contact@vorey.app</a>. You can also complain to the Spanish data protection authority (AEPD, aepd.es).</p>
+  </article>
+
+  <!-- ESPAÑOL -->
+  <article lang="es" data-l="es" hidden>
+    <h1>Privacidad</h1>
+    <p class="updated">Última actualización: 7 de octubre de 2026</p>
+    <p>Vorey es una app de recomendaciones locales en Marbella, que abre el 28 de enero de 2027. Antes del lanzamiento puedes unirte a la lista, conseguir tu Tarjeta Fundador y seguir los Drops de Vorey. Esto es exactamente lo que hacemos con tus datos, en palabras sencillas.</p>
+    <h2>Quién es responsable</h2>
+    <p>Kebane Cecylia Lymar, fundadora de Vorey (sociedad en constitución), Marbella, España. Contacto: <a href="mailto:contact@vorey.app">contact@vorey.app</a>.</p>
+    <h2>Qué recogemos</h2>
+    <ul>
+      <li>Tu nombre y tu email, y el idioma que elegiste.</li>
+      <li>Tu número de fundador, quién te invitó (si alguien lo hizo) y los amigos que se unen con tu enlace.</li>
+      <li>La fecha de tu consentimiento y de dónde llegaste (por ejemplo, un código QR o Instagram).</li>
+      <li>En tu espacio Vorey: los Drops que abres, las publicaciones que ves y tus reacciones.</li>
+    </ul>
+    <h2>Para qué</h2>
+    <ul>
+      <li>Para guardar tu plaza y tu Tarjeta Fundador, y que puedas abrir tu espacio Vorey.</li>
+      <li>Para enviarte los Drops de Victor cada dos semanas y avisarte cuando Vorey abra.</li>
+      <li>Para hacer los sorteos, avisar a quien gane y darle su premio.</li>
+      <li>Para contar tus oportunidades (cada amigo que confirma su email = +1).</li>
+    </ul>
+    <p>Nunca vendemos ni compartimos tus datos, y nunca los mostramos a los locales. Ningún local paga por ser elegido.</p>
+    <h2>Base legal</h2>
+    <p>Tu consentimiento, dado al unirte. Puedes retirarlo cuando quieras: un clic al final de cada email de Drop los detiene, y un mensaje a <a href="mailto:contact@vorey.app">contact@vorey.app</a> te saca de la lista.</p>
+    <h2>Dónde están tus datos</h2>
+    <p>En la Unión Europea: nuestra base de datos está alojada por Supabase en París (Francia) y nuestros emails los envía Brevo (Francia).</p>
+    <h2>Cuánto tiempo</h2>
+    <p>Hasta 12 meses después del lanzamiento de la app Vorey, salvo que crees una cuenta Vorey o nos pidas borrarlos antes.</p>
+    <h2>Tus derechos</h2>
+    <p>Puedes acceder a tus datos, corregirlos, borrarlos, exportarlos u oponerte a su uso escribiendo a <a href="mailto:contact@vorey.app">contact@vorey.app</a>. También puedes reclamar ante la Agencia Española de Protección de Datos (AEPD, aepd.es).</p>
+  </article>
+
+  <!-- FRANÇAIS -->
+  <article lang="fr" data-l="fr" hidden>
+    <h1>Confidentialité</h1>
+    <p class="updated">Dernière mise à jour : 7 octobre 2026</p>
+    <p>Vorey est une app de recommandations locales à Marbella, qui ouvre le 28 janvier 2027. Avant le lancement, tu peux rejoindre la liste, recevoir ta Carte Fondateur et suivre les Drops Vorey. Voici exactement ce qu’on fait de tes données, avec des mots simples.</p>
+    <h2>Qui est responsable</h2>
+    <p>Kebane Cecylia Lymar, fondatrice de Vorey (société en cours de création), Marbella, Espagne. Contact : <a href="mailto:contact@vorey.app">contact@vorey.app</a>.</p>
+    <h2>Ce qu’on collecte</h2>
+    <ul>
+      <li>Ton prénom et ton e-mail, et la langue que tu as choisie.</li>
+      <li>Ton numéro de fondateur, qui t’a invité·e (s’il y a lieu) et les amis qui rejoignent avec ton lien.</li>
+      <li>La date de ton consentement, et d’où tu viens (par exemple un QR code ou Instagram).</li>
+      <li>Dans ton espace Vorey : les Drops que tu ouvres, les posts que tu vois et tes réactions.</li>
+    </ul>
+    <h2>Pourquoi</h2>
+    <ul>
+      <li>Pour garder ta place et ta Carte Fondateur, et te permettre d’ouvrir ton espace Vorey.</li>
+      <li>Pour t’envoyer les Drops de Victor toutes les deux semaines, et te prévenir à l’ouverture de Vorey.</li>
+      <li>Pour faire les tirages, prévenir les gagnants et leur remettre leur lot.</li>
+      <li>Pour compter tes chances (chaque ami qui confirme son e-mail = +1).</li>
+    </ul>
+    <p>On ne vend ni ne partage jamais tes données, et on ne les montre jamais aux lieux. Aucun lieu ne paie pour être choisi.</p>
+    <h2>Base légale</h2>
+    <p>Ton consentement, donné à l’inscription. Tu peux le retirer quand tu veux : un clic en bas de chaque e-mail de Drop les arrête, et un message à <a href="mailto:contact@vorey.app">contact@vorey.app</a> te retire de la liste.</p>
+    <h2>Où sont tes données</h2>
+    <p>Dans l’Union européenne : notre base de données est hébergée par Supabase à Paris (France), et nos e-mails sont envoyés par Brevo (France).</p>
+    <h2>Combien de temps</h2>
+    <p>Jusqu’à 12 mois après le lancement de l’app Vorey, sauf si tu crées un compte Vorey ou nous demandes de les effacer avant.</p>
+    <h2>Tes droits</h2>
+    <p>Tu peux accéder à tes données, les corriger, les effacer, les récupérer ou t’opposer à leur utilisation en écrivant à <a href="mailto:contact@vorey.app">contact@vorey.app</a>. Tu peux aussi saisir l’autorité espagnole de protection des données (AEPD, aepd.es).</p>
+  </article>
+
+  <a class="back" id="back" href="./"></a>
+</div>
+<script>
+  // Langue : ?lang=, sinon celle choisie sur la page, sinon celle du téléphone.
+  (() => {
+    const BACK = { en: '← Back to Vorey', es: '← Volver a Vorey', fr: '← Retour à Vorey' };
+    let saved = null; try { saved = localStorage.getItem('vorey_wl_lang'); } catch {}
+    const wanted = [new URLSearchParams(location.search).get('lang'), saved, ...(navigator.languages || [navigator.language])];
+    let lang = 'en';
+    for (const l of wanted) { const k = (l || '').slice(0, 2).toLowerCase(); if (BACK[k]) { lang = k; break; } }
+    const show = l => {
+      lang = l; document.documentElement.lang = l;
+      document.querySelectorAll('[data-l]').forEach(a => { a.hidden = a.dataset.l !== l; });
+      document.querySelectorAll('nav button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.lang === l)));
+      document.getElementById('back').textContent = BACK[l];
+      document.title = { en: 'Vorey · Privacy', es: 'Vorey · Privacidad', fr: 'Vorey · Confidentialité' }[l];
+    };
+    document.querySelectorAll('nav button').forEach(b => b.addEventListener('click', () => show(b.dataset.lang)));
+    show(lang);
+  })();
+</script>
+</body>
+</html>

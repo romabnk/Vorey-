@@ -122,7 +122,7 @@
   .agree input:checked { background: var(--violet); border-color: var(--violet); }
   .agree input:checked::after { opacity: 1; }
   .agree input[aria-invalid="true"] { border-color: var(--error); }
-  .agree button { background: none; border: 0; padding: 0; color: var(--ivory); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; font-size: 13px; }
+  .agree a { color: var(--ivory); text-decoration: underline; text-underline-offset: 3px; font-size: 13px; }
 
   .primary {
     width: 100%; margin-top: 8px; padding: 18px 20px;
@@ -209,6 +209,56 @@
   .stats b { display: block; font: 400 30px/1.1 var(--display); }
   .stats span { font-size: 13.5px; color: var(--ivory-dim); }
 
+  /* Les deux onglets de My Vorey. */
+  .tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; padding: 4px; margin: 6px 0 4px; border-radius: 999px;
+          background: rgba(11,16,38,.6); border: 1px solid var(--line); }
+  .tabs button { position: relative; padding: 11px 8px; border: 0; border-radius: 999px; background: transparent;
+                 color: var(--ivory-dim); font: 600 14px/1 var(--body); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 7px; }
+  .tabs button[aria-selected="true"] { background: var(--brand-grad); color: #fff; }
+  .badge { min-width: 18px; height: 18px; padding: 0 5px; border-radius: 9px; background: #F0567A; color: #fff;
+           font: 700 11px/18px var(--body); font-style: normal; text-align: center; }
+  .news { display: block; width: 100%; margin: 0 0 18px; padding: 13px 16px; border-radius: 14px; cursor: pointer;
+          border: 1px solid rgba(167,139,250,.5); background: rgba(167,139,250,.14); color: var(--ivory);
+          font: 600 14px/1.3 var(--body); text-align: left; }
+
+  /* Le Canal Vorey : un fil comme un canal Instagram, la team seule publie. */
+  .canal-head { display: flex; align-items: center; gap: 12px; margin: 16px 0 18px; }
+  .canal-head img { width: 40px; height: 40px; padding: 6px; border-radius: 50%; background: #14182F; border: 1px solid var(--line); object-fit: contain; }
+  .canal-head b { display: block; font: 800 20px/1.1 "Bricolage Grotesque", var(--body); }
+  .canal-head span { font-size: 12.5px; color: var(--ivory-dim); }
+  .post { margin: 0 0 16px; border-radius: 18px; overflow: hidden; background: var(--field); border: 1px solid var(--line); }
+  .post-head { display: flex; align-items: center; gap: 8px; padding: 14px 16px 0; font-size: 13px; color: var(--ivory-dim); }
+  .post-head b { color: var(--ivory); font-weight: 600; }
+  .post-body { margin: 8px 16px 12px; font-size: 15px; line-height: 1.55; white-space: pre-line; }
+  .post-photo { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; background: #141A3A; }
+  .post-foot { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 10px 12px 12px 16px; }
+  .views { font-size: 12.5px; color: var(--ivory-dim); white-space: nowrap; }
+  .reacts { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+  .reacts button { display: inline-flex; align-items: center; gap: 4px; padding: 6px 9px; border-radius: 999px; cursor: pointer;
+                   border: 1px solid var(--line); background: rgba(245,241,232,.05); color: var(--ivory); font: 600 12.5px/1 var(--body); }
+  .reacts button[aria-pressed="true"] { border-color: var(--violet); background: rgba(167,139,250,.22); }
+  .teaser { padding: 22px 18px 20px; text-align: center;
+            background: radial-gradient(80% 90% at 50% 0%, rgba(167,139,250,.32), transparent 70%); }
+  .teaser h3 { margin: 6px 0 6px; font: 800 26px/1.15 "Bricolage Grotesque", var(--body); }
+  .teaser p { margin: 0 0 16px; color: rgba(245,241,232,.82); font-size: 14.5px; }
+  .teaser .primary { margin-top: 0; }
+
+  /* Le Drop : le lieu, sa raison, et ce qu'on peut y gagner. */
+  .post.is-drop { border-color: rgba(167,139,250,.5); box-shadow: 0 24px 50px -28px rgba(110,120,250,.6); }
+  .drop-photo { aspect-ratio: 16 / 9; background: #141A3A center / cover no-repeat; }
+  .drop-body { padding: 18px 18px 16px; }
+  .drop-label { margin: 0 0 6px; font: 600 11px/1 var(--body); letter-spacing: .22em; text-transform: uppercase;
+                background: var(--brand-grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .drop-place { margin: 0; font: 800 28px/1.1 "Bricolage Grotesque", var(--body); letter-spacing: -.01em; }
+  .drop-area { margin: 3px 0 12px; font-size: 13px; color: var(--ivory-dim); }
+  .drop-note { margin: 0 0 14px; font-size: 15px; line-height: 1.55; color: rgba(245,241,232,.9); }
+  .drop-prize { display: flex; align-items: baseline; gap: 10px; padding: 12px 14px; border-radius: 14px;
+                background: rgba(167,139,250,.12); border: 1px solid rgba(167,139,250,.35); margin: 0 0 12px; }
+  .drop-prize span { font: 600 11px/1 var(--body); letter-spacing: .18em; text-transform: uppercase; color: var(--violet); flex: none; }
+  .drop-prize b { font: 600 16px/1.3 var(--body); }
+  .drop-foot { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; font-size: 13px; }
+  .drop-status { color: #9EE2B8; font-weight: 600; }
+  .drop-foot a { color: var(--ivory-dim); }
   .keep { margin: 30px 0 0; padding: 20px; border-radius: 18px; background: var(--field); border: 1px solid var(--line); text-align: center; }
   .keep h2 { font: 400 22px/1.2 var(--display); margin: 0 0 6px; }
   .keep p { margin: 0 0 14px; font-size: 14px; color: var(--ivory-dim); }
@@ -257,7 +307,6 @@
   /* ── Pied ── */
   footer { margin-top: auto; padding-top: 28px; text-align: center; font-size: 12px; color: var(--ivory-dim); }
   footer button, footer a { background: none; border: 0; padding: 0; color: inherit; font-size: 12px; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
-  #privacyText { margin: 10px 0 0; line-height: 1.6; text-align: left; }
 
   [hidden] { display: none !important; }
   .reveal { animation: rise .7s cubic-bezier(.2,.7,.2,1) both; }
@@ -314,7 +363,7 @@
         </div>
         <label class="agree">
           <input type="checkbox" id="consent">
-          <span><span data-t="agree"></span> <button type="button" class="privacy-open" data-t="privacyNotice"></button></span>
+          <span><span data-t="agree"></span> <a class="privacy-link" href="privacy.html" target="_blank" rel="noopener" data-t="privacyNotice"></a></span>
         </label>
         <button class="primary" type="submit" id="submit" data-t="submit"></button>
         <p class="error" id="error" role="alert"></p>
@@ -362,36 +411,65 @@
       </div>
     </section>
 
-    <!-- B + C. MY VOREY -->
+    <!-- B + C. MY VOREY : deux onglets, « Ma carte » et « Canal Vorey » -->
     <section id="me" hidden aria-live="polite">
-      <h1 class="greet" id="greet" tabindex="-1"></h1>
-      <p class="victor-line" id="victorLine"></p>
-      <p class="pill" id="countdown" hidden></p>
-      <div class="card" id="card" role="img">
-        <div class="card-top">
-          <span class="card-label" id="cardLabel"></span>
-          <span class="card-num" id="cardNum"></span>
-        </div>
-        <canvas class="mark" id="markCard" aria-hidden="true"></canvas>
-        <div class="card-bottom">
-          <span class="card-name" id="cardName"></span>
-          <span class="card-place">Marbella</span>
-        </div>
+      <div class="tabs" role="tablist">
+        <button type="button" role="tab" id="tabCardBtn" aria-selected="true" data-t="tabCard"></button>
+        <button type="button" role="tab" id="tabCanalBtn" aria-selected="false"><span>Canal Vorey</span><i class="badge" id="canalBadge" hidden></i></button>
       </div>
-      <div class="stats">
-        <div><b id="chances"></b><span id="chancesLabel"></span></div>
-        <div class="sep"></div>
-        <div><b id="brought"></b><span id="broughtLabel"></span></div>
-      </div>
-      <button type="button" class="primary" id="bring" data-t="bring"></button>
-      <button type="button" class="secondary" id="showQr" data-t="showQr"></button>
 
-      <div class="keep" id="keep" hidden>
-        <h2 data-t="keepTitle"></h2>
-        <p data-t="keepText"></p>
-        <button type="button" class="secondary" id="install" data-t="install"></button>
+      <div id="tabCard" role="tabpanel">
+        <h1 class="greet" id="greet" tabindex="-1"></h1>
+        <p class="victor-line" id="victorLine"></p>
+        <p class="pill" id="countdown" hidden></p>
+        <button type="button" class="news" id="canalNews" hidden></button>
+        <div class="card" id="card" role="img">
+          <div class="card-top">
+            <span class="card-label" id="cardLabel"></span>
+            <span class="card-num" id="cardNum"></span>
+          </div>
+          <canvas class="mark" id="markCard" aria-hidden="true"></canvas>
+          <div class="card-bottom">
+            <span class="card-name" id="cardName"></span>
+            <span class="card-place">Marbella</span>
+          </div>
+        </div>
+        <div class="stats">
+          <div><b id="chances"></b><span id="chancesLabel"></span></div>
+          <div class="sep"></div>
+          <div><b id="brought"></b><span id="broughtLabel"></span></div>
+        </div>
+        <button type="button" class="primary" id="bring" data-t="bring"></button>
+        <button type="button" class="secondary" id="showQr" data-t="showQr"></button>
+        <div class="keep" id="keep" hidden>
+          <h2 data-t="keepTitle"></h2>
+          <p data-t="keepText"></p>
+          <button type="button" class="secondary" id="install" data-t="install"></button>
+        </div>
+        <p class="later" data-t="later"></p>
       </div>
-      <p class="later" data-t="later"></p>
+
+      <div id="tabCanal" role="tabpanel" hidden>
+        <div class="canal-head">
+          <img src="vorey_mark.png" alt="" width="40" height="40">
+          <div><b>Canal Vorey</b><span data-t="canalSub"></span></div>
+        </div>
+        <div class="keep" id="dropOptIn" hidden>
+          <h2 data-t="optTitle"></h2>
+          <p data-t="optText"></p>
+          <button type="button" class="secondary" id="dropYes" data-t="optYes"></button>
+        </div>
+        <div id="feed"></div>
+        <p class="later" id="feedEmpty" data-t="emptyCanal" hidden></p>
+      </div>
+    </section>
+
+    <!-- NE PLUS RECEVOIR LES DROPS (lien de l'e-mail) -->
+    <section id="unsub" hidden>
+      <canvas class="mark sm" id="markUnsub" aria-hidden="true"></canvas>
+      <h1 class="headline" data-t="unsubTitle"></h1>
+      <p class="sub" data-t="unsubText"></p>
+      <button type="button" class="primary" id="unsubOpen" data-t="openMyVorey"></button>
     </section>
 
     <!-- LE LOT : système existant, intact, seulement par le lien d'un gagnant -->
@@ -420,9 +498,8 @@
   </main>
 
   <footer>
-    <button type="button" class="privacy-open" data-t="privacyNotice"></button>
+    <a class="privacy-link" href="privacy.html" target="_blank" rel="noopener" data-t="privacyNotice"></a>
     <span id="rulesSep" hidden> · </span><a id="rules" target="_blank" rel="noopener" hidden data-t="rules"></a>
-    <p id="privacyText" hidden></p>
   </footer>
 </div>
 
@@ -486,9 +563,9 @@
       hey: 'Hey, I’m Victor. 👋', early: 'You’re early. That should count for something.',
       step1: 'Join', step2: 'Get your Founder Nº', step3: 'Bring people in',
       firstName: 'First name', email: 'Email',
-      agree: 'I agree to the', privacyNotice: 'Privacy Notice', rules: 'Contest rules',
+      agree: 'I want Victor’s Drops and agree to the', privacyNotice: 'Privacy Notice', rules: 'Contest rules',
       submit: 'Join Vorey', saving: 'One second…',
-      promise: 'No spam. Victor only writes when it matters.',
+      promise: 'Every two weeks, Victor shares one place. And there’s always something to win.',
       alreadyMember: 'Already in? Open my Vorey', notMember: 'Not a member yet? Join Vorey',
       invitedBy: n => `<strong>${n}</strong> invited you.`,
       welcomeBack: 'Welcome back.', backText: 'Enter your email. Victor sends you a code.', sendCode: 'Send my code',
@@ -503,6 +580,17 @@
       opensIn: n => n > 1 ? `Vorey opens in ${n} days` : n === 1 ? 'Vorey opens tomorrow' : 'Vorey opens today',
       shareTitle: 'Bring someone in', shareSub: 'Each friend who confirms their email = +1 chance.',
       shareSms: 'Messages', shareCopy: 'Copy link', shareMore: 'More options',
+      dropLabel: n => `Vorey Drop · Nº ${n}`, toWin: 'To win', seeMap: 'See on the map →',
+      entered: d => d > 1 ? `✓ You’re in · Draw in ${d} days` : d === 1 ? '✓ You’re in · Draw tomorrow' : '✓ You’re in · Draw today',
+      optTitle: 'Never miss a Drop', optText: 'Every two weeks, a place chosen by Victor, and something to win.',
+      optYes: 'Yes, email me the Drops', optDone: 'Noted. See you at the next Drop.',
+      unsubTitle: 'Done.', unsubText: 'You won’t get Drops by email anymore. They stay in your Vorey.', openMyVorey: 'Open my Vorey',
+      tabCard: 'My card', canalSub: 'The Vorey team · members only', team: 'Team Vorey',
+      news: n => n === 1 ? 'Something new in Canal Vorey →' : `${n} new posts in Canal Vorey →`,
+      emptyCanal: 'Nothing yet. The team posts soon.',
+      teaserTitle: 'A Drop is waiting ✨', teaserText: 'One place, chosen for you. And something to win.', discover: 'Discover',
+      drawDone: 'Draw done', views: n => `👁 ${n}`,
+      ago: m => m < 1 ? 'just now' : m < 60 ? `${m} min ago` : m < 1440 ? `${Math.floor(m / 60)} h ago` : `${Math.floor(m / 1440)} d ago`,
       thanksFirst: 'Thank you for being here this early. This card is yours.',
       thanks: ['You were here before everyone else. I won’t forget it.',
                'Thank you for believing in Vorey before it even existed.',
@@ -533,16 +621,14 @@
       errCode: n => n > 0 ? `Wrong code. ${n} ${n === 1 ? 'try' : 'tries'} left.` : 'Wrong code. Ask for a new one.',
       errExpired: 'This code has expired. Ask for a new one.',
       errLink: 'This link has expired. Enter your email to get a new one.',
-      privacy: c => `Vorey uses your first name and email only to confirm your place, tell you when Vorey opens, tell you if you win something, and count the friends who join with your link. Stored in the EU (Paris). Never sold, never shared. To leave the list or erase your data, ${c}.`,
-      contact: e => e ? `write to <a href="mailto:${e}">${e}</a>` : 'reply to any email from us',
     },
     es: {
       hey: 'Hey, soy Victor. 👋', early: 'Llegas pronto. Eso tiene que contar.',
       step1: 'Únete', step2: 'Tu Nº de fundador', step3: 'Trae a gente',
       firstName: 'Nombre', email: 'Email',
-      agree: 'Acepto el', privacyNotice: 'Aviso de privacidad', rules: 'Bases del sorteo',
+      agree: 'Quiero los Drops de Victor y acepto el', privacyNotice: 'Aviso de privacidad', rules: 'Bases del sorteo',
       submit: 'Unirme a Vorey', saving: 'Un segundo…',
-      promise: 'Cero spam. Victor solo escribe cuando importa.',
+      promise: 'Cada dos semanas, Victor te confía un sitio. Y siempre hay algo que ganar.',
       alreadyMember: '¿Ya estás dentro? Abrir mi Vorey', notMember: '¿Aún no eres miembro? Únete a Vorey',
       invitedBy: n => `<strong>${n}</strong> te ha invitado.`,
       welcomeBack: 'Hola de nuevo.', backText: 'Tu email, y Victor te envía un código.', sendCode: 'Enviarme el código',
@@ -557,8 +643,19 @@
       opensIn: n => n > 1 ? `Vorey abre en ${n} días` : n === 1 ? 'Vorey abre mañana' : 'Vorey abre hoy',
       shareTitle: 'Trae a alguien', shareSub: 'Cada amigo que confirme su email = +1 oportunidad.',
       shareSms: 'Mensajes', shareCopy: 'Copiar enlace', shareMore: 'Más opciones',
+      dropLabel: n => `Drop Vorey · Nº ${n}`, toWin: 'Para ganar', seeMap: 'Ver en el mapa →',
+      entered: d => d > 1 ? `✓ Participas · Sorteo en ${d} días` : d === 1 ? '✓ Participas · Sorteo mañana' : '✓ Participas · Sorteo hoy',
+      optTitle: 'No te pierdas ningún Drop', optText: 'Cada dos semanas, un sitio elegido por Victor, y algo que ganar.',
+      optYes: 'Sí, quiero recibirlos', optDone: 'Hecho. Nos vemos en el próximo Drop.',
+      unsubTitle: 'Hecho.', unsubText: 'Ya no recibirás los Drops por email. Siguen en tu Vorey.', openMyVorey: 'Abrir mi Vorey',
+      tabCard: 'Mi tarjeta', canalSub: 'El equipo Vorey · solo miembros', team: 'Team Vorey',
+      news: n => n === 1 ? 'Novedad en el Canal Vorey →' : `${n} novedades en el Canal Vorey →`,
+      emptyCanal: 'Nada todavía. El equipo publica pronto.',
+      teaserTitle: 'Un Drop te espera ✨', teaserText: 'Un sitio elegido para ti. Y algo que ganar.', discover: 'Descubrir',
+      drawDone: 'Sorteo hecho', views: n => `👁 ${n}`,
+      ago: m => m < 1 ? 'ahora' : m < 60 ? `hace ${m} min` : m < 1440 ? `hace ${Math.floor(m / 60)} h` : `hace ${Math.floor(m / 1440)} d`,
       thanksFirst: 'Gracias por estar aquí tan pronto. Esta tarjeta es tuya.',
-      thanks: ['Llegaste antes que nadie. No lo olvidaré.',
+      thanks: ['Llegaste antes que nadie.',
                'Gracias por creer en Vorey antes de que existiera.',
                'Tu plaza está guardada. Marbella te espera.'],
       thanksTop: 'Entre los 100 primeros. Eso es raro.',
@@ -587,16 +684,14 @@
       errCode: n => n > 0 ? `Código incorrecto. ${n === 1 ? 'Queda 1 intento' : `Quedan ${n} intentos`}.` : 'Código incorrecto. Pide uno nuevo.',
       errExpired: 'Este código ha caducado. Pide uno nuevo.',
       errLink: 'Este enlace ha caducado. Pon tu email para recibir uno nuevo.',
-      privacy: c => `Vorey usa tu nombre y tu email solo para confirmar tu plaza, avisarte cuando Vorey abra, decirte si ganas algo y contar los amigos que se unen con tu enlace. Guardados en la UE (París). Nunca vendidos ni compartidos. Para salir de la lista o borrar tus datos, ${c}.`,
-      contact: e => e ? `escribe a <a href="mailto:${e}">${e}</a>` : 'responde a cualquiera de nuestros emails',
     },
     fr: {
       hey: 'Hey, moi c’est Victor. 👋', early: 'Tu es en avance. Ça doit compter.',
       step1: 'Rejoindre', step2: 'Ton Nº de fondateur', step3: 'Faire venir du monde',
       firstName: 'Prénom', email: 'E-mail',
-      agree: 'J’accepte la', privacyNotice: 'Politique de confidentialité', rules: 'Règlement du tirage',
+      agree: 'Je veux les Drops de Victor et j’accepte la', privacyNotice: 'Politique de confidentialité', rules: 'Règlement du tirage',
       submit: 'Rejoindre Vorey', saving: 'Une seconde…',
-      promise: 'Zéro spam. Victor n’écrit que quand ça compte.',
+      promise: 'Toutes les deux semaines, Victor te confie un lieu. Et il y a toujours quelque chose à gagner.',
       alreadyMember: 'Déjà membre ? Ouvrir mon Vorey', notMember: 'Pas encore membre ? Rejoindre Vorey',
       invitedBy: n => `<strong>${n}</strong> t’a invité·e.`,
       welcomeBack: 'Te revoilà.', backText: 'Ton e-mail, et Victor t’envoie un code.', sendCode: 'Recevoir mon code',
@@ -611,6 +706,17 @@
       opensIn: n => n > 1 ? `Vorey ouvre dans ${n} jours` : n === 1 ? 'Vorey ouvre demain' : 'Vorey ouvre aujourd’hui',
       shareTitle: 'Faire venir quelqu’un', shareSub: 'Chaque ami qui confirme son e-mail = +1 chance.',
       shareSms: 'Messages', shareCopy: 'Copier le lien', shareMore: 'Plus d’options',
+      dropLabel: n => `Drop Vorey · Nº ${n}`, toWin: 'À gagner', seeMap: 'Voir sur la carte →',
+      entered: d => d > 1 ? `✓ Tu participes · Tirage dans ${d} jours` : d === 1 ? '✓ Tu participes · Tirage demain' : '✓ Tu participes · Tirage aujourd’hui',
+      optTitle: 'Ne rate aucun Drop', optText: 'Toutes les deux semaines, un lieu choisi par Victor, et quelque chose à gagner.',
+      optYes: 'Oui, je veux les recevoir', optDone: 'C’est noté. À très vite pour le prochain Drop.',
+      unsubTitle: 'C’est noté.', unsubText: 'Tu ne recevras plus les Drops par e-mail. Ils restent dans ton Vorey.', openMyVorey: 'Ouvrir mon Vorey',
+      tabCard: 'Ma carte', canalSub: 'La team Vorey · réservé aux membres', team: 'Team Vorey',
+      news: n => n === 1 ? 'Du nouveau dans le Canal Vorey →' : `${n} nouveautés dans le Canal Vorey →`,
+      emptyCanal: 'Rien pour l’instant. La team publie bientôt.',
+      teaserTitle: 'Un Drop t’attend ✨', teaserText: 'Un lieu choisi pour toi. Et quelque chose à gagner.', discover: 'Découvrir',
+      drawDone: 'Tirage terminé', views: n => `👁 ${n}`,
+      ago: m => m < 1 ? 'à l’instant' : m < 60 ? `il y a ${m} min` : m < 1440 ? `il y a ${Math.floor(m / 60)} h` : `il y a ${Math.floor(m / 1440)} j`,
       thanksFirst: 'Merci d’être là si tôt. Cette carte est à toi.',
       thanks: ['Tu étais là avant tout le monde. Je ne l’oublierai pas.',
                'Merci d’avoir cru en Vorey avant même qu’il existe.',
@@ -641,11 +747,9 @@
       errCode: n => n > 0 ? `Code incorrect. Encore ${n} essai${n > 1 ? 's' : ''}.` : 'Code incorrect. Demande un nouveau code.',
       errExpired: 'Ce code a expiré. Demande un nouveau code.',
       errLink: 'Ce lien a expiré. Remets ton e-mail pour en recevoir un nouveau.',
-      privacy: c => `Vorey utilise ton prénom et ton e-mail uniquement pour confirmer ta place, te prévenir à l’ouverture, te dire si tu gagnes quelque chose et compter les amis qui rejoignent avec ton lien. Stockés dans l’UE (Paris). Jamais vendus, jamais partagés. Pour quitter la liste ou effacer tes données, ${c}.`,
-      contact: e => e ? `écris à <a href="mailto:${e}">${e}</a>` : 'réponds à n’importe lequel de nos e-mails',
     },
   };
-  const CONSENT_VERSION = 'v4';
+  const CONSENT_VERSION = 'v5';   // v5 : la promesse inclut les Drops toutes les deux semaines
 
   // ════════════════════════════════════════════════════════════════════
   // ÉTAT
@@ -670,6 +774,9 @@
   let card = null, firstTime = false, inviter = null, win = null;
   let pending = null;          // { email, mode: 'join' | 'back' } pendant l'écran du code
   let resendTimer = null, installPrompt = null, cardsLeft = null;
+  let canal = null;             // { posts, emails } renvoyé par my_vorey_canal
+  let tab = params.get('tab') === 'canal' ? 'canal' : 'card', unseen = 0;
+  const unsubToken = (params.get('unsub') || '').trim() || null;
   // Lancement officiel : le 28 janvier 2027 (décision de Cécylia, 2026-10-07).
   const LAUNCH = new Date(2027, 0, 28);
   const winToken = (params.get('win') || '').trim() || null;
@@ -704,6 +811,7 @@
     if (!res.ok) { const e = new Error((body && body.message) || 'network'); e.code = body && body.message; throw e; }
     return body;
   }
+  const DEMO_CANAL = {};   // état du canal de démo (révélation, réaction)
   const DEMO_CARD = { first_name: 'Alex', referral_code: 'K7QM2XPA', member_number: 247, founder: true,
                       verified: false, chances: 6, friends_joined: 5, friends_verified: 0 };
   function demoRpc(fn, args) {
@@ -720,6 +828,40 @@
           if (args.p_token === 'EXPIRED') return resolve({ status: 'invalid_link' });
           return resolve({ status: 'confirmed', first_time: true, session: 'DEMOSESSION', card: DEMO_CARD });
         case 'my_vorey': return resolve(args.p_session === 'DEMOSESSION' ? DEMO_CARD : null);
+        case 'my_vorey_canal_unseen': return resolve(args.p_session === 'DEMOSESSION' ? (DEMO_CANAL.revealed ? 0 : 2) : null);
+        case 'my_vorey_canal': return resolve(args.p_session !== 'DEMOSESSION' ? null : { emails: !params.has('optin'), posts: [
+          { number: 2, kind: 'drop', published_at: new Date(Date.now() - 3 * 3600000).toISOString(), views: 214, mine: DEMO_CANAL.mine2 || null,
+            reactions: Object.assign({ heart: 41, fire: 87, love: 12, hands: 6 }, DEMO_CANAL.r2), body: {}, photo_url: null,
+            drop: { number: 1, open: true, ends_at: new Date(Date.now() + 5 * 86400000).toISOString(), entered: !!DEMO_CANAL.revealed,
+                    reveal: DEMO_CANAL.revealed ? { place_name: 'El Gaucho', place_area: 'Puerto Banús', maps_url: 'https://maps.google.com/?q=El+Gaucho+Puerto+Banus',
+                      photo_url: 'marbella.jpg',
+                      note: { fr: 'La meilleure viande de Marbella, et ce soir il y a un show. Va-y tôt, prends la terrasse.',
+                              en: 'The best steak in Marbella, and tonight there’s a show. Go early, take the terrace.',
+                              es: 'La mejor carne de Marbella, y esta noche hay espectáculo. Ve pronto, pide la terraza.' },
+                      prize: { fr: 'Une table pour deux', en: 'A table for two', es: 'Una mesa para dos' } } : null } },
+          { number: 1, kind: 'post', published_at: new Date(Date.now() - 26 * 3600000).toISOString(), views: 189, mine: null,
+            reactions: { heart: 23, fire: 15, love: 9, hands: 4 }, photo_url: 'marbella.jpg',
+            body: { fr: 'Repérage du soir à Puerto Banús. Le prochain Drop arrive demain… 👀',
+                    en: 'Evening scouting in Puerto Banús. The next Drop lands tomorrow… 👀',
+                    es: 'Explorando Puerto Banús esta noche. El próximo Drop llega mañana… 👀' } } ] });
+        case 'react_to_post': {
+          DEMO_CANAL.mine2 = args.p_emoji; const base = { heart: 41, fire: 87, love: 12, hands: 6 };
+          if (args.p_emoji) base[args.p_emoji]++;
+          DEMO_CANAL.r2 = base;
+          return resolve({ reactions: base, mine: args.p_emoji, views: 214 });
+        }
+        case 'my_vorey_drop': DEMO_CANAL.revealed = true; return resolve(args.p_session !== 'DEMOSESSION' ? null : {
+          emails: params.has('optin') ? false : true,
+          drop: params.has('nodrop') ? null : {
+            number: 1, place_name: 'El Gaucho', place_area: 'Puerto Banús', maps_url: 'https://maps.google.com/?q=El+Gaucho+Puerto+Banus',
+            photo_url: 'marbella.jpg',
+            note: { fr: 'La meilleure viande de Marbella, et ce soir il y a un show. Va-y tôt, prends la terrasse.',
+                    en: 'The best steak in Marbella, and tonight there’s a show. Go early, take the terrace.',
+                    es: 'La mejor carne de Marbella, y esta noche hay espectáculo. Ve pronto, pide la terraza.' },
+            prize: { fr: 'Une table pour deux', en: 'A table for two', es: 'Una mesa para dos' },
+            ends_at: new Date(Date.now() + 5 * 86400000).toISOString(), entered: true } });
+        case 'set_drop_emails': return resolve({ emails: !!args.p_on });
+        case 'unsubscribe_drops': return resolve({ status: 'ok' });
         case 'waitlist_status': return resolve(args.p_referral_code === ref ? { first_name: 'Ana' } : null);
         case 'waitlist_founder_cards_left': return resolve(params.has('peu') ? 287 : null);
         case 'claim_prize':
@@ -749,7 +891,7 @@
     if (dim) { g.globalCompositeOperation = 'destination-in'; g.fillStyle = 'rgba(0,0,0,.55)'; g.fillRect(0, 0, size, size); }
     return c;
   }
-  const MARKS = { markJoin: {}, markBack: {}, markCode: {}, markCard: {}, markWin: {}, markState: { dim: true } };
+  const MARKS = { markJoin: {}, markBack: {}, markCode: {}, markCard: {}, markWin: {}, markState: { dim: true }, markUnsub: {} };
   function drawMarks() {
     for (const [id, o] of Object.entries(MARKS)) {
       const canvas = $(id), W = canvas.clientWidth;
@@ -775,7 +917,7 @@
     $('lang').value = lang;
     document.querySelectorAll('[data-t]').forEach(el => { el.textContent = t[el.dataset.t]; });
     document.querySelectorAll('[data-ph]').forEach(el => { el.placeholder = t[el.dataset.ph]; el.setAttribute('aria-label', t[el.dataset.ph]); });
-    $('privacyText').innerHTML = t.privacy(t.contact(cfg && cfg.contactEmail ? esc(cfg.contactEmail) : null));
+    document.querySelectorAll('.privacy-link').forEach(a => { a.href = `privacy.html?lang=${lang}`; });
     const rulesUrl = cfg && cfg.rulesUrl;
     $('rules').hidden = $('rulesSep').hidden = !rulesUrl;
     if (rulesUrl) $('rules').href = rulesUrl;
@@ -788,7 +930,7 @@
     $('cardsLeft').textContent = cardsLeft != null ? t.cardsLeft(cardsLeft) : t.cardsLimited;
     $('homeStep1').innerHTML = isIOS ? t.iosStep1 : t.otherStep1;
     $('homeStep2').innerHTML = isIOS ? t.iosStep2 : t.otherStep2;
-    ['join', 'back', 'code', 'me', 'win'].forEach(v => { $(v).hidden = view !== v; });
+    ['join', 'back', 'code', 'me', 'win', 'unsub'].forEach(v => { $(v).hidden = view !== v; });
     if (view === 'me') renderMe(t);
     if (view === 'win') renderWin(t);
   }
@@ -818,6 +960,57 @@
     // L'invitation à garder Vorey sur l'écran d'accueil : seulement sur
     // téléphone, et seulement si ce n'est pas déjà fait.
     $('keep').hidden = isStandalone() || !(isIOS || isAndroid || installPrompt);
+    renderTabs(t);
+  }
+
+  function renderTabs(t) {
+    $('tabCardBtn').setAttribute('aria-selected', String(tab === 'card'));
+    $('tabCanalBtn').setAttribute('aria-selected', String(tab === 'canal'));
+    $('tabCard').hidden = tab !== 'card';
+    $('tabCanal').hidden = tab !== 'canal';
+    $('canalBadge').hidden = !unseen || tab === 'canal';
+    $('canalBadge').textContent = unseen;
+    $('canalNews').hidden = !unseen;
+    $('canalNews').textContent = t.news(unseen);
+    if (tab === 'canal') renderCanal(t);
+  }
+
+  const REACTS = [['heart', '❤️'], ['fire', '🔥'], ['love', '😍'], ['hands', '🙌']];
+  const pick = o => o && (o[lang] || o.fr || o.en || o.es) || '';
+  function postHTML(p, t) {
+    const mins = Math.max(0, Math.round((Date.now() - new Date(p.published_at)) / 60000));
+    const head = `<div class="post-head"><b>${esc(t.team)}</b><span>· ${esc(t.ago(mins))}</span></div>`;
+    const foot = `<div class="post-foot"><span class="views">${esc(t.views(p.views))}</span><div class="reacts">`
+      + REACTS.map(([k, e]) => `<button type="button" data-post="${p.number}" data-react="${k}" aria-pressed="${p.mine === k}">${e} ${p.reactions[k] || ''}</button>`).join('')
+      + `</div></div>`;
+    if (p.kind !== 'drop') {
+      return `<article class="post">${head}${p.body && pick(p.body) ? `<p class="post-body">${esc(pick(p.body))}</p>` : ''}`
+        + `${p.photo_url ? `<img class="post-photo" src="${esc(p.photo_url)}" alt="" loading="lazy">` : ''}${foot}</article>`;
+    }
+    const d = p.drop, r = d.reveal;
+    let inner;
+    if (!r) {
+      inner = `<div class="teaser"><p class="drop-label">${esc(t.dropLabel(d.number))}</p><h3>${esc(t.teaserTitle)}</h3>`
+        + `<p>${esc(t.teaserText)}</p><button type="button" class="primary" data-discover="${d.number}">${esc(t.discover)}</button></div>`;
+    } else {
+      const today = new Date(); today.setHours(0, 0, 0, 0);
+      const end = new Date(d.ends_at); end.setHours(0, 0, 0, 0);
+      const status = d.open ? (d.entered ? t.entered(Math.max(0, Math.round((end - today) / 86400000))) : '') : t.drawDone;
+      inner = `${r.photo_url ? `<div class="drop-photo" style="background-image:url('${esc(encodeURI(r.photo_url))}')"></div>` : ''}`
+        + `<div class="drop-body"><p class="drop-label">${esc(t.dropLabel(d.number))}</p>`
+        + `<h2 class="drop-place">${esc(r.place_name)}</h2>${r.place_area ? `<p class="drop-area">${esc(r.place_area)}</p>` : ''}`
+        + `<p class="drop-note">${esc(pick(r.note))}</p>`
+        + `<div class="drop-prize"><span>${esc(t.toWin)}</span><b>${esc(pick(r.prize))}</b></div>`
+        + `<div class="drop-foot">${status ? `<span class="drop-status">${esc(status)}</span>` : ''}`
+        + `${r.maps_url ? `<a href="${esc(r.maps_url)}" target="_blank" rel="noopener">${esc(t.seeMap)}</a>` : ''}</div></div>`;
+    }
+    return `<article class="post is-drop">${head}${inner}${foot}</article>`;
+  }
+  function renderCanal(t) {
+    $('dropOptIn').hidden = !canal || canal.emails;
+    const posts = canal ? canal.posts : [];
+    $('feed').innerHTML = posts.map(p => postHTML(p, t)).join('');
+    $('feedEmpty').hidden = !canal || posts.length > 0;
   }
 
   function renderWin(t) {
@@ -850,6 +1043,20 @@
     card = c; firstTime = !!isFirst; pending = null; clearInterval(resendTimer);
     store.set('code', null);   // ancien stockage (code de parrainage) : n'ouvre plus rien
     show('me');
+    if (tab === 'canal') loadCanal();
+    else rpc('my_vorey_canal_unseen', { p_session: store.get('session') })
+      .then(n => { unseen = n || 0; render(); }).catch(() => {});
+  }
+
+  // Ouvrir le canal le compte comme « vu » (la pastille disparaît).
+  async function loadCanal() {
+    try { const c = await rpc('my_vorey_canal', { p_session: store.get('session') }); if (c) { canal = c; unseen = 0; render(); } }
+    catch {}
+  }
+  function setTab(next) {
+    tab = next; render();
+    if (tab === 'canal') loadCanal();
+    scrollTo({ top: 0, behavior: 'auto' });
   }
 
   function toast(msg) {
@@ -861,10 +1068,6 @@
   // REJOINDRE, REVENIR, CONFIRMER
   // ════════════════════════════════════════════════════════════════════
   $('lang').addEventListener('change', e => { lang = e.target.value; store.set('lang', lang); render(); });
-  document.querySelectorAll('.privacy-open').forEach(b => b.addEventListener('click', () => {
-    $('privacyText').hidden = false;
-    $('privacyText').scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'center' });
-  }));
   $('toBack').addEventListener('click', () => { show('back'); $('backEmail').focus(); });
   $('toJoin').addEventListener('click', () => { show('join'); $('firstName').focus(); });
 
@@ -1080,6 +1283,35 @@
 
   if ('serviceWorker' in navigator && !DEMO) navigator.serviceWorker.register('sw.js').catch(() => {});
 
+  $('tabCardBtn').addEventListener('click', () => setTab('card'));
+  $('tabCanalBtn').addEventListener('click', () => setTab('canal'));
+  $('canalNews').addEventListener('click', () => setTab('canal'));
+  $('dropYes').addEventListener('click', async () => {
+    try {
+      const r = await rpc('set_drop_emails', { p_session: store.get('session'), p_on: true });
+      if (r) { canal = Object.assign({}, canal, { emails: true }); render(); toast(T[lang].optDone); }
+    } catch { toast(T[lang].errNetwork); }
+  });
+  // Le fil : découvrir un Drop (= participer), réagir à un post.
+  $('feed').addEventListener('click', async e => {
+    const disc = e.target.closest('[data-discover]');
+    if (disc) {
+      disc.disabled = true;
+      try { await rpc('my_vorey_drop', { p_session: store.get('session') }); await loadCanal(); }
+      catch { toast(T[lang].errNetwork); disc.disabled = false; }
+      return;
+    }
+    const b = e.target.closest('[data-react]');
+    if (!b) return;
+    const num = Number(b.dataset.post), k = b.dataset.react;
+    const post = canal.posts.find(p => p.number === num);
+    try {
+      const r = await rpc('react_to_post', { p_session: store.get('session'), p_post_number: num, p_emoji: post.mine === k ? null : k });
+      if (r) { Object.assign(post, { reactions: r.reactions, mine: r.mine, views: r.views }); render(); }
+    } catch { toast(T[lang].errNetwork); }
+  });
+  $('unsubOpen').addEventListener('click', () => { location.href = location.pathname; });
+
   // ════════════════════════════════════════════════════════════════════
   // LE LOT (système existant, inchangé)
   // ════════════════════════════════════════════════════════════════════
@@ -1097,6 +1329,14 @@
   if (winToken) { show('win'); return; }
   render();
   (async () => {
+    // 0. « Ne plus recevoir les Drops » : on désinscrit, on confirme, rien d'autre.
+    if (unsubToken) {
+      history.replaceState(null, '', location.pathname);
+      try { await rpc('unsubscribe_drops', { p_token: unsubToken }); } catch {}
+      show('unsub');
+      return;
+    }
+
     // Ni le jeton de confirmation, ni l'ancien ?me= ne restent dans l'adresse.
     if (confirmToken || legacyMe) {
       const keep = new URLSearchParams(location.search);
