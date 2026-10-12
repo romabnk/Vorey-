@@ -293,6 +293,17 @@
   .sheet.first h2 { font-size: clamp(28px, 8vw, 34px); margin-bottom: 10px; }
   .sheet.first .ios-steps { margin: 18px 0 30px; gap: 16px; }
   .first-mark { display: block; width: 76px; height: 76px; margin: 0 auto 22px; }
+  /* La vidéo de présentation, en tête du premier écran. Muette au départ
+     (les navigateurs l'exigent) ; les sous-titres sont dans l'image. */
+  .intro-video { position: relative; margin: 0 0 22px; border-radius: 22px; padding: 1px; background: linear-gradient(135deg, rgba(167,139,250,.75), rgba(59,130,246,.5) 55%, rgba(245,241,232,.08));
+                 box-shadow: 0 22px 60px -18px rgba(167,139,250,.55); }
+  .intro-video video { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 21px; background: #000; cursor: pointer; }
+  .sound { position: absolute; right: 10px; top: 10px; display: inline-flex; align-items: center; gap: 7px; min-height: 36px; padding: 8px 13px;
+           border-radius: 999px; border: 1px solid rgba(255,255,255,.28); background: rgba(11,16,38,.55); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+           color: #fff; font: 600 12.5px/1 var(--body); cursor: pointer; }
+  .sound svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round; }
+  .sound:focus-visible { outline: 2px solid var(--violet); outline-offset: 3px; }
+  .sheet.first .intro-video + .langs { margin-bottom: 22px; }
   .langs { display: flex; justify-content: center; gap: 10px; margin: 0 0 30px; }
   .langs button { min-height: 44px; padding: 10px 18px; border-radius: 999px; border: 1px solid var(--line); background: rgba(245,241,232,.05);
                   color: var(--ivory-dim); font: 600 14px/1 var(--body); cursor: pointer; }
@@ -548,7 +559,10 @@
 <!-- Feuille : écran d'accueil (iPhone, ou navigateur sans installation automatique) -->
 <div class="sheet" id="homeSheet" hidden role="dialog" aria-modal="true" aria-labelledby="homeTitle">
   <div class="sheet-box"><div class="sheet-in">
-    <img class="first-mark" id="homeMark" src="vorey_mark_hd.png" alt="" width="76" height="76" hidden>
+    <div class="intro-video" id="homeVideo" hidden>
+      <video id="introVideo" muted playsinline loop preload="none" poster="victor-poster.jpg" aria-label="Vorey"></video>
+      <button type="button" class="sound" id="soundBtn"><svg viewBox="0 0 24 24"><path d="M11 5 6 9H3v6h3l5 4z"/><path id="soundWaves" d="M23 9l-6 6M17 9l6 6"/></svg><span id="soundLabel"></span></button>
+    </div>
     <div class="langs" id="homeLangs" role="group" aria-label="Language" hidden>
       <button type="button" data-lang="en">English</button><button type="button" data-lang="es">Español</button><button type="button" data-lang="fr">Français</button>
     </div>
@@ -624,7 +638,7 @@
       brought: n => n === 1 ? 'person brought in' : 'people brought in',
       bring: 'Bring someone in  +1', showQr: 'Show my QR',
       homeIntro: 'Do it now: you’ll then join right inside it, and sign in only once.',
-      installNow: 'Install Vorey', later2: 'Later', skipHome: 'Continue without adding it',
+      installNow: 'Install Vorey', later2: 'Later', soundOn: 'Sound on', soundOff: 'Mute', skipHome: 'Continue without adding it',
       homeStep3: 'Then open Vorey from your Home Screen.', codeHere: 'Type the code here, in Vorey.',
       keepTitle: 'Keep Victor close 🌊', keepText: 'Add Vorey to your Home Screen so this is always one tap away.',
       install: 'Add to Home Screen',
@@ -690,7 +704,7 @@
       brought: n => n === 1 ? 'persona invitada' : 'personas invitadas',
       bring: 'Trae a alguien  +1', showQr: 'Mostrar mi QR',
       homeIntro: 'Hazlo ahora: luego te unes directamente dentro, y solo te conectas una vez.',
-      installNow: 'Instalar Vorey', later2: 'Más tarde', skipHome: 'Continuar sin añadirla',
+      installNow: 'Instalar Vorey', later2: 'Más tarde', soundOn: 'Activar sonido', soundOff: 'Silenciar', skipHome: 'Continuar sin añadirla',
       homeStep3: 'Luego abre Vorey desde tu pantalla de inicio.', codeHere: 'Escribe el código aquí, en Vorey.',
       keepTitle: 'Ten a Victor cerca 🌊', keepText: 'Añade Vorey a tu pantalla de inicio y lo tendrás siempre a un toque.',
       install: 'Añadir a la pantalla de inicio',
@@ -756,7 +770,7 @@
       brought: n => n === 1 ? 'personne amenée' : 'personnes amenées',
       bring: 'Faire venir quelqu’un  +1', showQr: 'Montrer mon QR',
       homeIntro: 'Fais-le maintenant : tu t’inscriras ensuite directement dedans, et tu ne te connecteras qu’une fois.',
-      installNow: 'Installer Vorey', later2: 'Plus tard', skipHome: 'Continuer sans l’ajouter',
+      installNow: 'Installer Vorey', later2: 'Plus tard', soundOn: 'Activer le son', soundOff: 'Couper le son', skipHome: 'Continuer sans l’ajouter',
       homeStep3: 'Puis ouvre Vorey depuis ton écran d’accueil.', codeHere: 'Tape le code ici, dans Vorey.',
       keepTitle: 'Garde Victor près de toi 🌊', keepText: 'Ajoute Vorey à ton écran d’accueil : tout sera toujours à un geste.',
       install: 'Ajouter à l’écran d’accueil',
@@ -969,6 +983,7 @@
     $('homeStep2').innerHTML = isIOS ? t.iosStep2 : t.otherStep2;
     document.querySelectorAll('#homeLangs [data-lang]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.lang === lang)));
     if (homeFirst) $('homeClose').textContent = t.skipHome;
+    $('soundLabel').textContent = $('introVideo').muted ? t.soundOn : t.soundOff;
     ['join', 'back', 'code', 'me', 'win', 'unsub'].forEach(v => { $(v).hidden = view !== v; });
     if (view === 'me') renderMe(t);
     if (view === 'win') renderWin(t);
@@ -1325,7 +1340,8 @@
     homeFirst = first;
     $('homeSheet').classList.toggle('first', first);
     $('homeClose').className = first ? 'skip' : 'secondary';
-    $('homeMark').hidden = $('homeLangs').hidden = $('homeStep3Li').hidden = !first;
+    $('homeVideo').hidden = $('homeLangs').hidden = $('homeStep3Li').hidden = !first;
+    if (first) startIntroVideo();
     $('homeIntro').hidden = !first;
     $('inAppNote').hidden = !(isIOS && isInApp);
     $('iosSteps').hidden = !!installPrompt;
@@ -1341,7 +1357,25 @@
     try { await installPrompt.userChoice; } catch {}
     installPrompt = null; $('homeSheet').hidden = true; render();
   });
-  $('homeClose').addEventListener('click', () => { if (homeFirst) store.set('home_later', '1'); homeFirst = false; });
+  $('homeClose').addEventListener('click', () => { if (homeFirst) store.set('home_later', '1'); homeFirst = false; introVideo.pause(); });
+  // La vidéo : chargée seulement pour le premier écran ; muette en boucle,
+  // et « Activer le son » la reprend depuis le début, pour tout entendre.
+  const introVideo = $('introVideo');
+  const waves = { on: 'M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13', off: 'M23 9l-6 6M17 9l6 6' };
+  function startIntroVideo() {
+    if (!introVideo.src) introVideo.src = 'victor.mp4';
+    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) introVideo.play().catch(() => {});
+  }
+  function setSound(on) {
+    introVideo.muted = !on;
+    if (on) { introVideo.currentTime = 0; introVideo.play().catch(() => {}); }
+    $('soundWaves').setAttribute('d', on ? waves.on : waves.off);
+    $('soundLabel').textContent = on ? T[lang].soundOff : T[lang].soundOn;
+  }
+  $('soundBtn').addEventListener('click', e => { e.stopPropagation(); setSound(introVideo.muted); });
+  introVideo.addEventListener('click', () => {
+    if (introVideo.paused) introVideo.play().catch(() => {}); else if (introVideo.muted) setSound(true); else introVideo.pause();
+  });
   // Les bulles de langue du premier écran : le choix vaut pour toute la page.
   $('homeLangs').addEventListener('click', e => {
     const b = e.target.closest('[data-lang]');
