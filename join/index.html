@@ -18,7 +18,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://vorey.app/join/og.jpg">
 <!-- Écran d'accueil (installation) -->
-<link rel="manifest" href="manifest.webmanifest">
+<link rel="manifest" href="manifest.webmanifest" id="manifestLink">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
@@ -838,6 +838,26 @@
   const legacyMe = params.has('me');   // anciens e-mails : ?me=CODE n'ouvre plus rien
   const ref = (params.get('ref') || '').trim().toUpperCase() || null;
   const source = (params.get('src') || params.get('utm_source') || '').slice(0, 60) || null;
+  // Venu par le lien d'un ami : l'app de l'écran d'accueil doit s'ouvrir AVEC
+  // ce lien, sinon le parrainage est perdu (elle ne partage rien avec Safari).
+  // On donne donc à cette page sa propre fiche d'app, qui démarre sur ?ref=.
+  // Si le téléphone l'ignore, il garde l'adresse affichée, qui contient ?ref=.
+  if (ref && /^[A-Z0-9]{4,16}$/.test(ref)) {
+    try {
+      const base = new URL('./', location.href).href;
+      const m = {
+        id: '/join/', name: 'Vorey', short_name: 'Vorey', description: 'Your corner of Vorey, until the app opens.',
+        start_url: `${base}?ref=${ref}&source=homescreen`, scope: base, display: 'standalone', orientation: 'portrait',
+        background_color: '#0B1026', theme_color: '#0B1026',
+        icons: [
+          { src: base + 'icons/icon-192.png', sizes: '192x192', type: 'image/png' },
+          { src: base + 'icons/icon-512.png', sizes: '512x512', type: 'image/png' },
+          { src: base + 'icons/icon-maskable-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
+        ],
+      };
+      $('manifestLink').href = URL.createObjectURL(new Blob([JSON.stringify(m)], { type: 'application/manifest+json' }));
+    } catch {}
+  }
   const shareBase = (cfg && cfg.siteUrl) || (location.origin + location.pathname);
   const shareLink = () => `${shareBase}?ref=${card.referral_code}`;   // PUBLIC : jamais la session
 
@@ -1396,11 +1416,10 @@
     const b = e.target.closest('[data-lang]');
     if (b) { lang = b.dataset.lang; store.set('lang', lang); render(); }
   });
-  // Dès l'arrivée, sur téléphone, hors de l'app de l'écran d'accueil, et
-  // jamais pour quelqu'un venu par le lien d'un ami : l'app de l'écran
-  // d'accueil s'ouvre sans ce lien, et le parrainage serait perdu.
+  // Dès l'arrivée, sur téléphone, hors de l'app de l'écran d'accueil — y
+  // compris par le lien d'un ami : sa fiche d'app garde le ?ref= (plus haut).
   function maybeOfferHomeFirst() {
-    if (isStandalone() || ref || store.get('home_later') || !(isIOS || isAndroid)) return;
+    if (isStandalone() || store.get('home_later') || !(isIOS || isAndroid)) return;
     if (view === 'join' || view === 'back') openHomeSheet(true);
   }
 
