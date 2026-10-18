@@ -1,74 +1,42 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
-  <!--
-    If you are serving your web app in a path other than the root, change the
-    href value below to reflect the base path you are serving from.
-
-    The path provided below has to start and end with a slash "/" in order for
-    it to work correctly.
-
-    For more details:
-    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
-
-    This is a placeholder for base href that will be replaced by the value of
-    the `--base-href` argument provided to `flutter build`.
-  -->
-  <base href="/draft/">
-
-  <meta charset="UTF-8">
-  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="A new Flutter project.">
-
-  <!-- iOS meta tags & icons -->
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="mon_app">
-  <link rel="apple-touch-icon" href="icons/Icon-192.png">
-
-  <!-- Favicon -->
-<link rel="icon" type="image/svg+xml" href="favicon.svg"/>
-
-  <title>Vorey · Marbella</title>
-  <link rel="manifest" href="manifest.json">
-
-  <!-- Le tout premier frame natif (avant que Flutter ne peigne) doit déjà
-       afficher le fond officiel de Vorey — sinon flash blanc pendant l'init
-       (Supabase + locale) qui précède runApp. Couleur = splash (_bg night). -->
-  <meta name="theme-color" content="#0A0E1A">
-  <style>
-    html, body {
-      margin: 0;
-      height: 100%;
-      background-color: #0A0E1A;
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vorey</title>
+<meta name="theme-color" content="#0A0E1A">
+<style>
+  html,body{margin:0;height:100%;background:#0A0E1A;color:#F5F1E8;
+    font:400 15px/1.5 system-ui,-apple-system,sans-serif;
+    display:flex;align-items:center;justify-content:center;text-align:center}
+  a{color:#A78BFA}
+</style>
+<script>
+  // ON NETTOIE AVANT DE PARTIR. Le service worker de l'ancienne version
+  // est désinstallé et ses caches vidés : sans ça, il continuerait à
+  // servir une application figée à qui revient par ce lien.
+  (function () {
+    var apres = function () { location.replace('/app/'); };
+    var fait = false;
+    var partir = function () { if (!fait) { fait = true; apres(); } };
+    try {
+      var taches = [];
+      if ('serviceWorker' in navigator) {
+        taches.push(navigator.serviceWorker.getRegistrations().then(function (rs) {
+          return Promise.all(rs.map(function (r) { return r.unregister(); }));
+        }));
+      }
+      if (window.caches && caches.keys) {
+        taches.push(caches.keys().then(function (ks) {
+          return Promise.all(ks.map(function (k) { return caches.delete(k); }));
+        }));
+      }
+      Promise.all(taches).then(partir).catch(partir);
+    } catch (e) { partir(); }
+    // Et on part de toute façon, même si le ménage traîne.
+    setTimeout(partir, 1500);
+  })();
+</script>
 </head>
-<body>
-  <!--
-    You can customize the "flutter_bootstrap.js" script.
-    This is useful to provide a custom configuration to the Flutter loader
-    or to give the user feedback during the initialization process.
-
-    For more details:
-    * https://docs.flutter.dev/platform-integration/web/initialization
-  -->
-  <!-- Preview Vorey : neutralise tout service worker résiduel qui resservirait
-       une ancienne version en cache. À chaque chargement on désenregistre les
-       SW et on vide les caches. Aucun SW n'est réinstallé (build construit avec
-       --pwa-strategy=none). Résultat : toujours la version à jour. -->
-  <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.getRegistrations().then(function (regs) {
-        regs.forEach(function (r) { r.unregister(); });
-      }).catch(function () {});
-    }
-    if (window.caches && caches.keys) {
-      caches.keys().then(function (keys) {
-        keys.forEach(function (k) { caches.delete(k); });
-      }).catch(function () {});
-    }
-  </script>
-  <script src="flutter_bootstrap.js" async></script>
-</body>
+<body><p>Vorey · <a href="/app/">ouvrir l'application</a></p></body>
 </html>
