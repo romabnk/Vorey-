@@ -22,9 +22,13 @@
 
   <!-- iOS meta tags & icons -->
   <meta name="mobile-web-app-capable" content="yes">
+  <!-- SANS CELUI-CI, iOS ouvre le raccourci DANS Safari, avec sa barre
+       d'adresse : ça n'a plus l'air d'une application. Les iPhone plus
+       anciens ne lisent que cette balise-là. -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="mon_app">
-  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+  <meta name="apple-mobile-web-app-title" content="Vorey">
+  <link rel="apple-touch-icon" href="icons/Icon-512.png">
 
   <!-- Favicon -->
 <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
@@ -69,6 +73,6 @@
       }).catch(function () {});
     }
   </script>
-  <script src="flutter_bootstrap.js?v=20261018195938" async></script>
+  <script src="flutter_bootstrap.js?v=20261018200543" async></script>
 </body>
 </html>
