@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!--
+    If you are serving your web app in a path other than the root, change the
+    href value below to reflect the base path you are serving from.
+
+    The path provided below has to start and end with a slash "/" in order for
+    it to work correctly.
+
+    For more details:
+    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
+
+    This is a placeholder for base href that will be replaced by the value of
+    the `--base-href` argument provided to `flutter build`.
+  -->
+  <base href="/draft/">
+
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="description" content="A new Flutter project.">
+
+  <!-- iOS meta tags & icons -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="mon_app">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+
+  <!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+
+  <title>Vorey · Marbella</title>
+  <link rel="manifest" href="manifest.json">
+
+  <!-- Le tout premier frame natif (avant que Flutter ne peigne) doit déjà
+       afficher le fond officiel de Vorey — sinon flash blanc pendant l'init
+       (Supabase + locale) qui précède runApp. Couleur = splash (_bg night). -->
+  <meta name="theme-color" content="#0A0E1A">
+  <style>
+    html, body {
+      margin: 0;
+      height: 100%;
+      background-color: #0A0E1A;
+    }
+  </style>
+</head>
+<body>
+  <!--
+    You can customize the "flutter_bootstrap.js" script.
+    This is useful to provide a custom configuration to the Flutter loader
+    or to give the user feedback during the initialization process.
+
+    For more details:
+    * https://docs.flutter.dev/platform-integration/web/initialization
+  -->
+  <!-- Preview Vorey : neutralise tout service worker résiduel qui resservirait
+       une ancienne version en cache. À chaque chargement on désenregistre les
+       SW et on vide les caches. Aucun SW n'est réinstallé (build construit avec
+       --pwa-strategy=none). Résultat : toujours la version à jour. -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then(function (regs) {
+        regs.forEach(function (r) { r.unregister(); });
+      }).catch(function () {});
+    }
+    if (window.caches && caches.keys) {
+      caches.keys().then(function (keys) {
+        keys.forEach(function (k) { caches.delete(k); });
+      }).catch(function () {});
+    }
+  </script>
+  <script src="flutter_bootstrap.js" async></script>
+</body>
+</html>
