@@ -46,6 +46,77 @@
       height: 100%;
       background-color: #0A0E1A;
     }
+
+    /* ══════════════════════════════════════════════════════════════════
+       L'ÉCRAN D'ATTENTE, EN HTML PUR.
+
+       POURQUOI IL EXISTE. Le premier chargement télécharge 6,2 Mo de
+       code, 6,8 Mo de moteur graphique et la vidéo d'intro AVANT de
+       pouvoir peindre quoi que ce soit. Mesuré en fibre : quatorze
+       secondes d'écran noir. Sur un téléphone en 4G, davantage. Un écran
+       noir de quatorze secondes, ce n'est pas une app qui charge, c'est
+       une app cassée.
+
+       Celui-ci s'affiche en quelques millisecondes parce qu'il ne
+       télécharge RIEN : pas d'image, pas de police, pas de script. Il
+       dit juste que quelque chose arrive, et il s'efface tout seul dès
+       que Flutter prend la main.
+       ══════════════════════════════════════════════════════════════════ */
+    #vorey-attente {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 26px;
+      background: radial-gradient(
+          120% 80% at 50% 8%, #171034 0%, rgba(10, 14, 26, 0) 70%),
+        #0A0E1A;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        sans-serif;
+      transition: opacity 420ms ease-out;
+    }
+    #vorey-attente.parti { opacity: 0; pointer-events: none; }
+    #vorey-attente .nom {
+      color: #F5F1E8;
+      font-size: 30px;
+      font-weight: 600;
+      letter-spacing: 6px;
+      text-transform: uppercase;
+    }
+    #vorey-attente .lieu {
+      color: rgba(245, 241, 232, 0.42);
+      font-size: 12px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-top: -16px;
+    }
+    #vorey-attente .piste {
+      width: 132px;
+      height: 2px;
+      border-radius: 2px;
+      background: rgba(245, 241, 232, 0.12);
+      overflow: hidden;
+    }
+    #vorey-attente .piste i {
+      display: block;
+      width: 42%;
+      height: 100%;
+      border-radius: 2px;
+      background: linear-gradient(90deg, #A78BFA, #3B82F6);
+      animation: vorey-va-et-vient 1400ms ease-in-out infinite;
+    }
+    @keyframes vorey-va-et-vient {
+      0%   { transform: translateX(-110%); }
+      100% { transform: translateX(260%); }
+    }
+    /* Mouvement réduit : la barre ne court plus, elle reste posée. */
+    @media (prefers-reduced-motion: reduce) {
+      #vorey-attente .piste i { animation: none; width: 100%; opacity: 0.5; }
+      #vorey-attente { transition: none; }
+    }
   </style>
 </head>
 <body>
@@ -73,6 +144,33 @@
       }).catch(function () {});
     }
   </script>
-  <script src="flutter_bootstrap.js?v=20261019014821" async></script>
+  <div id="vorey-attente" role="status" aria-live="polite">
+    <div class="nom">Vorey</div>
+    <div class="lieu">Marbella</div>
+    <div class="piste"><i></i></div>
+  </div>
+  <script>
+    // Il s'efface dès que Flutter a posé sa vue, et pas une image avant.
+    (function () {
+      var voile = document.getElementById('vorey-attente');
+      if (!voile) return;
+      function partir() {
+        if (!voile || voile.classList.contains('parti')) return;
+        voile.classList.add('parti');
+        setTimeout(function () {
+          if (voile && voile.parentNode) voile.parentNode.removeChild(voile);
+        }, 500);
+      }
+      if (document.querySelector('flutter-view')) { partir(); return; }
+      var oeil = new MutationObserver(function () {
+        if (document.querySelector('flutter-view')) { oeil.disconnect(); partir(); }
+      });
+      oeil.observe(document.body, { childList: true, subtree: true });
+      // FILET DE SÉCURITÉ : si Flutter ne démarre jamais, le voile ne
+      // doit pas rester là à tourner pour l'éternité.
+      setTimeout(function () { oeil.disconnect(); partir(); }, 60000);
+    })();
+  </script>
+  <script src="flutter_bootstrap.js?v=20261019164806" async></script>
 </body>
 </html>
