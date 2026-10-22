@@ -229,14 +229,38 @@
   .post { margin: 0 0 16px; border-radius: 18px; overflow: hidden; background: var(--field); border: 1px solid var(--line); }
   .post-head { display: flex; align-items: center; gap: 8px; padding: 14px 16px 0; font-size: 13px; color: var(--ivory-dim); }
   .post-head b { color: var(--ivory); font-weight: 600; }
+  /* La signature de Victor, sous chaque post : une plume, pas un tampon. */
+  .post-sign { display: flex; align-items: center; gap: 10px; margin: 2px 16px 16px; }
+  .post-sign::before { content: ""; width: 26px; height: 1px; background: var(--brand-grad); opacity: .8; }
+  .post-sign span { font: italic 400 19px/1 var(--display); letter-spacing: .01em;
+                    background: var(--brand-grad); -webkit-background-clip: text; background-clip: text; color: transparent; padding: 2px 2px 4px 0; }
+  .post-sign img { width: 16px; height: 16px; opacity: .9; }
   .post-body { margin: 8px 16px 12px; font-size: 15px; line-height: 1.55; white-space: pre-line; }
   .post-photo { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; background: #141A3A; }
-  .post-foot { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 10px 12px 12px 16px; }
+  /* Plusieurs photos : on les fait glisser, comme sur Instagram. */
+  .slides { position: relative; }
+  .slides-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+  .slides-track::-webkit-scrollbar { display: none; }
+  .slides-track img { flex: 0 0 100%; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; scroll-snap-align: start; background: #141A3A; }
+  .slides-dots { position: absolute; left: 0; right: 0; bottom: 12px; display: flex; justify-content: center; gap: 6px; pointer-events: none; }
+  .slides-dots i { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,.5); transition: width .2s, background .2s; }
+  .slides-dots i.on { width: 18px; border-radius: 3px; background: #fff; }
+  .slides-count { position: absolute; top: 12px; right: 12px; padding: 5px 9px; border-radius: 999px; background: rgba(11,16,38,.55);
+                  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); color: #fff; font: 600 11.5px/1 var(--body); }
+  @media (prefers-reduced-motion: reduce) { .slides-dots i { transition: none; } }
+  /* Les réactions : une barre de 4, sous un filet, comme un vrai fil social. */
+  .post-foot { padding: 12px 14px 14px; border-top: 1px solid rgba(245,241,232,.08); }
   .views { font-size: 12.5px; color: var(--ivory-dim); white-space: nowrap; }
-  .reacts { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
-  .reacts button { display: inline-flex; align-items: center; gap: 4px; padding: 6px 9px; border-radius: 999px; cursor: pointer;
-                   border: 1px solid var(--line); background: rgba(245,241,232,.05); color: var(--ivory); font: 600 12.5px/1 var(--body); }
-  .reacts button[aria-pressed="true"] { border-color: var(--violet); background: rgba(167,139,250,.22); }
+  .reacts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+  .reacts button { display: flex; align-items: center; justify-content: center; gap: 6px; min-height: 42px; border-radius: 14px; cursor: pointer;
+                   border: 1px solid rgba(245,241,232,.1); background: rgba(245,241,232,.04); color: var(--ivory);
+                   font: 600 13px/1 var(--body); transition: transform .15s, background .2s, border-color .2s; }
+  .reacts button .e { font-size: 19px; line-height: 1; }
+  .reacts button:active { transform: scale(.94); }
+  .reacts button[aria-pressed="true"] { border-color: transparent; color: #fff;
+    background: linear-gradient(#1A1F45, #1A1F45) padding-box, var(--brand-grad) border-box; border: 1px solid transparent; }
+  .reacts button:focus-visible { outline: 2px solid var(--violet); outline-offset: 2px; }
+  @media (prefers-reduced-motion: reduce) { .reacts button { transition: none; } }
   .teaser { padding: 22px 18px 20px; text-align: center;
             background: radial-gradient(80% 90% at 50% 0%, rgba(167,139,250,.32), transparent 70%); }
   .teaser h3 { margin: 6px 0 6px; font: 800 26px/1.15 "Bricolage Grotesque", var(--body); }
@@ -252,10 +276,18 @@
   .drop-place { margin: 0; font: 800 28px/1.1 "Bricolage Grotesque", var(--body); letter-spacing: -.01em; }
   .drop-area { margin: 3px 0 12px; font-size: 13px; color: var(--ivory-dim); }
   .drop-note { margin: 0 0 14px; font-size: 15px; line-height: 1.55; color: rgba(245,241,232,.9); }
-  .drop-prize { display: flex; align-items: baseline; gap: 10px; padding: 12px 14px; border-radius: 14px;
-                background: rgba(167,139,250,.12); border: 1px solid rgba(167,139,250,.35); margin: 0 0 12px; }
-  .drop-prize span { font: 600 11px/1 var(--body); letter-spacing: .18em; text-transform: uppercase; color: var(--violet); flex: none; }
-  .drop-prize b { font: 600 16px/1.3 var(--body); }
+  /* Le lot : un ticket, avec ses deux encoches et sa ligne de découpe. */
+  .drop-prize { display: grid; grid-template-columns: 58px 1fr; align-items: stretch; margin: 0 0 14px; border-radius: 16px;
+                background: linear-gradient(110deg, rgba(167,139,250,.24), rgba(59,130,246,.14));
+                -webkit-mask: radial-gradient(circle 9px at 58px 0, transparent 98%, #000) top / 100% 51% no-repeat,
+                              radial-gradient(circle 9px at 58px 100%, transparent 98%, #000) bottom / 100% 51% no-repeat;
+                        mask: radial-gradient(circle 9px at 58px 0, transparent 98%, #000) top / 100% 51% no-repeat,
+                              radial-gradient(circle 9px at 58px 100%, transparent 98%, #000) bottom / 100% 51% no-repeat; }
+  .drop-prize .pt-icon { display: grid; place-content: center; border-right: 1.5px dashed rgba(245,241,232,.28); }
+  .drop-prize .pt-icon svg { width: 24px; height: 24px; stroke: #fff; fill: none; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+  .drop-prize .pt-text { padding: 14px 16px; }
+  .drop-prize span { display: block; margin: 0 0 5px; font: 600 10.5px/1 var(--body); letter-spacing: .2em; text-transform: uppercase; color: var(--violet); }
+  .drop-prize b { display: block; font: 400 20px/1.2 var(--display); }
   .drop-foot { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; font-size: 13px; }
   .drop-status { color: #9EE2B8; font-weight: 600; }
   .drop-foot a { color: var(--ivory-dim); }
@@ -366,6 +398,7 @@
   <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m4 7 8 6 8-6"/></symbol>
   <symbol id="i-ios-share" viewBox="0 0 24 24"><path d="M12 3v12M8 7l4-4 4 4"/><path d="M6 11H5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-8a1 1 0 0 0-1-1h-1"/></symbol>
   <symbol id="i-plus-box" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="4"/><path d="M12 8v8M8 12h8"/></symbol>
+  <symbol id="i-gift" viewBox="0 0 24 24"><rect x="3.5" y="8.5" width="17" height="4" rx="1"/><path d="M5 12.5V20a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-7.5M12 8.5V21M12 8.5S10.5 3.5 8 4.2C5.8 4.8 7 8.5 12 8.5zM12 8.5s1.5-5 4-4.3c2.2.6 1 4.3-4 4.3z"/></symbol>
   <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></symbol>
 </svg>
 
@@ -647,12 +680,12 @@
       opensIn: n => n > 1 ? `Vorey opens in ${n} days` : n === 1 ? 'Vorey opens tomorrow' : 'Vorey opens today',
       shareTitle: 'Bring someone in', shareSub: 'Each friend who confirms their email = +1 chance.',
       shareSms: 'Messages', shareCopy: 'Copy link', shareMore: 'More options',
-      dropLabel: n => `Vorey Drop · Nº ${n}`, toWin: 'To win', seeMap: 'See on the map →',
+      dropLabel: n => `Vorey Drop · Nº ${n}`, toWin: 'To win', prizeWas: 'The prize', seeMap: 'See on the map →',
       entered: d => d > 1 ? `✓ You’re in · Draw in ${d} days` : d === 1 ? '✓ You’re in · Draw tomorrow' : '✓ You’re in · Draw today',
       optTitle: 'Never miss a Drop', optText: 'Every two weeks, a place chosen by Victor, and something to win.',
       optYes: 'Yes, email me the Drops', optDone: 'Noted. See you at the next Drop.',
       unsubTitle: 'Done.', unsubText: 'You won’t get Drops by email anymore. They stay in your Vorey.', openMyVorey: 'Open my Vorey',
-      tabCard: 'My card', canalSub: 'The Vorey team · members only', team: 'Team Vorey',
+      tabCard: 'My card', canalSub: 'From Victor · members only', team: 'Victor', sign: 'Victor',
       news: n => n === 1 ? 'Something new in Canal Vorey →' : `${n} new posts in Canal Vorey →`,
       emptyCanal: 'Nothing yet. The team posts soon.',
       teaserTitle: 'A Drop is waiting ✨', teaserText: 'One place, chosen for you. And something to win.', discover: 'Discover',
@@ -714,12 +747,12 @@
       opensIn: n => n > 1 ? `Vorey abre en ${n} días` : n === 1 ? 'Vorey abre mañana' : 'Vorey abre hoy',
       shareTitle: 'Trae a alguien', shareSub: 'Cada amigo que confirme su email = +1 oportunidad.',
       shareSms: 'Mensajes', shareCopy: 'Copiar enlace', shareMore: 'Más opciones',
-      dropLabel: n => `Drop Vorey · Nº ${n}`, toWin: 'Para ganar', seeMap: 'Ver en el mapa →',
+      dropLabel: n => `Drop Vorey · Nº ${n}`, toWin: 'Para ganar', prizeWas: 'El premio', seeMap: 'Ver en el mapa →',
       entered: d => d > 1 ? `✓ Participas · Sorteo en ${d} días` : d === 1 ? '✓ Participas · Sorteo mañana' : '✓ Participas · Sorteo hoy',
       optTitle: 'No te pierdas ningún Drop', optText: 'Cada dos semanas, un sitio elegido por Victor, y algo que ganar.',
       optYes: 'Sí, quiero recibirlos', optDone: 'Hecho. Nos vemos en el próximo Drop.',
       unsubTitle: 'Hecho.', unsubText: 'Ya no recibirás los Drops por email. Siguen en tu Vorey.', openMyVorey: 'Abrir mi Vorey',
-      tabCard: 'Mi tarjeta', canalSub: 'El equipo Vorey · solo miembros', team: 'Team Vorey',
+      tabCard: 'Mi tarjeta', canalSub: 'De Victor · solo miembros', team: 'Victor', sign: 'Victor',
       news: n => n === 1 ? 'Novedad en el Canal Vorey →' : `${n} novedades en el Canal Vorey →`,
       emptyCanal: 'Nada todavía. El equipo publica pronto.',
       teaserTitle: 'Un Drop te espera ✨', teaserText: 'Un sitio elegido para ti. Y algo que ganar.', discover: 'Descubrir',
@@ -781,12 +814,12 @@
       opensIn: n => n > 1 ? `Vorey ouvre dans ${n} jours` : n === 1 ? 'Vorey ouvre demain' : 'Vorey ouvre aujourd’hui',
       shareTitle: 'Faire venir quelqu’un', shareSub: 'Chaque ami qui confirme son e-mail = +1 chance.',
       shareSms: 'Messages', shareCopy: 'Copier le lien', shareMore: 'Plus d’options',
-      dropLabel: n => `Drop Vorey · Nº ${n}`, toWin: 'À gagner', seeMap: 'Voir sur la carte →',
+      dropLabel: n => `Drop Vorey · Nº ${n}`, toWin: 'À gagner', prizeWas: 'Le lot', seeMap: 'Voir sur la carte →',
       entered: d => d > 1 ? `✓ Tu participes · Tirage dans ${d} jours` : d === 1 ? '✓ Tu participes · Tirage demain' : '✓ Tu participes · Tirage aujourd’hui',
       optTitle: 'Ne rate aucun Drop', optText: 'Toutes les deux semaines, un lieu choisi par Victor, et quelque chose à gagner.',
       optYes: 'Oui, je veux les recevoir', optDone: 'C’est noté. À très vite pour le prochain Drop.',
       unsubTitle: 'C’est noté.', unsubText: 'Tu ne recevras plus les Drops par e-mail. Ils restent dans ton Vorey.', openMyVorey: 'Ouvrir mon Vorey',
-      tabCard: 'Ma carte', canalSub: 'La team Vorey · réservé aux membres', team: 'Team Vorey',
+      tabCard: 'Ma carte', canalSub: 'De la part de Victor · réservé aux membres', team: 'Victor', sign: 'Victor',
       news: n => n === 1 ? 'Du nouveau dans le Canal Vorey →' : `${n} nouveautés dans le Canal Vorey →`,
       emptyCanal: 'Rien pour l’instant. La team publie bientôt.',
       teaserTitle: 'Un Drop t’attend ✨', teaserText: 'Un lieu choisi pour toi. Et quelque chose à gagner.', discover: 'Découvrir',
@@ -932,17 +965,17 @@
         case 'my_vorey_canal_unseen': return resolve(args.p_session === 'DEMOSESSION' ? (DEMO_CANAL.revealed ? 0 : 2) : null);
         case 'my_vorey_canal': if (params.has('fini') && args.p_session === 'DEMOSESSION') return resolve({ emails: true, posts: [
           { number: 3, kind: 'post', published_at: new Date(Date.now() - 20 * 60000).toISOString(), views: 31, mine: null,
-            reactions: { heart: 12, fire: 9, love: 14, hands: 3 }, photo_url: 'drops/ff-coffee-fraises.jpg',
-            body: { fr: 'Premier spot de la saison : F&F Coffee 🍓\n\nDes fraises noyées dans le chocolat, des tablettes à la pistache, une limonade à la menthe. Le genre d’endroit où tu emmènes quelqu’un qui te plaît.\n\nPour ce premier Drop, c’est Samuel qui y va de notre part : 15 amis venus sur Vorey grâce à son lien. Prochain Drop dans deux semaines. Chaque ami que tu fais venir = +1 chance.',
-                    en: 'First spot of the season: F&F Coffee 🍓\n\nStrawberries drowned in chocolate, pistachio bars, mint lemonade. The kind of place you take someone you like.\n\nFor this first Drop, Samuel goes on us: 15 friends brought to Vorey, all from one link. Next Drop in two weeks. Every friend you bring = +1 chance.',
-                    es: 'Primer sitio de la temporada: F&F Coffee 🍓\n\nFresas bañadas en chocolate, tabletas de pistacho, limonada con menta. El tipo de sitio al que llevas a alguien que te gusta.\n\nEn este primer Drop, Samuel va invitado por nosotros: 15 amigos traídos a Vorey con su enlace. Próximo Drop en dos semanas. Cada amigo que traes = +1 oportunidad.' } },
+            reactions: {}, photo_url: null, photos: ['drops/ff-coffee-fraises.jpg', 'drops/ff-coffee-limonade.jpg'],
+            body: { fr: 'Merci. À vous tous qui avez rejoint ma liste, avant même que j’ouvre. Et merci surtout à ceux qui l’ont partagée : c’est grâce à vous qu’elle grandit.\n\nLe tout premier Drop est pour Samuel 🥂 Des fraises noyées dans le chocolat chez F&F Coffee : ce genre de douceur, ça se partage.\n\nUn ami qui te rejoint, c’est un ticket de plus dans le chapeau. On se retrouve dans deux semaines.',
+                    en: 'Thank you. To all of you who joined my list before I’ve even opened. And thank you above all to everyone who shared it: you’re the reason it keeps growing.\n\nThe very first Drop goes to Samuel 🥂 Strawberries drowned in chocolate at F&F Coffee: treats like these are for sharing.\n\nEvery friend who joins you is one more ticket in the hat. See you in two weeks.',
+                    es: 'Gracias. A todos los que os habéis unido a mi lista antes incluso de abrir. Y gracias sobre todo a quienes la habéis compartido: gracias a vosotros no para de crecer.\n\nEl primer Drop es para Samuel 🥂 Fresas bañadas en chocolate en F&F Coffee: estos caprichos se comparten.\n\nCada amigo que se une es una papeleta más en el sombrero. Nos vemos en dos semanas.' } },
           { number: 2, kind: 'drop', published_at: new Date(Date.now() - 26 * 3600000).toISOString(), views: 57, mine: null,
-            reactions: { heart: 18, fire: 22, love: 6, hands: 3 }, body: {}, photo_url: null,
+            reactions: {}, body: {}, photo_url: null,
             drop: { number: 1, open: false, ends_at: new Date(Date.now() - 60000).toISOString(), entered: false,
                     reveal: { place_name: 'F&F Coffee', place_area: 'Nueva Andalucía', maps_url: 'https://maps.google.com/?q=F%26F+Coffee+Nueva+Andalucia+Marbella', photo_url: 'drops/ff-coffee-table.jpg',
-                      note: { fr: 'Des fraises noyées dans le chocolat, une tablette pistache qui n’arrive jamais jusqu’à la maison, et une limonade à la menthe pour faire passer le tout. C’est là que j’emmènerais quelqu’un qui me plaît.',
-                              en: 'Strawberries drowned in chocolate, a pistachio bar that never makes it home, and a mint lemonade to wash it all down. It’s where I’d take someone I like.',
-                              es: 'Fresas bañadas en chocolate, una tableta de pistacho que nunca llega a casa, y una limonada con menta para acompañar. Es donde llevaría a alguien que me gusta.' },
+                      note: { fr: 'Des fraises noyées dans le chocolat, une tablette pistache, une limonade à la menthe. Prends-en pour deux : ce genre de douceur, ça se partage avec quelqu’un qui compte.',
+                              en: 'Strawberries drowned in chocolate, a pistachio bar, a mint lemonade. Get enough for two: treats like these are for sharing with someone who matters.',
+                              es: 'Fresas bañadas en chocolate, una tableta de pistacho, una limonada con menta. Pide para dos: estos caprichos se comparten con alguien que importa.' },
                       prize: { fr: 'Ta pause sucrée, offerte', en: 'Your sweet break, on us', es: 'Tu pausa dulce, invitamos nosotros' } } } } ] });
         case 'my_vorey_canal': return resolve(args.p_session !== 'DEMOSESSION' ? null : { emails: !params.has('optin'), posts: [
           { number: 2, kind: 'drop', published_at: new Date(Date.now() - 3 * 3600000).toISOString(), views: 214, mine: DEMO_CANAL.mine2 || null,
@@ -960,7 +993,7 @@
                     en: 'Evening scouting in Puerto Banús. The next Drop lands tomorrow… 👀',
                     es: 'Explorando Puerto Banús esta noche. El próximo Drop llega mañana… 👀' } } ] });
         case 'react_to_post': {
-          DEMO_CANAL.mine2 = args.p_emoji; const base = { heart: 41, fire: 87, love: 12, hands: 6 };
+          DEMO_CANAL.mine2 = args.p_emoji; const base = params.has('fini') ? { heart: 0, fire: 0, love: 0, hands: 0 } : { heart: 41, fire: 87, love: 12, hands: 6 };
           if (args.p_emoji) base[args.p_emoji]++;
           DEMO_CANAL.r2 = base;
           return resolve({ reactions: base, mine: args.p_emoji, views: 214 });
@@ -1127,12 +1160,20 @@
   function postHTML(p, t) {
     const mins = Math.max(0, Math.round((Date.now() - new Date(p.published_at)) / 60000));
     const head = `<div class="post-head"><b>${esc(t.team)}</b><span>· ${esc(t.ago(mins))}</span></div>`;
-    const foot = `<div class="post-foot"><span class="views">${esc(t.views(p.views))}</span><div class="reacts">`
-      + REACTS.map(([k, e]) => `<button type="button" data-post="${p.number}" data-react="${k}" aria-pressed="${p.mine === k}">${e} ${p.reactions[k] || ''}</button>`).join('')
+    // Pas de compteur de vues : seulement les réactions (décision de Cécylia).
+    const foot = `<div class="post-foot"><div class="reacts">`
+      + REACTS.map(([k, e]) => `<button type="button" data-post="${p.number}" data-react="${k}" aria-pressed="${p.mine === k}" aria-label="${e} ${p.reactions[k] || 0}"><span class="e">${e}</span>${p.reactions[k] ? `<span>${p.reactions[k]}</span>` : ''}</button>`).join('')
       + `</div></div>`;
     if (p.kind !== 'drop') {
-      return `<article class="post">${head}${p.body && pick(p.body) ? `<p class="post-body">${esc(pick(p.body))}</p>` : ''}`
-        + `${p.photo_url ? `<img class="post-photo" src="${esc(p.photo_url)}" alt="" loading="lazy">` : ''}${foot}</article>`;
+      const sign = `<p class="post-sign"><span>${esc(t.sign)}</span><img src="vorey_mark.png" alt=""></p>`;
+      const photos = (p.photos && p.photos.length) ? p.photos : (p.photo_url ? [p.photo_url] : []);
+      const media = photos.length > 1
+        ? `<div class="slides"><div class="slides-track">${photos.map(u => `<img src="${esc(u)}" alt="" loading="lazy">`).join('')}</div>`
+          + `<span class="slides-count">1/${photos.length}</span>`
+          + `<div class="slides-dots">${photos.map((_, i) => `<i class="${i ? '' : 'on'}"></i>`).join('')}</div></div>`
+        : photos.length ? `<img class="post-photo" src="${esc(photos[0])}" alt="" loading="lazy">` : '';
+      return `<article class="post">${head}${p.body && pick(p.body) ? `<p class="post-body">${esc(pick(p.body))}</p>${sign}` : ''}`
+        + `${media}${foot}</article>`;
     }
     const d = p.drop, r = d.reveal;
     let inner;
@@ -1147,7 +1188,8 @@
         + `<div class="drop-body"><p class="drop-label">${esc(t.dropLabel(d.number))}</p>`
         + `<h2 class="drop-place">${esc(r.place_name)}</h2>${r.place_area ? `<p class="drop-area">${esc(r.place_area)}</p>` : ''}`
         + `<p class="drop-note">${esc(pick(r.note))}</p>`
-        + `<div class="drop-prize"><span>${esc(t.toWin)}</span><b>${esc(pick(r.prize))}</b></div>`
+        + `<div class="drop-prize"><div class="pt-icon"><svg><use href="#i-gift"/></svg></div>`
+        + `<div class="pt-text"><span>${esc(d.open ? t.toWin : t.prizeWas)}</span><b>${esc(pick(r.prize))}</b></div></div>`
         + `<div class="drop-foot">${status ? `<span class="drop-status">${esc(status)}</span>` : ''}`
         + `${r.maps_url ? `<a href="${esc(r.maps_url)}" target="_blank" rel="noopener">${esc(t.seeMap)}</a>` : ''}</div></div>`;
     }
@@ -1520,6 +1562,14 @@
       if (r) { Object.assign(post, { reactions: r.reactions, mine: r.mine, views: r.views }); render(); }
     } catch { toast(T[lang].errNetwork); }
   });
+  // Les photos qui glissent : la pastille et le compteur suivent.
+  $('feed').addEventListener('scroll', e => {
+    const tr = e.target;
+    if (!tr.classList || !tr.classList.contains('slides-track')) return;
+    const i = Math.round(tr.scrollLeft / tr.clientWidth), box = tr.parentNode;
+    box.querySelectorAll('.slides-dots i').forEach((d, k) => d.classList.toggle('on', k === i));
+    box.querySelector('.slides-count').textContent = `${i + 1}/${tr.children.length}`;
+  }, true);
   $('unsubOpen').addEventListener('click', () => { location.href = location.pathname; });
 
   // ════════════════════════════════════════════════════════════════════
