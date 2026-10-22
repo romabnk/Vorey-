@@ -314,7 +314,16 @@ navigator.geolocation?.getCurrentPosition(
   p => { position = [p.coords.latitude, p.coords.longitude];
          etat.textContent = ""; },
   () => {}, {timeout:8000, maximumAge:600000});
-envoyer("", {ouverture:true, cache:true});
+/* LE BACKEND REFUSE UN MESSAGE VIDE, et il a raison : une requête sans
+   message est une erreur partout ailleurs. L'ouverture envoie donc le
+   résumé des réglages, comme le fait l'app, et le prompt sait que ce
+   n'est pas une phrase tapée par quelqu'un. */
+function resumeDesReglages(){
+  const v = Object.values(choisi).filter(Boolean);
+  return v.length ? "Voilà ma soirée : " + v.join(", ")
+                  : "(elle vient d'ouvrir la conversation)";
+}
+envoyer(resumeDesReglages(), {ouverture:true, cache:true});
 </script>
 </body>
 </html>
