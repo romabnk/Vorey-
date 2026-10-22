@@ -324,6 +324,18 @@
   .win-sub { font: 400 22px/1.3 var(--display); text-align: center; margin: 0 0 6px; }
   .win-hint { text-align: center; font-size: 14px; color: var(--ivory-dim); margin: 0 0 20px; }
   .grad { background: var(--brand-grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  /* Le lot gagné, sur la page du membre : au-dessus de sa carte. */
+  .won { position: relative; margin: 0 0 22px; padding: 22px 20px 20px; border-radius: 22px; text-align: center;
+         background: radial-gradient(120% 90% at 50% 0%, rgba(167,139,250,.28), transparent 65%), #121734;
+         border: 1px solid rgba(167,139,250,.55); box-shadow: 0 24px 60px -26px rgba(167,139,250,.7); }
+  .won .drop-label { margin: 0 0 8px; }
+  .won h2 { font: 400 clamp(30px, 9vw, 38px)/1.05 var(--display); margin: 0 0 12px; }
+  .won-prize { font: 600 17px/1.3 var(--body); margin: 0 0 4px; }
+  .won-place { font-size: 14px; color: var(--ivory-dim); margin: 0 0 18px; }
+  .won .primary { margin-top: 0; }
+  .won .code-box { margin: 0 0 10px; }
+  .won-note { margin: 10px 0 0; font-size: 13px; color: var(--ivory-dim); }
+  .won-note a { color: var(--ivory-dim); }
   .code-box { padding: 18px; text-align: center; border-radius: 16px; background: var(--field); border: 1px solid var(--line); }
   .code-box .k { font: 600 11px/1 var(--body); letter-spacing: .2em; text-transform: uppercase; margin: 0 0 10px; }
   .code-box code { display: block; font: 600 clamp(22px, 7vw, 26px)/1 var(--body); letter-spacing: .06em; }
@@ -453,6 +465,18 @@
         <p class="victor-line" id="victorLine"></p>
         <p class="pill" id="countdown" hidden></p>
         <button type="button" class="news" id="canalNews" hidden></button>
+        <div class="won" id="won" hidden>
+          <p class="drop-label" id="wonLabel"></p>
+          <h2 data-t="wonTitle"></h2>
+          <p class="won-prize" id="wonPrize"></p>
+          <p class="won-place" id="wonPlace"></p>
+          <div class="code-box" id="wonCode" hidden>
+            <p class="k grad" data-t="codeLabel"></p>
+            <code id="wonCoupon" class="grad"></code>
+          </div>
+          <button type="button" class="primary" id="wonClaim" data-t="claim" hidden></button>
+          <p class="won-note" id="wonNote"></p>
+        </div>
         <div class="card" id="card" role="img">
           <div class="card-top">
             <span class="card-label" id="cardLabel"></span>
@@ -632,7 +656,8 @@
       news: n => n === 1 ? 'Something new in Canal Vorey →' : `${n} new posts in Canal Vorey →`,
       emptyCanal: 'Nothing yet. The team posts soon.',
       teaserTitle: 'A Drop is waiting ✨', teaserText: 'One place, chosen for you. And something to win.', discover: 'Discover',
-      drawDone: 'Draw done', views: n => `👁 ${n}`,
+      drawDone: 'Drop ended', wonTitle: 'You won 🎉', wonShow: 'Show this code on site.',
+      wonBefore: d => `Claim it before ${d}.`, wonExpired: 'This prize has expired.', views: n => `👁 ${n}`,
       ago: m => m < 1 ? 'just now' : m < 60 ? `${m} min ago` : m < 1440 ? `${Math.floor(m / 60)} h ago` : `${Math.floor(m / 1440)} d ago`,
       thanksFirst: 'Thank you for being here this early. This card is yours.',
       thanks: ['You were here before everyone else. I won’t forget it.',
@@ -698,7 +723,8 @@
       news: n => n === 1 ? 'Novedad en el Canal Vorey →' : `${n} novedades en el Canal Vorey →`,
       emptyCanal: 'Nada todavía. El equipo publica pronto.',
       teaserTitle: 'Un Drop te espera ✨', teaserText: 'Un sitio elegido para ti. Y algo que ganar.', discover: 'Descubrir',
-      drawDone: 'Sorteo hecho', views: n => `👁 ${n}`,
+      drawDone: 'Drop terminado', wonTitle: 'Has ganado 🎉', wonShow: 'Enseña este código allí.',
+      wonBefore: d => `Reclámalo antes del ${d}.`, wonExpired: 'Este premio ha caducado.', views: n => `👁 ${n}`,
       ago: m => m < 1 ? 'ahora' : m < 60 ? `hace ${m} min` : m < 1440 ? `hace ${Math.floor(m / 60)} h` : `hace ${Math.floor(m / 1440)} d`,
       thanksFirst: 'Gracias por estar aquí tan pronto. Esta tarjeta es tuya.',
       thanks: ['Llegaste antes que nadie.',
@@ -764,7 +790,8 @@
       news: n => n === 1 ? 'Du nouveau dans le Canal Vorey →' : `${n} nouveautés dans le Canal Vorey →`,
       emptyCanal: 'Rien pour l’instant. La team publie bientôt.',
       teaserTitle: 'Un Drop t’attend ✨', teaserText: 'Un lieu choisi pour toi. Et quelque chose à gagner.', discover: 'Découvrir',
-      drawDone: 'Tirage terminé', views: n => `👁 ${n}`,
+      drawDone: 'Drop terminé', wonTitle: 'Tu as gagné 🎉', wonShow: 'Montre ce code sur place.',
+      wonBefore: d => `À récupérer avant le ${d}.`, wonExpired: 'Ce lot a expiré.', views: n => `👁 ${n}`,
       ago: m => m < 1 ? 'à l’instant' : m < 60 ? `il y a ${m} min` : m < 1440 ? `il y a ${Math.floor(m / 60)} h` : `il y a ${Math.floor(m / 1440)} j`,
       thanksFirst: 'Merci d’être là si tôt. Cette carte est à toi.',
       thanks: ['Tu étais là avant tout le monde. Je ne l’oublierai pas.',
@@ -828,7 +855,7 @@
   let card = null, firstTime = false, inviter = null, win = null;
   let pending = null;          // { email, mode: 'join' | 'back' } pendant l'écran du code
   let resendTimer = null, installPrompt = null, cardsLeft = null, homeFirst = false;
-  let canal = null;             // { posts, emails } renvoyé par my_vorey_canal
+  let canal = null, wins = [];             // { posts, emails } renvoyé par my_vorey_canal
   let tab = params.get('tab') === 'canal' ? 'canal' : 'card', unseen = 0;
   const unsubToken = (params.get('unsub') || '').trim() || null;
   // Lancement officiel : le 28 janvier 2027 (décision de Cécylia, 2026-10-07).
@@ -903,6 +930,20 @@
           return resolve({ status: 'confirmed', first_time: true, session: 'DEMOSESSION', card: DEMO_CARD });
         case 'my_vorey': return resolve(args.p_session === 'DEMOSESSION' ? DEMO_CARD : null);
         case 'my_vorey_canal_unseen': return resolve(args.p_session === 'DEMOSESSION' ? (DEMO_CANAL.revealed ? 0 : 2) : null);
+        case 'my_vorey_canal': if (params.has('fini') && args.p_session === 'DEMOSESSION') return resolve({ emails: true, posts: [
+          { number: 3, kind: 'post', published_at: new Date(Date.now() - 20 * 60000).toISOString(), views: 31, mine: DEMO_CANAL.mine3 || null,
+            reactions: Object.assign({ heart: 12, fire: 9, love: 4, hands: 7 }, DEMO_CANAL.r3), photo_url: null,
+            body: { fr: '🎉 Premier Drop, premier gagnant : Samuel. 15 amis venus sur Vorey grâce à son lien… direction El Gaucho.\n\nLe prochain Drop arrive dans deux semaines. Chaque ami que tu fais venir = +1 chance.',
+                    en: '🎉 First Drop, first winner: Samuel. 15 friends brought to Vorey… next stop, El Gaucho.\n\nThe next Drop lands in two weeks. Every friend you bring = +1 chance.',
+                    es: '🎉 Primer Drop, primer ganador: Samuel. 15 amigos traídos a Vorey… próxima parada, El Gaucho.\n\nEl próximo Drop llega en dos semanas. Cada amigo que traes = +1 oportunidad.' } },
+          { number: 2, kind: 'drop', published_at: new Date(Date.now() - 26 * 3600000).toISOString(), views: 57, mine: null,
+            reactions: { heart: 18, fire: 22, love: 6, hands: 3 }, body: {}, photo_url: null,
+            drop: { number: 1, open: false, ends_at: new Date(Date.now() - 60000).toISOString(), entered: false,
+                    reveal: { place_name: 'El Gaucho', place_area: 'Puerto Banús', maps_url: 'https://maps.google.com/?q=El+Gaucho+Puerto+Banus', photo_url: null,
+                      note: { fr: 'Ma table pour une vraie soirée viande à Puerto Banús. Ici, on ne se presse pas.',
+                              en: 'My table for a proper steak night in Puerto Banús. Nobody rushes here.',
+                              es: 'Mi mesa para una buena noche de carne en Puerto Banús. Aquí nadie tiene prisa.' },
+                      prize: { fr: 'Une table pour deux', en: 'A table for two', es: 'Una mesa para dos' } } } } ] });
         case 'my_vorey_canal': return resolve(args.p_session !== 'DEMOSESSION' ? null : { emails: !params.has('optin'), posts: [
           { number: 2, kind: 'drop', published_at: new Date(Date.now() - 3 * 3600000).toISOString(), views: 214, mine: DEMO_CANAL.mine2 || null,
             reactions: Object.assign({ heart: 41, fire: 87, love: 12, hands: 6 }, DEMO_CANAL.r2), body: {}, photo_url: null,
@@ -934,6 +975,11 @@
                     es: 'La mejor carne de Marbella, y esta noche hay espectáculo. Ve pronto, pide la terraza.' },
             prize: { fr: 'Une table pour deux', en: 'A table for two', es: 'Una mesa para dos' },
             ends_at: new Date(Date.now() + 5 * 86400000).toISOString(), entered: true } });
+        case 'my_vorey_wins': return resolve(args.p_session !== 'DEMOSESSION' ? null : !params.has('gagne') ? [] : [{
+          prize: { fr: 'Une table pour deux', en: 'A table for two', es: 'Una mesa para dos' }[lang] + ' · El Gaucho',
+          drop_number: 1, place_name: 'El Gaucho', place_area: 'Puerto Banús', maps_url: 'https://maps.google.com/?q=El+Gaucho+Puerto+Banus',
+          expires_at: new Date(Date.now() + 14 * 86400000).toISOString(), status: DEMO_CANAL.won ? 'claimed' : 'open',
+          claim_token: DEMO_CANAL.won ? null : 'DEMOWIN', coupon: DEMO_CANAL.won ? 'VOREY-7F3KQ2' : null }]);
         case 'set_drop_emails': return resolve({ emails: !!args.p_on });
         case 'unsubscribe_drops': return resolve({ status: 'ok' });
         case 'waitlist_status': return resolve(args.p_referral_code === ref ? { first_name: 'Ana' } : null);
@@ -941,6 +987,7 @@
         case 'claim_prize':
           if (args.p_token === 'EXPIRED') return resolve({ status: 'expired', first_name: 'Alex', prize: 'Brunch for two' });
           if (args.p_token === 'INVALID') return resolve({ status: 'unknown' });
+          if (args.p_token === 'DEMOWIN') DEMO_CANAL.won = true;
           return resolve({ status: 'claimed', first_name: 'Alex', prize: 'Brunch for two', coupon: 'VOREY-7F3KQ2' });
       }
       resolve(null);
@@ -1041,7 +1088,26 @@
     // L'invitation à garder Vorey sur l'écran d'accueil : seulement sur
     // téléphone, et seulement si ce n'est pas déjà fait.
     $('keep').hidden = isStandalone() || !(isIOS || isAndroid || installPrompt);
+    renderWon(t);
     renderTabs(t);
+  }
+
+  // Le lot gagné (le plus récent), au-dessus de la carte.
+  function renderWon(t) {
+    const w = wins[0];
+    $('won').hidden = !w;
+    if (!w) return;
+    const [what, where] = String(w.prize).split(' · ');
+    $('wonLabel').textContent = w.drop_number ? t.dropLabel(w.drop_number) : '';
+    $('wonPrize').textContent = what;
+    $('wonPlace').textContent = [w.place_name || where, w.place_area].filter(Boolean).join(' · ');
+    $('wonCode').hidden = w.status !== 'claimed';
+    $('wonCoupon').textContent = w.coupon || '';
+    $('wonClaim').hidden = w.status !== 'open';
+    const until = new Date(w.expires_at).toLocaleDateString(lang, { day: 'numeric', month: 'long' });
+    const map = w.maps_url ? ` <a href="${esc(w.maps_url)}" target="_blank" rel="noopener">${esc(t.seeMap)}</a>` : '';
+    $('wonNote').innerHTML = w.status === 'claimed' ? esc(t.wonShow) + map
+                           : w.status === 'expired' ? esc(t.wonExpired) : esc(t.wonBefore(until));
   }
 
   function renderTabs(t) {
@@ -1124,6 +1190,8 @@
     card = c; firstTime = !!isFirst; pending = null; clearInterval(resendTimer);
     store.set('code', null);   // ancien stockage (code de parrainage) : n'ouvre plus rien
     show('me');
+    rpc('my_vorey_wins', { p_session: store.get('session') })
+      .then(w => { wins = Array.isArray(w) ? w : []; if (view === 'me') render(); }).catch(() => {});
     if (tab === 'canal') loadCanal();
     else rpc('my_vorey_canal_unseen', { p_session: store.get('session') })
       .then(n => { unseen = n || 0; render(); }).catch(() => {});
@@ -1457,6 +1525,18 @@
   // ════════════════════════════════════════════════════════════════════
   // LE LOT (système existant, inchangé)
   // ════════════════════════════════════════════════════════════════════
+  // Récupérer le lot depuis sa page : le coupon s'affiche et y reste.
+  $('wonClaim').addEventListener('click', async () => {
+    const btn = $('wonClaim');
+    btn.disabled = true; btn.textContent = T[lang].claiming;
+    try {
+      const r = await rpc('claim_prize', { p_token: wins[0].claim_token });
+      if (r && r.status === 'claimed') Object.assign(wins[0], { status: 'claimed', coupon: r.coupon, claim_token: null });
+      else if (r && r.status === 'expired') wins[0].status = 'expired';
+      render();
+    } catch { toast(T[lang].errNetwork); }
+    finally { btn.disabled = false; btn.textContent = T[lang].claim; }
+  });
   $('claim').addEventListener('click', async () => {
     const btn = $('claim');
     btn.disabled = true; btn.textContent = T[lang].claiming; $('winError').textContent = '';
