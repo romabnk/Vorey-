@@ -931,19 +931,19 @@
         case 'my_vorey': return resolve(args.p_session === 'DEMOSESSION' ? DEMO_CARD : null);
         case 'my_vorey_canal_unseen': return resolve(args.p_session === 'DEMOSESSION' ? (DEMO_CANAL.revealed ? 0 : 2) : null);
         case 'my_vorey_canal': if (params.has('fini') && args.p_session === 'DEMOSESSION') return resolve({ emails: true, posts: [
-          { number: 3, kind: 'post', published_at: new Date(Date.now() - 20 * 60000).toISOString(), views: 31, mine: DEMO_CANAL.mine3 || null,
-            reactions: Object.assign({ heart: 12, fire: 9, love: 4, hands: 7 }, DEMO_CANAL.r3), photo_url: null,
-            body: { fr: '🎉 Premier Drop, premier gagnant : Samuel. 15 amis venus sur Vorey grâce à son lien… direction El Gaucho.\n\nLe prochain Drop arrive dans deux semaines. Chaque ami que tu fais venir = +1 chance.',
-                    en: '🎉 First Drop, first winner: Samuel. 15 friends brought to Vorey… next stop, El Gaucho.\n\nThe next Drop lands in two weeks. Every friend you bring = +1 chance.',
-                    es: '🎉 Primer Drop, primer ganador: Samuel. 15 amigos traídos a Vorey… próxima parada, El Gaucho.\n\nEl próximo Drop llega en dos semanas. Cada amigo que traes = +1 oportunidad.' } },
+          { number: 3, kind: 'post', published_at: new Date(Date.now() - 20 * 60000).toISOString(), views: 31, mine: null,
+            reactions: { heart: 12, fire: 9, love: 14, hands: 3 }, photo_url: 'drops/ff-coffee-fraises.jpg',
+            body: { fr: 'Premier spot de la saison : F&F Coffee 🍓\n\nDes fraises noyées dans le chocolat, des tablettes à la pistache, une limonade à la menthe. Le genre d’endroit où tu emmènes quelqu’un qui te plaît.\n\nPour ce premier Drop, c’est Samuel qui y va de notre part : 15 amis venus sur Vorey grâce à son lien. Prochain Drop dans deux semaines. Chaque ami que tu fais venir = +1 chance.',
+                    en: 'First spot of the season: F&F Coffee 🍓\n\nStrawberries drowned in chocolate, pistachio bars, mint lemonade. The kind of place you take someone you like.\n\nFor this first Drop, Samuel goes on us: 15 friends brought to Vorey, all from one link. Next Drop in two weeks. Every friend you bring = +1 chance.',
+                    es: 'Primer sitio de la temporada: F&F Coffee 🍓\n\nFresas bañadas en chocolate, tabletas de pistacho, limonada con menta. El tipo de sitio al que llevas a alguien que te gusta.\n\nEn este primer Drop, Samuel va invitado por nosotros: 15 amigos traídos a Vorey con su enlace. Próximo Drop en dos semanas. Cada amigo que traes = +1 oportunidad.' } },
           { number: 2, kind: 'drop', published_at: new Date(Date.now() - 26 * 3600000).toISOString(), views: 57, mine: null,
             reactions: { heart: 18, fire: 22, love: 6, hands: 3 }, body: {}, photo_url: null,
             drop: { number: 1, open: false, ends_at: new Date(Date.now() - 60000).toISOString(), entered: false,
-                    reveal: { place_name: 'El Gaucho', place_area: 'Puerto Banús', maps_url: 'https://maps.google.com/?q=El+Gaucho+Puerto+Banus', photo_url: null,
-                      note: { fr: 'Ma table pour une vraie soirée viande à Puerto Banús. Ici, on ne se presse pas.',
-                              en: 'My table for a proper steak night in Puerto Banús. Nobody rushes here.',
-                              es: 'Mi mesa para una buena noche de carne en Puerto Banús. Aquí nadie tiene prisa.' },
-                      prize: { fr: 'Une table pour deux', en: 'A table for two', es: 'Una mesa para dos' } } } } ] });
+                    reveal: { place_name: 'F&F Coffee', place_area: 'Nueva Andalucía', maps_url: 'https://maps.google.com/?q=F%26F+Coffee+Nueva+Andalucia+Marbella', photo_url: 'drops/ff-coffee-table.jpg',
+                      note: { fr: 'Des fraises noyées dans le chocolat, une tablette pistache qui n’arrive jamais jusqu’à la maison, et une limonade à la menthe pour faire passer le tout. C’est là que j’emmènerais quelqu’un qui me plaît.',
+                              en: 'Strawberries drowned in chocolate, a pistachio bar that never makes it home, and a mint lemonade to wash it all down. It’s where I’d take someone I like.',
+                              es: 'Fresas bañadas en chocolate, una tableta de pistacho que nunca llega a casa, y una limonada con menta para acompañar. Es donde llevaría a alguien que me gusta.' },
+                      prize: { fr: 'Ta pause sucrée, offerte', en: 'Your sweet break, on us', es: 'Tu pausa dulce, invitamos nosotros' } } } } ] });
         case 'my_vorey_canal': return resolve(args.p_session !== 'DEMOSESSION' ? null : { emails: !params.has('optin'), posts: [
           { number: 2, kind: 'drop', published_at: new Date(Date.now() - 3 * 3600000).toISOString(), views: 214, mine: DEMO_CANAL.mine2 || null,
             reactions: Object.assign({ heart: 41, fire: 87, love: 12, hands: 6 }, DEMO_CANAL.r2), body: {}, photo_url: null,
@@ -976,8 +976,8 @@
             prize: { fr: 'Une table pour deux', en: 'A table for two', es: 'Una mesa para dos' },
             ends_at: new Date(Date.now() + 5 * 86400000).toISOString(), entered: true } });
         case 'my_vorey_wins': return resolve(args.p_session !== 'DEMOSESSION' ? null : !params.has('gagne') ? [] : [{
-          prize: { fr: 'Une table pour deux', en: 'A table for two', es: 'Una mesa para dos' }[lang] + ' · El Gaucho',
-          drop_number: 1, place_name: 'El Gaucho', place_area: 'Puerto Banús', maps_url: 'https://maps.google.com/?q=El+Gaucho+Puerto+Banus',
+          prize: { fr: 'Ta pause sucrée, offerte', en: 'Your sweet break, on us', es: 'Tu pausa dulce, invitamos nosotros' }[lang] + ' · F&F Coffee',
+          drop_number: 1, place_name: 'F&F Coffee', place_area: 'Nueva Andalucía', maps_url: 'https://maps.google.com/?q=F%26F+Coffee+Nueva+Andalucia+Marbella',
           expires_at: new Date(Date.now() + 14 * 86400000).toISOString(), status: DEMO_CANAL.won ? 'claimed' : 'open',
           claim_token: DEMO_CANAL.won ? null : 'DEMOWIN', coupon: DEMO_CANAL.won ? 'VOREY-7F3KQ2' : null }]);
         case 'set_drop_emails': return resolve({ emails: !!args.p_on });
