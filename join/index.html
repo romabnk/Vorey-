@@ -201,6 +201,15 @@
   .card-num { font: 400 21px/1 var(--display); color: var(--gold-hi); letter-spacing: .02em; }
   .card-num small { font-size: .62em; margin-right: 3px; letter-spacing: .08em; }
   .card .mark { width: 34%; margin: 0 auto; align-self: center; }
+  /* Le sceau du gagnant : posé sur la carte, comme une certification.
+     Violet → bleu (l'or reste réservé au contour et au numéro). */
+  .card-seal { position: absolute; right: 18px; top: 50%; width: 25%; max-width: 92px; aspect-ratio: 1; transform: translateY(-46%) rotate(-12deg);
+               filter: drop-shadow(0 6px 14px rgba(110,120,250,.45)); animation: seal .6s cubic-bezier(.2,.9,.3,1.3) both .25s; }
+  .card-seal svg { width: 100%; height: 100%; display: block; overflow: visible; }
+  @keyframes seal { from { transform: translateY(-46%) rotate(-30deg) scale(1.6); opacity: 0; } to { transform: translateY(-46%) rotate(-12deg) scale(1); opacity: 1; } }
+  @media (prefers-reduced-motion: reduce) { .card-seal { animation: none; } }
+  .won-value { display: inline-block; margin: 0 0 16px; padding: 6px 12px; border-radius: 999px; font: 600 13px/1 var(--body);
+               background: rgba(167,139,250,.16); border: 1px solid rgba(167,139,250,.4); color: #DCD2FF; }
   .card-name { font: 400 clamp(22px, 6.6vw, 27px)/1 var(--display); }
   .card-place { font: 500 10px/1 var(--body); letter-spacing: .26em; text-transform: uppercase; color: var(--ivory-dim); padding-bottom: 3px; }
 
@@ -503,6 +512,7 @@
           <h2 data-t="wonTitle"></h2>
           <p class="won-prize" id="wonPrize"></p>
           <p class="won-place" id="wonPlace"></p>
+          <p class="won-value" id="wonValue" hidden></p>
           <div class="code-box" id="wonCode" hidden>
             <p class="k grad" data-t="codeLabel"></p>
             <code id="wonCoupon" class="grad"></code>
@@ -516,6 +526,7 @@
             <span class="card-num" id="cardNum"></span>
           </div>
           <canvas class="mark" id="markCard" aria-hidden="true"></canvas>
+          <div class="card-seal" id="cardSeal" hidden></div>
           <div class="card-bottom">
             <span class="card-name" id="cardName"></span>
             <span class="card-place">Marbella</span>
@@ -689,7 +700,7 @@
       news: n => n === 1 ? 'Something new in Canal Vorey →' : `${n} new posts in Canal Vorey →`,
       emptyCanal: 'Nothing yet. The team posts soon.',
       teaserTitle: 'A Drop is waiting ✨', teaserText: 'One place, chosen for you. And something to win.', discover: 'Discover',
-      drawDone: 'Drop ended', wonTitle: 'You won 🎉', wonShow: 'Show this code on site.',
+      drawDone: 'Drop ended', wonTitle: 'You won 🎉', voucher: v => `€${v} voucher`, sealText: 'DROP WINNER · VOREY ·', wonShow: 'Show this code on site.',
       wonBefore: d => `Claim it before ${d}.`, wonExpired: 'This prize has expired.', views: n => `👁 ${n}`,
       ago: m => m < 1 ? 'just now' : m < 60 ? `${m} min ago` : m < 1440 ? `${Math.floor(m / 60)} h ago` : `${Math.floor(m / 1440)} d ago`,
       thanksFirst: 'Thank you for being here this early. This card is yours.',
@@ -756,7 +767,7 @@
       news: n => n === 1 ? 'Novedad en el Canal Vorey →' : `${n} novedades en el Canal Vorey →`,
       emptyCanal: 'Nada todavía. El equipo publica pronto.',
       teaserTitle: 'Un Drop te espera ✨', teaserText: 'Un sitio elegido para ti. Y algo que ganar.', discover: 'Descubrir',
-      drawDone: 'Drop terminado', wonTitle: 'Has ganado 🎉', wonShow: 'Enseña este código allí.',
+      drawDone: 'Drop terminado', wonTitle: 'Has ganado 🎉', voucher: v => `Vale de ${v} €`, sealText: 'DROP GANADO · VOREY ·', wonShow: 'Enseña este código allí.',
       wonBefore: d => `Reclámalo antes del ${d}.`, wonExpired: 'Este premio ha caducado.', views: n => `👁 ${n}`,
       ago: m => m < 1 ? 'ahora' : m < 60 ? `hace ${m} min` : m < 1440 ? `hace ${Math.floor(m / 60)} h` : `hace ${Math.floor(m / 1440)} d`,
       thanksFirst: 'Gracias por estar aquí tan pronto. Esta tarjeta es tuya.',
@@ -823,7 +834,7 @@
       news: n => n === 1 ? 'Du nouveau dans le Canal Vorey →' : `${n} nouveautés dans le Canal Vorey →`,
       emptyCanal: 'Rien pour l’instant. La team publie bientôt.',
       teaserTitle: 'Un Drop t’attend ✨', teaserText: 'Un lieu choisi pour toi. Et quelque chose à gagner.', discover: 'Découvrir',
-      drawDone: 'Drop terminé', wonTitle: 'Tu as gagné 🎉', wonShow: 'Montre ce code sur place.',
+      drawDone: 'Drop terminé', wonTitle: 'Tu as gagné 🎉', voucher: v => `Bon de ${v} €`, sealText: 'DROP REMPORTÉ · VOREY ·', wonShow: 'Montre ce code sur place.',
       wonBefore: d => `À récupérer avant le ${d}.`, wonExpired: 'Ce lot a expiré.', views: n => `👁 ${n}`,
       ago: m => m < 1 ? 'à l’instant' : m < 60 ? `il y a ${m} min` : m < 1440 ? `il y a ${Math.floor(m / 60)} h` : `il y a ${Math.floor(m / 1440)} j`,
       thanksFirst: 'Merci d’être là si tôt. Cette carte est à toi.',
@@ -1012,7 +1023,7 @@
           prize: { fr: 'Ta pause sucrée, offerte', en: 'Your sweet break, on us', es: 'Tu pausa dulce, invitamos nosotros' }[lang] + ' · F&F Coffee',
           drop_number: 1, place_name: 'F&F Coffee', place_area: 'Nueva Andalucía', maps_url: 'https://maps.google.com/?q=F%26F+Coffee+Nueva+Andalucia+Marbella',
           expires_at: new Date(Date.now() + 14 * 86400000).toISOString(), status: DEMO_CANAL.won ? 'claimed' : 'open',
-          claim_token: DEMO_CANAL.won ? null : 'DEMOWIN', coupon: DEMO_CANAL.won ? 'VOREY-FRAISE' : null }]);
+          value_eur: 20, claim_token: DEMO_CANAL.won ? null : 'DEMOWIN', coupon: DEMO_CANAL.won ? 'VOREY-FRAISE' : null }]);
         case 'set_drop_emails': return resolve({ emails: !!args.p_on });
         case 'unsubscribe_drops': return resolve({ status: 'ok' });
         case 'waitlist_status': return resolve(args.p_referral_code === ref ? { first_name: 'Ana' } : null);
@@ -1129,7 +1140,10 @@
   function renderWon(t) {
     const w = wins[0];
     $('won').hidden = !w;
+    renderSeal(t);
     if (!w) return;
+    $('wonValue').hidden = !w.value_eur;
+    if (w.value_eur) $('wonValue').textContent = t.voucher(w.value_eur);
     const [what, where] = String(w.prize).split(' · ');
     $('wonLabel').textContent = w.drop_number ? t.dropLabel(w.drop_number) : '';
     $('wonPrize').textContent = what;
@@ -1141,6 +1155,23 @@
     const map = w.maps_url ? ` <a href="${esc(w.maps_url)}" target="_blank" rel="noopener">${esc(t.seeMap)}</a>` : '';
     $('wonNote').innerHTML = w.status === 'claimed' ? esc(t.wonShow) + map
                            : w.status === 'expired' ? esc(t.wonExpired) : esc(t.wonBefore(until));
+  }
+
+  // Le sceau sur la Carte Fondateur : pour toujours, dès qu'on a gagné un Drop.
+  function renderSeal(t) {
+    const w = wins.find(x => x.drop_number);
+    $('cardSeal').hidden = !w;
+    if (!w) return;
+    $('cardSeal').innerHTML = `<svg viewBox="0 0 100 100" role="img" aria-label="${esc(t.sealText.replace(/ ·$/, ''))} nº ${w.drop_number}">
+      <defs><linearGradient id="sg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#C4B1FF"/><stop offset=".5" stop-color="#A78BFA"/><stop offset="1" stop-color="#3B82F6"/></linearGradient>
+      <path id="sp" d="M50 50 m-36 0 a36 36 0 1 1 72 0 a36 36 0 1 1 -72 0"/></defs>
+      <circle cx="50" cy="50" r="48" fill="url(#sg)"/>
+      <circle cx="50" cy="50" r="44.5" fill="none" stroke="rgba(255,255,255,.55)" stroke-width=".8" stroke-dasharray="1.6 2.2"/>
+      <circle cx="50" cy="50" r="27" fill="#141A3A"/>
+      <text font-family="Montserrat,sans-serif" font-size="9" font-weight="700" fill="#fff"><textPath href="#sp" textLength="222" lengthAdjust="spacing">${esc(t.sealText)}</textPath></text>
+      <text x="50" y="45" text-anchor="middle" font-family="Montserrat,sans-serif" font-size="7.5" font-weight="600" letter-spacing="1.5" fill="#C4B1FF">DROP</text>
+      <text x="50" y="66" text-anchor="middle" font-family="'Playfair Display',Georgia,serif" font-size="24" fill="#fff">${w.drop_number}</text>
+    </svg>`;
   }
 
   function renderTabs(t) {
