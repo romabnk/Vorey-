@@ -1199,7 +1199,7 @@
       const sign = `<p class="post-sign"><span>${esc(t.sign)}</span><img src="vorey_mark.png" alt=""></p>`;
       const photos = (p.photos && p.photos.length) ? p.photos : (p.photo_url ? [p.photo_url] : []);
       const media = photos.length > 1
-        ? `<div class="slides"><div class="slides-track">${photos.map(u => `<img src="${esc(u)}" alt="" loading="lazy">`).join('')}</div>`
+        ? `<div class="slides"><div class="slides-track" data-post="${p.number}">${photos.map(u => `<img src="${esc(u)}" alt="" loading="lazy">`).join('')}</div>`
           + `<span class="slides-count">1/${photos.length}</span>`
           + `<div class="slides-dots">${photos.map((_, i) => `<i class="${i ? '' : 'on'}"></i>`).join('')}</div></div>`
         : photos.length ? `<img class="post-photo" src="${esc(photos[0])}" alt="" loading="lazy">` : '';
@@ -1229,7 +1229,13 @@
   function renderCanal(t) {
     $('dropOptIn').hidden = !canal || canal.emails;
     const posts = canal ? canal.posts : [];
+    // Le fil se redessine à chaque mise à jour : on garde la photo affichée.
+    const at = {};
+    $('feed').querySelectorAll('.slides-track').forEach(tr => { at[tr.dataset.post] = tr.scrollLeft; });
     $('feed').innerHTML = posts.map(p => postHTML(p, t)).join('');
+    $('feed').querySelectorAll('.slides-track').forEach(tr => {
+      if (at[tr.dataset.post]) { tr.scrollLeft = at[tr.dataset.post]; tr.dispatchEvent(new Event('scroll')); }
+    });
     $('feedEmpty').hidden = !canal || posts.length > 0;
   }
 
@@ -1275,6 +1281,14 @@
     try { const c = await rpc('my_vorey_canal', { p_session: store.get('session') }); if (c) { canal = c; unseen = 0; render(); } }
     catch {}
   }
+  // Les réactions des autres arrivent toutes seules : le Canal se relit
+  // toutes les 15 s tant qu'il est à l'écran, et dès qu'on revient sur l'app.
+  setInterval(() => { if (view === 'me' && tab === 'canal' && !document.hidden) loadCanal(); }, 15000);
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden || view !== 'me') return;
+    if (tab === 'canal') loadCanal();
+    else rpc('my_vorey_canal_unseen', { p_session: store.get('session') }).then(n => { unseen = n || 0; render(); }).catch(() => {});
+  });
   function setTab(next) {
     tab = next; render();
     if (tab === 'canal') loadCanal();
