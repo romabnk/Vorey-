@@ -235,22 +235,22 @@
   .canal-head img { width: 40px; height: 40px; padding: 6px; border-radius: 50%; background: #14182F; border: 1px solid var(--line); object-fit: contain; }
   .canal-head b { display: block; font: 800 20px/1.1 "Bricolage Grotesque", var(--body); }
   .canal-head span { font-size: 12.5px; color: var(--ivory-dim); }
-  .post { margin: 0 0 16px; border-radius: 18px; overflow: hidden; background: var(--field); border: 1px solid var(--line); }
-  .post-head { display: flex; align-items: center; gap: 8px; padding: 14px 16px 0; font-size: 13px; color: var(--ivory-dim); }
+  .post { margin: 0 0 12px; border-radius: 18px; overflow: hidden; background: var(--field); border: 1px solid var(--line); }
+  .post-head { display: flex; align-items: center; gap: 8px; padding: 12px 16px 0; font-size: 13px; color: var(--ivory-dim); }
   .post-head b { color: var(--ivory); font-weight: 600; }
   /* La signature de Victor, sous chaque post : une plume, pas un tampon. */
-  .post-sign { display: flex; align-items: center; gap: 10px; margin: 2px 16px 16px; }
+  .post-sign { display: flex; align-items: center; gap: 10px; margin: 0 16px 12px; }
   .post-sign::before { content: ""; width: 26px; height: 1px; background: var(--brand-grad); opacity: .8; }
-  .post-sign span { font: italic 400 19px/1 var(--display); letter-spacing: .01em;
+  .post-sign span { font: italic 400 17px/1 var(--display); letter-spacing: .01em;
                     background: var(--brand-grad); -webkit-background-clip: text; background-clip: text; color: transparent; padding: 2px 2px 4px 0; }
   .post-sign img { width: 16px; height: 16px; opacity: .9; }
-  .post-body { margin: 8px 16px 12px; font-size: 15px; line-height: 1.55; white-space: pre-line; }
+  .post-body { margin: 6px 16px 10px; font-size: 14.5px; line-height: 1.5; white-space: pre-line; }
   .post-photo { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; background: #141A3A; }
   /* Plusieurs photos : on les fait glisser, comme sur Instagram. */
   .slides { position: relative; }
   .slides-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
   .slides-track::-webkit-scrollbar { display: none; }
-  .slides-track img { flex: 0 0 100%; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; scroll-snap-align: start; background: #141A3A; }
+  .slides-track img { flex: 0 0 100%; width: 100%; aspect-ratio: 1 / 1; object-fit: cover; scroll-snap-align: start; background: #141A3A; }
   .slides-dots { position: absolute; left: 0; right: 0; bottom: 12px; display: flex; justify-content: center; gap: 6px; pointer-events: none; }
   .slides-dots i { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,.5); transition: width .2s, background .2s; }
   .slides-dots i.on { width: 18px; border-radius: 3px; background: #fff; }
@@ -258,13 +258,13 @@
                   -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); color: #fff; font: 600 11.5px/1 var(--body); }
   @media (prefers-reduced-motion: reduce) { .slides-dots i { transition: none; } }
   /* Les réactions : une barre de 4, sous un filet, comme un vrai fil social. */
-  .post-foot { padding: 12px 14px 14px; border-top: 1px solid rgba(245,241,232,.08); }
+  .post-foot { padding: 10px 12px 12px; border-top: 1px solid rgba(245,241,232,.08); }
   .views { font-size: 12.5px; color: var(--ivory-dim); white-space: nowrap; }
   .reacts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
-  .reacts button { display: flex; align-items: center; justify-content: center; gap: 6px; min-height: 42px; border-radius: 14px; cursor: pointer;
+  .reacts button { display: flex; align-items: center; justify-content: center; gap: 6px; min-height: 36px; border-radius: 12px; cursor: pointer;
                    border: 1px solid rgba(245,241,232,.1); background: rgba(245,241,232,.04); color: var(--ivory);
                    font: 600 13px/1 var(--body); transition: transform .15s, background .2s, border-color .2s; }
-  .reacts button .e { font-size: 19px; line-height: 1; }
+  .reacts button .e { font-size: 17px; line-height: 1; }
   .reacts button:active { transform: scale(.94); }
   .reacts button[aria-pressed="true"] { border-color: transparent; color: #fff;
     background: linear-gradient(#1A1F45, #1A1F45) padding-box, var(--brand-grad) border-box; border: 1px solid transparent; }
@@ -278,25 +278,25 @@
 
   /* Le Drop : le lieu, sa raison, et ce qu'on peut y gagner. */
   .post.is-drop { border-color: rgba(167,139,250,.5); box-shadow: 0 24px 50px -28px rgba(110,120,250,.6); }
-  .drop-photo { aspect-ratio: 16 / 9; background: #141A3A center / cover no-repeat; }
-  .drop-body { padding: 18px 18px 16px; }
+  .drop-photo { aspect-ratio: 2 / 1; background: #141A3A center / cover no-repeat; }
+  .drop-body { padding: 14px 16px 12px; }
   .drop-label { margin: 0 0 6px; font: 600 11px/1 var(--body); letter-spacing: .22em; text-transform: uppercase;
                 background: var(--brand-grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
-  .drop-place { margin: 0; font: 800 28px/1.1 "Bricolage Grotesque", var(--body); letter-spacing: -.01em; }
-  .drop-area { margin: 3px 0 12px; font-size: 13px; color: var(--ivory-dim); }
-  .drop-note { margin: 0 0 14px; font-size: 15px; line-height: 1.55; color: rgba(245,241,232,.9); }
+  .drop-place { margin: 0; font: 800 24px/1.1 "Bricolage Grotesque", var(--body); letter-spacing: -.01em; }
+  .drop-area { margin: 2px 0 8px; font-size: 13px; color: var(--ivory-dim); }
+  .drop-note { margin: 0 0 12px; font-size: 14.5px; line-height: 1.5; color: rgba(245,241,232,.9); }
   /* Le lot : un ticket, avec ses deux encoches et sa ligne de découpe. */
-  .drop-prize { display: grid; grid-template-columns: 58px 1fr; align-items: stretch; margin: 0 0 14px; border-radius: 16px;
+  .drop-prize { display: grid; grid-template-columns: 52px 1fr; align-items: stretch; margin: 0 0 10px; border-radius: 16px;
                 background: linear-gradient(110deg, rgba(167,139,250,.24), rgba(59,130,246,.14));
-                -webkit-mask: radial-gradient(circle 9px at 58px 0, transparent 98%, #000) top / 100% 51% no-repeat,
-                              radial-gradient(circle 9px at 58px 100%, transparent 98%, #000) bottom / 100% 51% no-repeat;
-                        mask: radial-gradient(circle 9px at 58px 0, transparent 98%, #000) top / 100% 51% no-repeat,
-                              radial-gradient(circle 9px at 58px 100%, transparent 98%, #000) bottom / 100% 51% no-repeat; }
+                -webkit-mask: radial-gradient(circle 8px at 52px 0, transparent 98%, #000) top / 100% 51% no-repeat,
+                              radial-gradient(circle 8px at 52px 100%, transparent 98%, #000) bottom / 100% 51% no-repeat;
+                        mask: radial-gradient(circle 8px at 52px 0, transparent 98%, #000) top / 100% 51% no-repeat,
+                              radial-gradient(circle 8px at 52px 100%, transparent 98%, #000) bottom / 100% 51% no-repeat; }
   .drop-prize .pt-icon { display: grid; place-content: center; border-right: 1.5px dashed rgba(245,241,232,.28); }
   .drop-prize .pt-icon svg { width: 24px; height: 24px; stroke: #fff; fill: none; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
-  .drop-prize .pt-text { padding: 14px 16px; }
+  .drop-prize .pt-text { padding: 10px 14px; }
   .drop-prize span { display: block; margin: 0 0 5px; font: 600 10.5px/1 var(--body); letter-spacing: .2em; text-transform: uppercase; color: var(--violet); }
-  .drop-prize b { display: block; font: 400 20px/1.2 var(--display); }
+  .drop-prize b { display: block; font: 400 18px/1.2 var(--display); }
   .drop-foot { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; font-size: 13px; }
   .drop-status { color: #9EE2B8; font-weight: 600; }
   .drop-foot a { color: var(--ivory-dim); }
