@@ -1012,7 +1012,7 @@
           prize: { fr: 'Ta pause sucrée, offerte', en: 'Your sweet break, on us', es: 'Tu pausa dulce, invitamos nosotros' }[lang] + ' · F&F Coffee',
           drop_number: 1, place_name: 'F&F Coffee', place_area: 'Nueva Andalucía', maps_url: 'https://maps.google.com/?q=F%26F+Coffee+Nueva+Andalucia+Marbella',
           expires_at: new Date(Date.now() + 14 * 86400000).toISOString(), status: DEMO_CANAL.won ? 'claimed' : 'open',
-          claim_token: DEMO_CANAL.won ? null : 'DEMOWIN', coupon: DEMO_CANAL.won ? 'VOREY-7F3KQ2' : null }]);
+          claim_token: DEMO_CANAL.won ? null : 'DEMOWIN', coupon: DEMO_CANAL.won ? 'VOREY-FRAISE' : null }]);
         case 'set_drop_emails': return resolve({ emails: !!args.p_on });
         case 'unsubscribe_drops': return resolve({ status: 'ok' });
         case 'waitlist_status': return resolve(args.p_referral_code === ref ? { first_name: 'Ana' } : null);
@@ -1581,8 +1581,10 @@
     btn.disabled = true; btn.textContent = T[lang].claiming;
     try {
       const r = await rpc('claim_prize', { p_token: wins[0].claim_token });
-      if (r && r.status === 'claimed') Object.assign(wins[0], { status: 'claimed', coupon: r.coupon, claim_token: null });
-      else if (r && r.status === 'expired') wins[0].status = 'expired';
+      // On relit ses lots : le code à montrer peut être celui du Drop (« VOREY-FRAISE »).
+      const w = await rpc('my_vorey_wins', { p_session: store.get('session') }).catch(() => null);
+      if (Array.isArray(w)) wins = w;
+      else if (r && r.status === 'claimed') Object.assign(wins[0], { status: 'claimed', coupon: r.coupon, claim_token: null });
       render();
     } catch { toast(T[lang].errNetwork); }
     finally { btn.disabled = false; btn.textContent = T[lang].claim; }
