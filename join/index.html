@@ -323,6 +323,9 @@
   .share-opt.ig { grid-column: 1 / -1; gap: 10px; color: #fff; border-color: transparent;
                   background: linear-gradient(90deg, #F58529, #DD2A7B 45%, #8134AF 75%, #515BD4); }
   .share-opt.ig svg, .story-btn svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 1.8; }
+  .story-prev { display: block; width: 56%; max-width: 240px; margin: 0 auto 16px; border-radius: 14px; box-shadow: 0 16px 40px -16px rgba(0,0,0,.8); -webkit-touch-callout: default; }
+  a.story-btn { text-decoration: none; width: 100%; }
+  .story-btn[disabled] { opacity: .6; }
   .story-btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; margin: 0 0 10px; }
   .qr-box { width: min(72vw, 280px); aspect-ratio: 1; margin: 6px auto 16px; padding: 14px; border-radius: 22px; background: #fff; }
   .qr-box canvas { width: 100%; height: 100%; display: block; image-rendering: pixelated; }
@@ -623,6 +626,17 @@
   </div>
 </div>
 
+<!-- Feuille : la Story, quand le téléphone ne sait pas la partager -->
+<div class="sheet" id="storySheet" hidden role="dialog" aria-modal="true" aria-labelledby="storyTitle">
+  <div class="sheet-box">
+    <h2 id="storyTitle" data-t="storyTitle"></h2>
+    <p data-t="storyHelp"></p>
+    <img class="story-prev" id="storyPrev" alt="">
+    <a class="primary story-btn" id="openInsta" href="instagram://story-camera"><svg><use href="#i-insta"/></svg><span data-t="openInsta"></span></a>
+    <button type="button" class="secondary" data-close data-t="close"></button>
+  </div>
+</div>
+
 <!-- Feuille : mon QR -->
 <div class="sheet" id="qrSheet" hidden role="dialog" aria-modal="true" aria-labelledby="qrTitle">
   <div class="sheet-box">
@@ -699,7 +713,8 @@
       opensIn: n => n > 1 ? `Vorey opens in ${n} days` : n === 1 ? 'Vorey opens tomorrow' : 'Vorey opens today',
       shareTitle: 'Bring someone in', shareSub: 'Each friend who confirms their email = +1 chance.',
       shareSms: 'Messages', shareCopy: 'Copy link', shareMore: 'More options',
-      storyBtn: 'Add to my Instagram Story', storyOpt: 'Instagram Story', storySaved: 'Image saved: add it to your Story',
+      storyBtn: 'Add to my Instagram Story', storyOpt: 'Instagram Story', storySaved: 'Image saved: add it to your Story', storyWait: 'Preparing your Story…',
+      storyTitle: 'Your Story is ready', storyHelp: 'Press and hold the image → Save to Photos. Then open Instagram and add it to your Story.', openInsta: 'Open Instagram',
       story: { title: ['Join me on', 'Vorey.'], card: 'Scan my QR', sub: 'One place in Marbella, picked for you', note: ['scan me', '✨'], foot: 'Only 1,000 Founder Cards 🍓' },
       dropLabel: n => `Vorey Drop · Nº ${n}`, toWin: 'To win', prizeWas: 'The prize', seeMap: 'See on the map →',
       entered: d => d > 1 ? `✓ You’re in · Draw in ${d} days` : d === 1 ? '✓ You’re in · Draw tomorrow' : '✓ You’re in · Draw today',
@@ -768,7 +783,8 @@
       opensIn: n => n > 1 ? `Vorey abre en ${n} días` : n === 1 ? 'Vorey abre mañana' : 'Vorey abre hoy',
       shareTitle: 'Trae a alguien', shareSub: 'Cada amigo que confirme su email = +1 oportunidad.',
       shareSms: 'Mensajes', shareCopy: 'Copiar enlace', shareMore: 'Más opciones',
-      storyBtn: 'Añadir a mi Story de Instagram', storyOpt: 'Story de Instagram', storySaved: 'Imagen guardada: súbela a tu Story',
+      storyBtn: 'Añadir a mi Story de Instagram', storyOpt: 'Story de Instagram', storySaved: 'Imagen guardada: súbela a tu Story', storyWait: 'Preparando tu Story…',
+      storyTitle: 'Tu Story está lista', storyHelp: 'Mantén pulsada la imagen → Guardar en Fotos. Luego abre Instagram y súbela a tu Story.', openInsta: 'Abrir Instagram',
       story: { title: ['Ven conmigo a', 'Vorey.'], card: 'Escanea mi QR', sub: 'Un sitio en Marbella, elegido para ti', note: ['escanéame', '✨'], foot: 'Solo 1.000 Tarjetas Fundador 🍓' },
       dropLabel: n => `Drop Vorey · Nº ${n}`, toWin: 'Para ganar', prizeWas: 'El premio', seeMap: 'Ver en el mapa →',
       entered: d => d > 1 ? `✓ Participas · Sorteo en ${d} días` : d === 1 ? '✓ Participas · Sorteo mañana' : '✓ Participas · Sorteo hoy',
@@ -837,7 +853,8 @@
       opensIn: n => n > 1 ? `Vorey ouvre dans ${n} jours` : n === 1 ? 'Vorey ouvre demain' : 'Vorey ouvre aujourd’hui',
       shareTitle: 'Faire venir quelqu’un', shareSub: 'Chaque ami qui confirme son e-mail = +1 chance.',
       shareSms: 'Messages', shareCopy: 'Copier le lien', shareMore: 'Plus d’options',
-      storyBtn: 'Ajouter à ma Story Instagram', storyOpt: 'Story Instagram', storySaved: 'Image enregistrée : ajoute-la à ta Story',
+      storyBtn: 'Ajouter à ma Story Instagram', storyOpt: 'Story Instagram', storySaved: 'Image enregistrée : ajoute-la à ta Story', storyWait: 'Je prépare ta Story…',
+      storyTitle: 'Ta Story est prête', storyHelp: 'Appuie longuement sur l’image → Enregistrer dans Photos. Puis ouvre Instagram et ajoute-la à ta Story.', openInsta: 'Ouvrir Instagram',
       story: { title: ['Rejoins-moi sur', 'Vorey.'], card: 'Scanne mon QR', sub: 'Un lieu à Marbella, choisi pour toi', note: ['scanne-moi', '✨'], foot: 'Seulement 1 000 cartes Fondateur 🍓' },
       dropLabel: n => `Drop Vorey · Nº ${n}`, toWin: 'À gagner', prizeWas: 'Le lot', seeMap: 'Voir sur la carte →',
       entered: d => d > 1 ? `✓ Tu participes · Tirage dans ${d} jours` : d === 1 ? '✓ Tu participes · Tirage demain' : '✓ Tu participes · Tirage aujourd’hui',
@@ -1559,17 +1576,35 @@
     const blob = await new Promise(r => c.toBlob(r, 'image/png'));
     return blob ? new File([blob], 'vorey-story.png', { type: 'image/png' }) : null;
   }
-  function prepareStory() { storyFile = null; buildStory().then(f => { storyFile = f; }).catch(() => {}); }
-  async function shareStory() {
-    if (!storyFile) { toast(T[lang].claiming); try { storyFile = await buildStory(); } catch { return; } }
-    if (!storyFile) return;
-    if (navigator.canShare && navigator.canShare({ files: [storyFile] })) {
-      try { await navigator.share({ files: [storyFile] }); return; } catch (e) { if (e && e.name === 'AbortError') return; }
+  // L'image se prépare dès l'ouverture de la feuille ; les boutons attendent
+  // qu'elle soit prête. Un iPhone n'ouvre le partage que s'il suit
+  // IMMÉDIATEMENT le toucher : on ne fabrique donc jamais l'image après.
+  const storyBtns = () => [$('storyBtn'), $('shareStory')];
+  function setStoryReady(ready) {
+    storyBtns().forEach(b => { b.disabled = !ready; b.querySelector('span').textContent = ready ? T[lang][b.id === 'storyBtn' ? 'storyBtn' : 'storyOpt'] : T[lang].storyWait; });
+  }
+  function prepareStory() {
+    storyFile = null; setStoryReady(false);
+    buildStory().then(f => { storyFile = f; setStoryReady(!!f); }).catch(() => setStoryReady(false));
+  }
+  function storyFallback() {
+    // Le partage n'est pas possible : l'image s'affiche, à enregistrer d'un appui long.
+    const u = URL.createObjectURL(storyFile);
+    $('storyPrev').src = u;
+    document.querySelectorAll('.sheet').forEach(x => { x.hidden = true; });
+    openSheet('storySheet');
+    if (!(isIOS || isAndroid)) {
+      const a = document.createElement('a'); a.href = u; a.download = 'vorey-story.png'; document.body.appendChild(a); a.click(); a.remove();
+      toast(T[lang].storySaved);
     }
-    // Pas de partage de fichiers : on enregistre l'image.
-    const a = document.createElement('a'); a.href = URL.createObjectURL(storyFile); a.download = 'vorey-story.png';
-    document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000);
-    toast(T[lang].storySaved);
+  }
+  function shareStory() {
+    if (!storyFile) return;
+    if (navigator.canShare && navigator.share && navigator.canShare({ files: [storyFile] })) {
+      navigator.share({ files: [storyFile] }).catch(e => { if (!e || e.name !== 'AbortError') storyFallback(); });
+      return;
+    }
+    storyFallback();
   }
   $('storyBtn').addEventListener('click', shareStory);
   $('shareStory').addEventListener('click', shareStory);
