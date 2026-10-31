@@ -142,6 +142,9 @@
   }
   .text-link { display: block; margin: 18px auto 0; background: none; border: 0; padding: 6px; color: var(--ivory-dim); font-size: 13px; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
 
+  .partner { display: flex; width: fit-content; margin: 4px auto 0; padding: 8px 16px; border-radius: 999px; font: 600 11.5px/1 var(--body);
+             letter-spacing: .24em; text-transform: uppercase; color: #fff; background: linear-gradient(#141A3A, #141A3A) padding-box, var(--brand-grad) border-box;
+             border: 1px solid transparent; }
   .pill { display: flex; width: fit-content; align-items: center; gap: 8px; margin: 0 auto 22px; padding: 7px 14px;
           border-radius: 999px; border: 1px solid rgba(245,241,232,.2); background: rgba(11,16,38,.55);
           font: 500 13px/1.2 var(--body); color: var(--ivory); }
@@ -433,6 +436,7 @@
   <main>
     <!-- A. AVANT DE REJOINDRE -->
     <section id="join" hidden>
+      <p class="partner" id="partner" hidden></p>
       <canvas class="mark" id="markJoin" aria-hidden="true"></canvas>
       <h1 class="headline" data-t="hey"></h1>
       <p class="sub" data-t="early"></p>
@@ -937,17 +941,23 @@
   const confirmToken = (params.get('confirm') || '').trim() || null;
   const legacyMe = params.has('me');   // anciens e-mails : ?me=CODE n'ouvre plus rien
   const ref = (params.get('ref') || '').trim().toUpperCase() || null;
-  const source = (params.get('src') || params.get('utm_source') || '').slice(0, 60) || null;
+  const source = ((params.get('src') || params.get('utm_source') || '').toLowerCase().replace(/[^a-z0-9_-]/g, '').slice(0, 40)) || null;
+  // Les partenaires : leur QR (?src=…) affiche « Vorey × … » et chaque
+  // inscription garde leur nom dans `source`, pour les compter.
+  const PARTNERS = { pitchandplate: 'Pitch & Plate' };
+  const partner = source && PARTNERS[source] || null;
   // Venu par le lien d'un ami : l'app de l'écran d'accueil doit s'ouvrir AVEC
   // ce lien, sinon le parrainage est perdu (elle ne partage rien avec Safari).
   // On donne donc à cette page sa propre fiche d'app, qui démarre sur ?ref=.
   // Si le téléphone l'ignore, il garde l'adresse affichée, qui contient ?ref=.
-  if (ref && /^[A-Z0-9]{4,16}$/.test(ref)) {
+  // Pareil pour le QR d'un partenaire (?src=) : l'app garde sa provenance.
+  const keepRef = ref && /^[A-Z0-9]{4,16}$/.test(ref) ? ref : null;
+  if (keepRef || partner) {
     try {
       const base = new URL('./', location.href).href;
       const m = {
         id: '/join/', name: 'Vorey', short_name: 'Vorey', description: 'Your corner of Vorey, until the app opens.',
-        start_url: `${base}?ref=${ref}&source=homescreen`, scope: base, display: 'standalone', orientation: 'portrait',
+        start_url: `${base}?${keepRef ? `ref=${keepRef}&` : ''}${partner ? `src=${source}&` : ''}source=homescreen`, scope: base, display: 'standalone', orientation: 'portrait',
         background_color: '#0B1026', theme_color: '#0B1026',
         icons: [
           { src: base + 'icons/icon-192.png', sizes: '192x192', type: 'image/png' },
@@ -1108,6 +1118,7 @@
   function render() {
     const t = T[lang];
     document.documentElement.lang = lang;
+    if (partner) { $('partner').hidden = false; $('partner').textContent = `Vorey × ${partner}`; }
     $('lang').value = lang;
     document.querySelectorAll('[data-t]').forEach(el => { el.textContent = t[el.dataset.t]; });
     document.querySelectorAll('[data-ph]').forEach(el => { el.placeholder = t[el.dataset.ph]; el.setAttribute('aria-label', t[el.dataset.ph]); });
