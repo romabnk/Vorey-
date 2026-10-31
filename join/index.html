@@ -150,6 +150,18 @@
   .partner .px { font: 300 26px/1 var(--body); color: rgba(245,241,232,.5); }
   .partner .pl { height: 64px; width: auto; }
   .sheet.first .partner { margin: 0 auto 18px; }
+  /* Invités d'un partenaire : la collaboration prend la place du grand V. */
+  .with-partner #markJoin { display: none; }
+  .with-partner header .brand { visibility: hidden; }   /* pas deux fois « VOREY » */
+  .with-partner #join .partner { gap: 20px; margin: 18px auto 34px; }
+  .with-partner #join .partner .pvy { gap: 12px; font-size: 25px; letter-spacing: .24em; }
+  .with-partner #join .partner .pvy img { width: 44px; height: 44px; }
+  .with-partner #join .partner .px { font-size: 30px; }
+  .with-partner #join .partner .pl { height: 96px; }
+  .with-partner .sheet.first .partner { gap: 24px; margin-bottom: 22px; }
+  .with-partner .sheet.first .partner .pvy { font-size: 23px; letter-spacing: .24em; }
+  .with-partner .sheet.first .partner .pvy img { width: 40px; height: 40px; }
+  .with-partner .sheet.first .partner .pl { height: 80px; }
   .pill { display: flex; width: fit-content; align-items: center; gap: 8px; margin: 0 auto 22px; padding: 7px 14px;
           border-radius: 999px; border: 1px solid rgba(245,241,232,.2); background: rgba(11,16,38,.55);
           font: 500 13px/1.2 var(--body); color: var(--ivory); }
@@ -1128,6 +1140,7 @@
     if (partner && !$('partner').dataset.done) {
       const chip = `<span class="pvy"><img src="vorey_mark_hd.png" alt="">VOREY</span><span class="px" aria-hidden="true">×</span><img src="${partner.logo}" alt="${esc(partner.name)}" class="pl">`;
       document.querySelectorAll('.partner').forEach(el => { el.innerHTML = chip; el.hidden = false; el.dataset.done = '1'; });
+      document.body.classList.add('with-partner');   // la collaboration remplace le grand V
     }
     $('lang').value = lang;
     document.querySelectorAll('[data-t]').forEach(el => { el.textContent = t[el.dataset.t]; });
