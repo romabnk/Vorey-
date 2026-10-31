@@ -142,9 +142,13 @@
   }
   .text-link { display: block; margin: 18px auto 0; background: none; border: 0; padding: 6px; color: var(--ivory-dim); font-size: 13px; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
 
-  .partner { display: flex; width: fit-content; margin: 4px auto 0; padding: 8px 16px; border-radius: 999px; font: 600 11.5px/1 var(--body);
-             letter-spacing: .24em; text-transform: uppercase; color: #fff; background: linear-gradient(#141A3A, #141A3A) padding-box, var(--brand-grad) border-box;
-             border: 1px solid transparent; }
+  /* Le duo de logos d'un partenaire : une étiquette crème, comme sa carte de table. */
+  .partner { display: flex; width: fit-content; align-items: center; gap: 14px; margin: 4px auto 0; padding: 8px 18px 8px 14px; border-radius: 18px;
+             background: #F5F1E8; box-shadow: 0 10px 30px -12px rgba(0,0,0,.7), inset 0 0 0 1px rgba(255,255,255,.6); }
+  .partner .pv { width: 34px; height: 34px; }
+  .partner span { font: 300 22px/1 var(--body); color: rgba(29,26,46,.55); }
+  .partner .pl { height: 56px; width: auto; }
+  .sheet.first .partner { margin: 0 auto 18px; }
   .pill { display: flex; width: fit-content; align-items: center; gap: 8px; margin: 0 auto 22px; padding: 7px 14px;
           border-radius: 999px; border: 1px solid rgba(245,241,232,.2); background: rgba(11,16,38,.55);
           font: 500 13px/1.2 var(--body); color: var(--ivory); }
@@ -654,6 +658,7 @@
 <!-- Feuille : écran d'accueil (iPhone, ou navigateur sans installation automatique) -->
 <div class="sheet" id="homeSheet" hidden role="dialog" aria-modal="true" aria-labelledby="homeTitle">
   <div class="sheet-box"><div class="sheet-in">
+    <p class="partner" hidden></p>
     <div class="intro-video" id="homeVideo" hidden>
       <video id="introVideo" muted playsinline loop preload="none" poster="victor-poster.jpg" aria-label="Vorey"></video>
       <div class="vid-ctl">
@@ -944,7 +949,7 @@
   const source = ((params.get('src') || params.get('utm_source') || '').toLowerCase().replace(/[^a-z0-9_-]/g, '').slice(0, 40)) || null;
   // Les partenaires : leur QR (?src=…) affiche « Vorey × … » et chaque
   // inscription garde leur nom dans `source`, pour les compter.
-  const PARTNERS = { pitchandplate: 'Pitch & Plate' };
+  const PARTNERS = { pitchandplate: { name: 'Pitch & Plate', logo: 'partners/pitchandplate.png' } };
   const partner = source && PARTNERS[source] || null;
   // Venu par le lien d'un ami : l'app de l'écran d'accueil doit s'ouvrir AVEC
   // ce lien, sinon le parrainage est perdu (elle ne partage rien avec Safari).
@@ -1118,7 +1123,11 @@
   function render() {
     const t = T[lang];
     document.documentElement.lang = lang;
-    if (partner) { $('partner').hidden = false; $('partner').textContent = `Vorey × ${partner}`; }
+    // Les deux logos, seulement pour ceux qui arrivent par le QR du partenaire.
+    if (partner && !$('partner').dataset.done) {
+      const chip = `<img src="vorey_mark_hd.png" alt="Vorey" class="pv"><span aria-hidden="true">×</span><img src="${partner.logo}" alt="${esc(partner.name)}" class="pl">`;
+      document.querySelectorAll('.partner').forEach(el => { el.innerHTML = chip; el.hidden = false; el.dataset.done = '1'; });
+    }
     $('lang').value = lang;
     document.querySelectorAll('[data-t]').forEach(el => { el.textContent = t[el.dataset.t]; });
     document.querySelectorAll('[data-ph]').forEach(el => { el.placeholder = t[el.dataset.ph]; el.setAttribute('aria-label', t[el.dataset.ph]); });
