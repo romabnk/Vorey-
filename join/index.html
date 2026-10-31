@@ -159,6 +159,7 @@
   .with-partner #join .partner .px { font-size: 30px; }
   .with-partner #join .partner .pl { height: 96px; }
   .with-partner .sheet.first .partner { gap: 24px; margin-bottom: 22px; }
+  .with-partner #tabCard .partner { margin: 6px auto 18px; }
   .with-partner .sheet.first .partner .pvy { font-size: 23px; letter-spacing: .24em; }
   .with-partner .sheet.first .partner .pvy img { width: 40px; height: 40px; }
   .with-partner .sheet.first .partner .pl { height: 80px; }
@@ -533,6 +534,7 @@
       </div>
 
       <div id="tabCard" role="tabpanel">
+        <p class="partner" hidden></p>
         <h1 class="greet" id="greet" tabindex="-1"></h1>
         <p class="victor-line" id="victorLine"></p>
         <p class="pill" id="countdown" hidden></p>
@@ -963,7 +965,8 @@
   // Les partenaires : leur QR (?src=…) affiche « Vorey × … » et chaque
   // inscription garde leur nom dans `source`, pour les compter.
   const PARTNERS = { pitchandplate: { name: 'Pitch & Plate', logo: 'partners/pitchandplate-dark.png' } };
-  const partner = source && PARTNERS[source] || null;
+  // Le partenaire vient du lien… ou, une fois connecté, de la carte du membre.
+  let partner = source && PARTNERS[source] || null;
   // Venu par le lien d'un ami : l'app de l'écran d'accueil doit s'ouvrir AVEC
   // ce lien, sinon le parrainage est perdu (elle ne partage rien avec Safari).
   // On donne donc à cette page sa propre fiche d'app, qui démarre sur ?ref=.
@@ -1016,6 +1019,7 @@
   const DEMO_CANAL = {};   // état du canal de démo (révélation, réaction)
   const DEMO_CARD = { first_name: 'Alex', referral_code: 'K7QM2XPA', member_number: 247, founder: true,
                       verified: false, chances: 6, friends_joined: 5, friends_verified: 0 };
+  if (params.has('demosrc')) DEMO_CARD.source = params.get('demosrc');   // démo : un membre venu d'un partenaire
   function demoRpc(fn, args) {
     return new Promise(resolve => setTimeout(() => {
       switch (fn) {
@@ -1137,6 +1141,7 @@
     const t = T[lang];
     document.documentElement.lang = lang;
     // Les deux logos, seulement pour ceux qui arrivent par le QR du partenaire.
+    if (!partner && card && card.source && PARTNERS[card.source]) partner = PARTNERS[card.source];
     if (partner && !$('partner').dataset.done) {
       const chip = `<span class="pvy"><img src="vorey_mark_hd.png" alt="">VOREY</span><span class="px" aria-hidden="true">×</span><img src="${partner.logo}" alt="${esc(partner.name)}" class="pl">`;
       document.querySelectorAll('.partner').forEach(el => { el.innerHTML = chip; el.hidden = false; el.dataset.done = '1'; });
