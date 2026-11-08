@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<title>Vorey · Partner</title>
+<link rel="icon" href="favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<style>
+  /* La page de résultats d'un partenaire : un chiffre, en grand, et rien
+     d'autre que des chiffres (jamais de nom ni d'e-mail). */
+  :root { --night: #0B1026; --ivory: #F5F1E8; --dim: rgba(245,241,232,.66); --line: rgba(245,241,232,.14);
+          --violet: #A78BFA; --grad: linear-gradient(90deg, #C4B1FF, #A78BFA 45%, #3B82F6);
+          --display: "Playfair Display", Georgia, serif; --body: Montserrat, system-ui, sans-serif; }
+  * { box-sizing: border-box; margin: 0; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { min-height: 100vh; font-family: var(--body); color: var(--ivory);
+         background: radial-gradient(80% 50% at 50% 0%, rgba(167,139,250,.30), transparent 70%),
+                     radial-gradient(70% 40% at 100% 100%, rgba(59,130,246,.18), transparent 70%),
+                     linear-gradient(rgba(11,16,38,.86), rgba(11,16,38,.92)), url(marbella.jpg) center / cover fixed, var(--night); }
+  main { max-width: 560px; margin: 0 auto; padding: calc(40px + env(safe-area-inset-top)) 20px 48px; text-align: center; }
+  .lock { display: flex; align-items: center; justify-content: center; gap: 20px; margin: 0 0 46px; }
+  .lock .vy { display: flex; align-items: center; gap: 12px; font: 400 24px/1 var(--display); letter-spacing: .26em; }
+  .lock .vy img { width: 42px; height: 42px; }
+  .lock .x { font: 300 28px/1 var(--body); color: rgba(245,241,232,.5); }
+  .lock .pl { height: 92px; width: auto; }
+  .lock .pn { font: 400 24px/1.1 var(--display); }
+  .eyebrow { font: 600 12px/1 var(--body); letter-spacing: .36em; text-transform: uppercase; color: var(--violet); margin: 0 0 18px; }
+  .big { font: italic 400 clamp(110px, 34vw, 170px)/1 var(--display); font-variant-numeric: lining-nums;
+         background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; padding: 0 .08em; }
+  .lead { margin: 10px auto 0; max-width: 380px; font: 400 clamp(24px, 6.4vw, 30px)/1.25 var(--display); }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 40px 0 0; }
+  .box { padding: 20px 14px; border-radius: 20px; background: rgba(20,26,58,.7); border: 1px solid var(--line); }
+  .box b { display: block; font: 400 34px/1 var(--display); font-variant-numeric: lining-nums; }
+  .box span { display: block; margin: 8px 0 0; font-size: 13px; line-height: 1.35; color: var(--dim); }
+  .since { margin: 26px 0 0; font-size: 14px; color: var(--dim); }
+  .foot { margin: 46px 0 0; font-size: 12.5px; line-height: 1.6; color: rgba(245,241,232,.5); }
+  .foot i { display: inline-block; width: 7px; height: 7px; margin-right: 6px; border-radius: 50%; background: #5BE49B; box-shadow: 0 0 10px #5BE49B; vertical-align: 1px; }
+  .state { margin: 18vh 0 0; }
+  .state h1 { font: 400 32px/1.2 var(--display); margin: 0 0 10px; }
+  .state p { color: var(--dim); }
+  @media (prefers-reduced-motion: no-preference) { .big { animation: rise .8s cubic-bezier(.2,.7,.2,1) both; } }
+  @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+</style>
+</head>
+<body>
+<main id="app" aria-live="polite"></main>
+
+<script src="config.js" onerror="void 0"></script>
+<script>
+(() => {
+  'use strict';
+  const T = {
+    fr: { eyebrow: 'Vos résultats', lead: n => n === 1 ? 'personne a rejoint Vorey grâce à vous.' : 'personnes ont rejoint Vorey grâce à vous.',
+          week: 'cette semaine', pending: n => n === 1 ? 'inscription en cours' : 'inscriptions en cours',
+          since: d => `Depuis le ${d}`, foot: 'Mis à jour en direct. Aucune donnée personnelle n’est partagée : seulement des chiffres.',
+          badTitle: 'Ce lien ne fonctionne pas.', badText: 'Demandez à Vorey votre lien de résultats.', net: 'Connexion impossible pour le moment.' },
+    en: { eyebrow: 'Your results', lead: n => n === 1 ? 'person joined Vorey thanks to you.' : 'people joined Vorey thanks to you.',
+          week: 'this week', pending: n => n === 1 ? 'sign-up in progress' : 'sign-ups in progress',
+          since: d => `Since ${d}`, foot: 'Live. No personal data is shared: numbers only.',
+          badTitle: 'This link doesn’t work.', badText: 'Ask Vorey for your results link.', net: 'Can’t connect right now.' },
+    es: { eyebrow: 'Vuestros resultados', lead: n => n === 1 ? 'persona se ha unido a Vorey gracias a vosotros.' : 'personas se han unido a Vorey gracias a vosotros.',
+          week: 'esta semana', pending: n => n === 1 ? 'registro en curso' : 'registros en curso',
+          since: d => `Desde el ${d}`, foot: 'En directo. No se comparte ningún dato personal: solo cifras.',
+          badTitle: 'Este enlace no funciona.', badText: 'Pide a Vorey tu enlace de resultados.', net: 'No se puede conectar ahora.' },
+  };
+  const params = new URLSearchParams(location.search);
+  const want = [params.get('lang'), ...(navigator.languages || [navigator.language])].map(l => (l || '').slice(0, 2).toLowerCase());
+  const lang = want.find(l => T[l]) || 'en';
+  const t = T[lang];
+  document.documentElement.lang = lang;
+  const cfg = window.VOREY_WAITLIST;
+  const token = (params.get('k') || '').trim();
+  const app = document.getElementById('app');
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const num = n => new Intl.NumberFormat(lang).format(n);
+
+  function state(title, text) { app.innerHTML = `<div class="state"><h1>${esc(title)}</h1><p>${esc(text)}</p></div>`; }
+
+  function show(s) {
+    const logo = `partners/${encodeURIComponent(s.code)}-dark.png`;
+    const date = s.since ? new Date(s.since + 'T12:00:00').toLocaleDateString(lang, { day: 'numeric', month: 'long', year: 'numeric' }) : '';
+    document.title = `Vorey × ${s.name}`;
+    app.innerHTML = `
+      <div class="lock"><span class="vy"><img src="vorey_mark_hd.png" alt="">VOREY</span><span class="x" aria-hidden="true">×</span>
+        <img class="pl" src="${logo}" alt="${esc(s.name)}" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'pn',textContent:${JSON.stringify(s.name)}}))"></div>
+      <p class="eyebrow">${esc(t.eyebrow)}</p>
+      <p class="big">${num(s.joined)}</p>
+      <p class="lead">${esc(t.lead(s.joined))}</p>
+      <div class="row">
+        <div class="box"><b>+${num(s.joined_7d)}</b><span>${esc(t.week)}</span></div>
+        <div class="box"><b>${num(s.pending)}</b><span>${esc(t.pending(s.pending))}</span></div>
+      </div>
+      ${date ? `<p class="since">${esc(t.since(date))}</p>` : ''}
+      <p class="foot"><i></i>${esc(t.foot)}</p>`;
+  }
+
+  async function load(first) {
+    if (!cfg || !token) { state(t.badTitle, t.badText); return; }
+    try {
+      const res = await fetch(`${cfg.supabaseUrl}/rest/v1/rpc/partner_stats`, {
+        method: 'POST',
+        headers: Object.assign({ 'Content-Type': 'application/json', apikey: cfg.anonKey },
+          cfg.anonKey.startsWith('sb_') ? {} : { Authorization: `Bearer ${cfg.anonKey}` }),
+        body: JSON.stringify({ p_token: token }),
+      });
+      const s = res.ok ? await res.json() : undefined;
+      if (s === undefined) { if (first) state(t.net, ''); return; }
+      if (!s) { state(t.badTitle, t.badText); return; }
+      // On ne redessine que si un chiffre a changé (pas d'animation pour rien).
+      const key = [s.joined, s.joined_7d, s.pending].join('/');
+      if (key !== load.last) { load.last = key; show(s); }
+    } catch { if (first) state(t.net, ''); }
+  }
+  load(true);
+  // En direct : toutes les 30 secondes, et au retour sur la page.
+  setInterval(() => { if (!document.hidden) load(false); }, 30000);
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) load(false); });
+})();
+</script>
+</body>
+</html>
