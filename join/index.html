@@ -459,13 +459,6 @@
       <h1 class="headline" data-t="hey"></h1>
       <p class="sub" data-t="early"></p>
       <p class="pill" id="cardsLeft"></p>
-      <ol class="steps">
-        <li><svg><use href="#i-user"/></svg><span data-t="step1"></span></li>
-        <li class="dash" aria-hidden="true"></li>
-        <li><svg><use href="#i-card"/></svg><span data-t="step2"></span></li>
-        <li class="dash" aria-hidden="true"></li>
-        <li><svg><use href="#i-users"/></svg><span data-t="step3"></span></li>
-      </ol>
       <p class="invited-by" id="invitedBy" hidden></p>
       <form id="form" novalidate>
         <div class="input">
@@ -1743,6 +1736,10 @@
   // Dès l'arrivée, sur téléphone, hors de l'app de l'écran d'accueil — y
   // compris par le lien d'un ami : sa fiche d'app garde le ?ref= (plus haut).
   function maybeOfferHomeFirst() {
+    // Décision de Cécylia (2026-11-08) : plus d'écran avant le formulaire.
+    // On arrive, on met son prénom et son e-mail, c'est tout. L'écran
+    // d'accueil se propose APRÈS l'inscription, sur la carte (bloc « keep »).
+    return;
     if (isStandalone() || store.get('home_later') || !(isIOS || isAndroid)) return;
     if (view === 'join' || view === 'back') openHomeSheet(true);
   }
